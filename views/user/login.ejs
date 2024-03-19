@@ -1,0 +1,65 @@
+<%- include('layout/header.ejs') %>
+
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href)
+        }
+    </script>
+
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <h2>Login</h2>
+                </div>
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li><span> > </span></li>
+                    <li class="active">Login</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="login-register-area pt-95 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="login-register-wrap mr-70">
+                        <h3><i class="fa fa-user-o"></i> Login</h3>
+                        <div class="login-register-form">
+                            <% if(locals.err){ %>
+                                <p class="text-danger"><%= locals.err %></p>
+                            <% } %>
+                            <form id="loginForm" action="/login" method="post">
+                                <div class="sin-login-register">
+                                    <label>Email address</label>
+                                    <input type="text" name="email" id="email">
+                                    <p class="error mb-2" id="error1" style="display: none;"></p>
+                                </div>
+                                <div class="sin-login-register">
+                                    <label>Password</label>
+                                    <input type="password" name="password" id="password">
+                                    <p class="error mb-2" id="error2" style="display: none;"></p>
+                                </div>
+                                <div class="login-register-btn-remember">
+                                    <div class="login-register-btn">
+                                        <button type="submit">Log in</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <a href="#">Lost your password?</a><br>
+                        <br>
+                        <a href="/register">Not a user yet? Register!</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="/public/js/login.js"></script>
+
+    <%- include('layout/footer.ejs') %>

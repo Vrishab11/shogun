@@ -1,0 +1,76 @@
+<%- include ('layout/header.ejs')%>
+
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Products grid</h2>
+                    <p>Lorem ipsum dolor sit amet.</p>
+                </div>
+                <div>
+                    <a href="#" class="btn btn-light rounded font-md">Export</a>
+                    <a href="#" class="btn btn-light rounded  font-md">Import</a>
+                    <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                
+                            </select>
+                        </div>
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                        <% if(locals.products) { for(let i = 0 ; i < locals.products.length ; i++) { %>
+                            <% let desc = locals.products[i].description.split('.')[0] %>
+                            <% let pname = locals.products[i].productname.split(' ')[0] %>
+                            <div class="product col-md-3">
+                                <div class="card my-4">
+                                    <a href=""><img src="/images/locals.products[i].mainimage %>" class="card-img-top" alt="..."></a>
+                                    <div class="card-body">
+                                      <h5 class="card-title cardhead"><%= pname %></h5>
+                                      <div class="carddesc"><p class="card-text"><%= desc %></p></div>
+                                      <div class="cardprice pmanage mb-4"><div><a href="/admin/products/editproduct?id=<%= locals.products[i]._id %>">Edit</a></div><div><a href="/admin/products/deleteproduct?id=<%= locals.products[i]._id %>">Delete</a></div><div><a href="/admin/products/review?id=<%= locals.products[i]._id %>">Review</a></div></div>
+                                      
+                                    </div>
+                                    <% if(locals.products[i].stock === 0) { %>
+                                        <div class="stockbadge1">Out of Stock</div>
+                                    <% } else {%>
+                                        <div class="stockbadge2">Stock <br> <%= locals.products[i].stock %></div>
+                                    <% } %>
+                                  </div>
+                            </div>
+                            <% } }else{ %>
+                                    <h4>No Products to Show</h4>
+                        <% } %>
+                    </div> <!-- row.// -->
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+            <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </section> <!-- content-main end// -->
+
+
+<%- include('layout/footer.ejs') %>

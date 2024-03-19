@@ -1,0 +1,150 @@
+<%- include('layout/header.ejs')%>
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Categories </h2>
+                    <p>Add, edit or delete a category</p>
+                </div>
+                <div>
+                    <input type="text" placeholder="Search Categories" class="form-control bg-white">
+                </div>
+            </div>
+            <div class="card">
+                <% if(locals.message) { %>
+                    <div class="error1 alert alert-danger w-75"><%= locals.message %></div>
+                <% } %>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <form method="post" action="/admin/category" enctype="multipart/form-data">
+                                <div class="mb-4">
+                                    <label for="catName" class="form-label">Name</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="catName" name="catName">
+                                    <p class="perror mb-2" id="error1" style="display: none;"></p>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="status" class="form-label">Status</label>
+                                    <select name="status" class="form-control" id="status" name="status">
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>
+                                    <p class="perror mb-2" id="error2" style="display: none;"></p>
+                                </div>
+                                <div class="mb-4">
+                                        <div>
+                                            <label for="img1"> Image</label>
+                                            <input type="file" id="catimage" name="catimage" class="form-control" accept="image/*">
+                                        </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary">Create category</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Listed</th>
+                                        </tr>
+                                    </thead>
+                                    <thead>
+                                        <% if(locals.catdet) {for (var i = 0; i < locals.catdet.length; i++) { %>
+                                        <tr>
+                                            <th><%= locals.catdet[i].categoryname  %></th>
+                                            <% if(locals.catdet[i].status === 0) { %>
+                                                <td><span class="badge rounded-pill alert-success">Active</span></td>
+                                            <% }else{ %>
+                                                <td><span class="badge rounded-pill alert-success">Inctive</span></td>
+                                            <% } %>
+                                            <% if(locals.catdet[i].isListed == 0) { %>
+                                                <td><span class="badge rounded-pill alert-success ">Listed</span></td>
+                                            <% }else{ %>
+                                                <td><span class="badge rounded-pill alert-success ">Unlisted</span></td>
+                                            <% } %>
+                                        </tr>
+                                        <% } } %>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div> <!-- .col// -->
+                    </div> <!-- .row // -->
+                </div> <!-- card body .// -->
+            </div> <!-- card .// -->
+        </section> <!-- content-main end// -->
+
+<%- include('layout/footer.ejs') %>
+
+
+<script>
+
+const catname = document.getElementById('catName')
+const catimage = document.getElementById('catimage')
+const catform = document.getElementById('catform')
+const error1 = document.getElementById('error1')
+const error2 = document.getElementById('error2')
+
+function notnull(data)
+{
+    if(data.trim()==="")
+    {
+        error1.innerHTML = "Please Enter Category Name."
+        error1.style.display = "block"
+    }
+    else{
+        error1.innerHTML = ""
+        error1.style.display = "none"
+    }
+}
+
+function imgval(data)
+{
+    if(data.length === 0)
+    {
+        error2.innerHTML = "Please Select an Image."
+        error2.style.display = "block"
+    }
+    else if(!data[0].type.startsWith('image/'))
+    {
+        error2.innerHTML = "Please Select Image files Only."
+        error2.style.display = "block"
+    }
+    else{
+        error2.innerHTML = ""
+        error2.style.display = "none"
+    }
+}
+
+catname.addEventListener('keyup',()=>{
+    const cdata = catname.value
+    notnull(cdata)
+})
+catname.addEventListener('blur',()=>{
+    const cdata = catname.value
+    notnull(cdata)
+})
+
+catimage.addEventListener('change',()=>{
+    const i1data = catimage.files
+    imgval(i1data)
+})
+
+catform.addEventListener('submit',(e)=>{
+
+    const cdata = catname.value
+    const i1data = catimage.files
+
+    imgval(i1data)
+    notnull(cdata)
+
+    if(error1.innerHTML !== "" || error2.innerHTML !== "")
+    {
+        e.preventDefault()
+    }
+})
+
+</script>
