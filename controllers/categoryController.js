@@ -64,16 +64,13 @@ const editCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
   try {
-    const id = req.query.id;
+    const id = req.body.id;
     const catname = req.body.catName;
     const status = req.body.status;
     const catimage = req.file;
-    console.log(id)
-    const updatedCategory = await Category.findByIdAndUpdate(
-      id,
-      { categoryname: catname, status: status, catimage: catimage.filename }, 
-      { new: true }
-    );
+    console.log(req.body)
+    console.log(req.file);
+    const updatedCategory = await Category.findByIdAndUpdate({_id:id},{$set:{ categoryname: catname, status: status, image: catimage.filename }},{ new: true });
 
     console.log(updatedCategory)
 

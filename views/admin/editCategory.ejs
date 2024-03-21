@@ -23,11 +23,12 @@
                                         <input type="text" placeholder="Name" value="<%= locals.catdata.categoryname %>" class="form-control" id="catName" name="catName">
                                         <p class="perror mb-2" id="error1" style="display: none;"></p>
                                     </div>
+                                    <input type="hidden" name="id" value="<%=locals.catdata._id %>">
                                     <div class="mb-4">
                                         <label for="status" class="form-label">Status</label>
                                         <select name="status" class="form-control" id="status" name="status">
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
+                                            <option value="0">Active</option>
+                                            <option value="1">Inactive</option>
                                         </select>
                                         <p class="perror mb-2" id="error2" style="display: none;"></p>
                                     </div>
