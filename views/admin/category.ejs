@@ -34,7 +34,9 @@
                                 <div class="mb-4">
                                         <div>
                                             <label for="img1"> Image</label>
+                                            <img id="imagePreview" src="#" alt="Preview" style="display: none;">
                                             <input type="file" id="catimage" name="catimage" class="form-control" accept="image/*">
+                                            
                                         </div>
                                 </div>
                                 <div class="d-grid">
@@ -50,6 +52,7 @@
                                             <th>Name</th>
                                             <th>Status</th>
                                             <th>Listed</th>
+                                            <th class="text-end">Action</th>
                                         </tr>
                                     </thead>
                                     <thead>
@@ -66,6 +69,14 @@
                                             <% }else{ %>
                                                 <td><span class="badge rounded-pill alert-success ">Unlisted</span></td>
                                             <% } %>
+                                            <td class="text-end">
+                                                <a class="dropdown-item" href="/admin/editCategory?id=<%= locals.catdet[i]._id  %>">Edit</a>
+                                                <% if(locals.catdet[i].isListed === 0) { %>
+                                                    <a class="dropdown-item text-danger" href="#">Unlist</a>
+                                                <% }else{ %>
+                                                    <a class="dropdown-item text-safe" href="#">List</a>
+                                                <% } %>  
+                                            </td>
                                         </tr>
                                         <% } } %>
                                     </thead>
@@ -146,5 +157,20 @@ catform.addEventListener('submit',(e)=>{
         e.preventDefault()
     }
 })
+
+
+document.getElementById('catimage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const imagePreview = document.getElementById('catimage');
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
 
 </script>

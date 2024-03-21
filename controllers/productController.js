@@ -23,8 +23,9 @@ const getAddProduct = async (req, res) => {
 }
 
 const addProduct = async (req, res) => {
+
     try {
-        
+        res.render('admin/addProduct')
     } catch(error) {
         console.log(error.message)
     }

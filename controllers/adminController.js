@@ -56,10 +56,12 @@ const logout = async (req, res) => {
 
 
 const dashboard = async (req, res) => {
-  res.render('admin/dashboard')
+  try {
+    res.render('admin/dashboard')
+  } catch (error) {
+    console.log(error.message)
+  }
 }
-
-
 
 
 

@@ -25,6 +25,9 @@ router.post("/addProduct", adminAuth.isLogged, productController.addProduct)
 router.get("/products", adminAuth.isLogged, productController.getProducts)
 
 router.get("/category", adminAuth.isLogged, categoryController.loadCategory)
-router.post("/category", adminAuth.isLogged,upload.single('catimage'), categoryController.addCategory)
+router.post("/category", adminAuth.isLogged, upload.single('catimage'), categoryController.addCategory)
+
+router.get("/editCategory", adminAuth.isLogged, categoryController.editCategory)
+router.post("/editCategory", adminAuth.isLogged, upload.single('catimage'), categoryController.updateCategory)
 
 module.exports = router

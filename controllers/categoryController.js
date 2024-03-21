@@ -2,11 +2,12 @@ const path = require("path")
 const fs = require("fs").promises
 const Category = require("../models/categorySchema")
 const Product = require("../models/productSchema")
+const { Console } = require("console")
 
 const loadCategory = async (req, res) => {
     try {
       const catdet = await Category.find({ isListed: 0 });
-      console.log(catdet);
+      // console.log(catdet);
       if (catdet != null) {   
         res.render("admin/category", {catdet });
       } else {
@@ -45,13 +46,48 @@ const addCategory = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message)
   }
 
 }
 
 
+const editCategory = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const catdata = await Category.findById({ _id: id });
+    res.render("admin/editCategory", {catdata})
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+const updateCategory = async (req, res) => {
+  try {
+    const id = req.query.id;
+    const catname = req.body.catName;
+    const status = req.body.status;
+    const catimage = req.file;
+    console.log(id)
+    const updatedCategory = await Category.findByIdAndUpdate(
+      id,
+      { categoryname: catname, status: status, catimage: catimage.filename }, 
+      { new: true }
+    );
+
+    console.log(updatedCategory)
+
+    res.redirect("/admin/category");
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("An error occurred while updating the category.");
+  }
+};
+
+
 module.exports = {
     loadCategory,
-    addCategory
+    addCategory,
+    editCategory,
+    updateCategory
 }
