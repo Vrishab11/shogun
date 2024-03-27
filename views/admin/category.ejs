@@ -155,7 +155,7 @@ catform.addEventListener('submit',(e)=>{
     imgval(i1data)
     notnull(cdata)
 
-    if(error1.innerHTML === "" || error2.innerHTML === "" )
+    if(error1.innerHTML !== "" || error2.innerHTML !== "" )
     {
         e.preventDefault()
     }
@@ -163,7 +163,6 @@ catform.addEventListener('submit',(e)=>{
 
 
 document.getElementById('catimage').addEventListener('change', function(event) {
-    console.log('ji');
     const file = event.target.files[0];
     const imagePreview = document.getElementById('imagePreview');
 

@@ -29,12 +29,12 @@ const addBrand = async (req, res) => {
             brandname: bname,
             isListed: 0,
           })
-        if(brandExist){
-            console.log("brand already exists")
+        if(brandExist.length===0){
+            console.log("brand doesnot esist")
             res.render("admin/brand", {data})
         }else{
             res.render("admin/brand", {data})
-            console.log("brand doesnot esist")
+            console.log("brand already exists")
         }
     } catch (error) {
         console.log(error.message)
