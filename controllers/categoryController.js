@@ -1,17 +1,15 @@
 const path = require("path")
 const fs = require("fs").promises
 const Category = require("../models/categorySchema")
-const Product = require("../models/productSchema")
-const { Console } = require("console")
 
 const loadCategory = async (req, res) => {
     try {
       const catdet = await Category.find({ isListed: 0 });
       // console.log(catdet);
       if (catdet != null) {   
-        res.render("admin/category", {catdet });
+        res.render("admin/category", {catdet});
       } else {
-        res.render("admin/category");
+        res.render("admin/category", {catdet});
       }
     } catch (error) {
       console.log(error.message);

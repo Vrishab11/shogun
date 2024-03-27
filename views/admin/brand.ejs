@@ -3,8 +3,8 @@
         <section class="content-main">
             <div class="content-header">
                 <div>
-                    <h2 class="content-title card-title">Categories </h2>
-                    <p>Add, edit or delete a category</p>
+                    <h2 class="content-title card-title">Brands</h2>
+                    <p>Add, edit or delete a Brand</p>
                 </div>
                 <div>
                     <input type="text" placeholder="Search Categories" class="form-control bg-white">
@@ -17,10 +17,10 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-3">
-                            <form method="post" id="catform" action="/admin/category" enctype="multipart/form-data">
+                            <form method="post" id="bform" action="/admin/brand" enctype="multipart/form-data">
                                 <div class="mb-4">
-                                    <label for="catName" class="form-label">Name</label>
-                                    <input type="text" placeholder="Type here" class="form-control" id="catName" name="catName">
+                                    <label for="bname" class="form-label">Name</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="bname" name="bname">
                                     <p class="perror mb-2" id="error1" style="display: none;"></p>
                                 </div>
                                 <div class="mb-4">
@@ -33,14 +33,14 @@
                                 <div class="mb-4">
                                         <div>
                                             <label for="img1"> Image</label>
-                                            <input type="file" id="catimage" name="catimage" class="form-control" accept="image/*">
+                                            <input type="file" id="bimage" name="bimage" class="form-control" accept="image/*">
                                             <br>
                                             <img id="imagePreview" src="#" alt="Preview" style="display: none;  max-width: 100px; max-height: 100px;">
                                             <p class="perror mb-2" id="error2" style="display: none;"></p>
                                         </div>
                                 </div>
                                 <div class="d-grid">
-                                    <button class="btn btn-primary">Create category</button>
+                                    <button class="btn btn-primary">Create Brand</button>
                                 </div>
                             </form>
                         </div>
@@ -56,22 +56,22 @@
                                         </tr>
                                     </thead>
                                     <thead>
-                                        <% if(locals.catdet) {for (var i = 0; i < locals.catdet.length; i++) { %>
+                                        <% if(locals.bData) {for (var i = 0; i < locals.bData.length; i++) { %>
                                         <tr>
-                                            <th><%= locals.catdet[i].categoryname  %></th>
-                                            <% if(locals.catdet[i].status === 0) { %>
+                                            <th><%= locals.bData[i].brandname  %></th>
+                                            <% if(locals.bData[i].status === 0) { %>
                                                 <td><span class="badge rounded-pill alert-success">Active</span></td>
                                             <% }else{ %>
                                                 <td><span class="badge rounded-pill alert-success">Inctive</span></td>
                                             <% } %>
-                                            <% if(locals.catdet[i].isListed == 0) { %>
+                                            <% if(locals.bData[i].isListed == 0) { %>
                                                 <td><span class="badge rounded-pill alert-success ">Listed</span></td>
                                             <% }else{ %>
                                                 <td><span class="badge rounded-pill alert-success ">Unlisted</span></td>
                                             <% } %>
                                             <td class="text-end">
-                                                <a class="dropdown-item" href="/admin/editCategory?id=<%= locals.catdet[i]._id  %>">Edit</a>
-                                                <% if(locals.catdet[i].isListed === 0) { %>
+                                                <a class="dropdown-item" href="/admin/editBrand?id=<%= locals.bData[i]._id  %>">Edit</a>
+                                                <% if(locals.bData[i].isListed === 0) { %>
                                                     <a class="dropdown-item text-danger" href="#">Unlist</a>
                                                 <% }else{ %>
                                                     <a class="dropdown-item text-safe" href="#">List</a>
@@ -93,9 +93,9 @@
 
 <script>
 
-const catname = document.getElementById('catName')
-const catimage = document.getElementById('catimage')
-const catform = document.getElementById('catform')
+const bname = document.getElementById('bname')
+const bimage = document.getElementById('bimage')
+const bform = document.getElementById('bform')
 const error1 = document.getElementById('error1')
 const error2 = document.getElementById('error2')
 
@@ -133,24 +133,24 @@ function imgval(data)
     }
 }
 
-catname.addEventListener('keyup',()=>{
-    const cdata = catname.value
+bname.addEventListener('keyup',()=>{
+    const cdata = bname.value
     notnull(cdata)
 })
-catname.addEventListener('blur',()=>{
-    const cdata = catname.value
+bname.addEventListener('blur',()=>{
+    const cdata = bname.value
     notnull(cdata)
 })
 
-catimage.addEventListener('change',()=>{
-    const i1data = catimage.files
+bimage.addEventListener('change',()=>{
+    const i1data = bimage.files
     imgval(i1data)
 })
 
-catform.addEventListener('submit',(e)=>{
+bform.addEventListener('submit',(e)=>{
 
-    const cdata = catname.value
-    const i1data = catimage.files
+    const cdata = bname.value
+    const i1data = bimage.files
 
     imgval(i1data)
     notnull(cdata)
@@ -162,7 +162,7 @@ catform.addEventListener('submit',(e)=>{
 })
 
 
-document.getElementById('catimage').addEventListener('change', function(event) {
+document.getElementById('bimage').addEventListener('change', function(event) {
     console.log('ji');
     const file = event.target.files[0];
     const imagePreview = document.getElementById('imagePreview');

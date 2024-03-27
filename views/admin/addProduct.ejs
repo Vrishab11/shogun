@@ -14,19 +14,32 @@
                             <div class="col-lg-6">
                                 <div class="card mb-4">
                                     <div class="card-body">
-                                        <form>
+                                        <form method="post" action="/addProduct">
                                         <div class="mb-4">
                                             <label for="productname" class="form-label">Product Name</label>
                                             <input type="text" placeholder="Type here" class="form-control" id="productname" name="productname">
                                         </div>
                                         <div class="row gx-3">
-                                            <div class="col-md-4  mb-3">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="size" class="form-label">Size</label>
-                                                <input type="text" placeholder="Type here" class="form-control" id="size" name="size">
+                                                <select class="form-select" id="size" name="size">
+                                                    <option value="">Select Size</option>
+                                                    <option value="S">S</option>
+                                                    <option value="M">M</option>
+                                                    <option value="L">L</option>
+                                                    <option value="XL">XL</option>
+                                                    <option value="XXL">XXL</option>
+                                                </select>
                                             </div>
-                                            <div class="col-md-4  mb-3">
+                                            <div class="col-md-4 mb-3">
                                                 <label for="color" class="form-label">Color</label>
-                                                <input type="text" placeholder="Type here" class="form-control" id="color" name="color">
+                                                <select class="form-select" id="color" name="color">
+                                                    <option value="">Select Color</option>
+                                                    <option value="Red">Red</option>
+                                                    <option value="Blue">Blue</option>
+                                                    <option value="Green">Green</option>
+                                                    <option value="Yellow">Yellow</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-4  mb-3">
                                                 <label for="stock" class="form-label">Stock</label>

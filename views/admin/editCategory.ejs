@@ -16,7 +16,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <form method="post" action="/admin/editCategory" enctype="multipart/form-data">
+                            <form method="post" id="catform" action="/admin/editCategory" enctype="multipart/form-data">
                                 <% if(locals.catdata) { %>
                                     <div class="mb-4">
                                         <label for="catName" class="form-label">Name</label>
@@ -36,6 +36,7 @@
                                             <div>
                                                 <label for="img1"> Image</label>
                                                 <input type="file" id="catimage" name="catimage" class="form-control" accept="image/*">
+                                                <br>
                                                 <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100px; max-height: 100px;">
                                             </div>
                                     </div>
