@@ -59,10 +59,10 @@
                                         <% if(locals.bData) {for (var i = 0; i < locals.bData.length; i++) { %>
                                         <tr>
                                             <th><%= locals.bData[i].brandname  %></th>
-                                            <% if(locals.bData[i].status === 0) { %>
+                                            <% if(locals.bData[i].status === 1) { %>
                                                 <td><span class="badge rounded-pill alert-success">Active</span></td>
                                             <% }else{ %>
-                                                <td><span class="badge rounded-pill alert-success">Inctive</span></td>
+                                                <td><span class="badge rounded-pill alert-success">Inactive</span></td>
                                             <% } %>
                                             <% if(locals.bData[i].isListed == 0) { %>
                                                 <td><span class="badge rounded-pill alert-success ">Listed</span></td>
@@ -103,10 +103,10 @@ function notnull(data)
 {
     if(data.trim()==="")
     {
-        error1.innerHTML = "Please Enter Category Name."
+        error1.innerHTML = "Please Enter Brand Name."
         error1.style.display = "block"
     }else if (data.trim().length === 0) {
-        error1.innerHTML = "Category Name cannot be just whitespace.";
+        error1.innerHTML = "Brand Name cannot be just whitespace.";
         error1.style.display = "block";
     } 
     else{

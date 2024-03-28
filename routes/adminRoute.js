@@ -30,6 +30,9 @@ router.post("/editCategory", adminAuth.isLogged, upload.single('catimage'), cate
 router.get("/brand", adminAuth.isLogged, brandController.loadBrand)
 router.post("/brand", adminAuth.isLogged, upload.single('bimage'), brandController.addBrand)
 
+router.get("/editBrand", adminAuth.isLogged, brandController.editBrand)
+router.post("/editBrand", adminAuth.isLogged, upload.single('image'), brandController.updateBrand)
+
 router.get("/addProduct", adminAuth.isLogged, productController.getAddProduct)
 router.post("/addProduct", adminAuth.isLogged, productController.addProduct)
 
