@@ -1,15 +1,19 @@
 const jwttoken = require('../utils/jwt')
+const User = require("../models/userSchema");
+const { decode } = require('jsonwebtoken');
 
 const isLogged = async (req, res, next) => {
 
     if (req.cookies.token) {
         const decoded = await jwttoken.verifytoken(req.cookies.token)
+        console.log(decoded);
         if (decoded) {
-            const udata = await User.findOne({ _id: decoded._id, isActive: 1 });
-            console.log(udata)
-            if (udata === null) {
-                res.redirect("/login");
+            const user = await User.findOne({ _id: decoded._id, isActive: true })
+            console.log(user)
+            if (user === null) {
+                res.redirect("/login")
             } else {
+                req.user = user
                 req.userid = decoded._id;
                 next();
             }
@@ -28,12 +32,12 @@ const notLogged = async (req, res, next) => {
     if (req.cookies.token != undefined) {
         const decoded = await jwttoken.verifytoken(req.cookies.token);
         if (decoded) {
-          const udata = await User.findOne({ _id: decoded._id, isActive: 1 });
-          if (udata === null) {
+          const user = await User.findOne({ _id: decoded._id, isActive: 1 });
+          if (user === null) {
             next();
           } else {
             req.userid = decoded._id;
-            res.redirect("/");
+            res.redirect("/")
           }
         } else {
           console.log("error in authentication")
@@ -52,11 +56,12 @@ const isHome = async (req, res, next) => {
         if (req.cookies.token) {
             const decoded = await jwttoken.verifytoken(req.cookies.token);
             if (decoded) {
-                const udata = await User.findOne({ _id: decoded._id, isActive: 1 });
-                console.log(udata)
-                if (udata === null) {
+                const user = await User.findOne({ _id: decoded._id, isActive: true });
+                console.log(user)
+                if (user === null) {
                     next();
                 } else {
+                    req.user = user
                     req.userid = decoded._id;
                     next();
                 }

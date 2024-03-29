@@ -33,10 +33,10 @@ router.post("/brand", adminAuth.isLogged, upload.single('bimage'), brandControll
 router.get("/editBrand", adminAuth.isLogged, brandController.editBrand)
 router.post("/editBrand", adminAuth.isLogged, upload.single('image'), brandController.updateBrand)
 
-router.get("/addProduct", adminAuth.isLogged, productController.getAddProduct)
-router.post("/addProduct", adminAuth.isLogged, productController.addProduct)
-
 router.get("/products", adminAuth.isLogged, productController.getProducts)
+router.post("/products", adminAuth.isLogged, upload.fields([{ name: "mainimage", maxCount: 1 },{ name: "imgs", maxCount: 4 }]), productController.addProduct)
+
+
 
 
 

@@ -17,4 +17,6 @@ router.post('/register', userAuth.notLogged, userController.registerUser)
 router.get('/verifyotp', userAuth.notLogged, userController.getOtpPage)
 router.post('/verifyotp', userAuth.notLogged, userController.verifyOtp)
 
+router.get('/myAccount',userAuth.isLogged, userController.getProfile)
+
 module.exports = router

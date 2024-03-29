@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Toro - Minimal eCommerce HTML Template</title>
+    <title>Shogun</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -143,13 +143,9 @@
                                     <!-- Displayed when the user is logged in -->
                                     <li class="dropdown nav-item">
                                       <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
-                                        <!-- Uncomment the following line if you want to use an icon -->
-                                        <!-- <i class="fas fa-/user-circle"></i> -->
-                                        <img class="svgInject" alt="likeIt TryIt" src="/user/imgs/theme/first-project-logo.jpg" style="height: 25px; width: 25px; margin-top: 2px;">
-                                      </a>
                                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                                        <a class="dropdown-item" href="/userprofile"><i class="material-icons md-perm_identity"></i> Profile</a>
-                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/myAccount?id=<%= locals.user._id %>">Profile</a>
+                                        <div class="dropdown-divider"></div
                                         <a class="dropdown-item text-danger" href="/logout"><i class="material-icons md-exit_to_app"></i> Logout</a>
                                       </div>
                                     </li>

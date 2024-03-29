@@ -7,11 +7,40 @@ const bcrypt = require("bcryptjs");
 
 
 const getHome = async (req, res) => {
-  res.render('user/home')
+  try {
+    const userId = req.query.userId;
+    if (userId) {
+      const user = await User.findById(userId);
+      if(user){
+        res.render('user/home', { user });
+      }else{
+        res.render('user/home')
+      }
+    } else {
+      res.render('user/home');
+    }
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+
+const getProfile = async (req, res) => {
+ try {
+  id = req.query.id
+  const user = await User.findById(id)
+  res.render('user/profile',{user})
+ } catch (error) {
+  console.log(error.message)
+ }
 }
 
 const loadLogin = async (req, res) => {
-  res.render('user/login')
+  try {
+    res.render('user/login')
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 const login = async (req, res) => {
@@ -28,8 +57,8 @@ const login = async (req, res) => {
         _id: id,
       };
       const token = jwttoken.createtoken(payload);
-      res.cookie("token", token, { secure: true, httpOnly: true });
-      res.redirect('/')
+      res.cookie("token", token, { secure: true, httpOnly: true })
+      res.redirect('/?userId=' + logUser._id)
     } else {
       res.render('user/login', { err: "Invalid password" })
     }
@@ -193,6 +222,7 @@ const securePassword = async (password) => {
 
 module.exports = {
   getHome,
+  getProfile,
   loadLogin,
   login,
   loadRegister,

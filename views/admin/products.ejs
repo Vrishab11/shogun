@@ -1,16 +1,121 @@
 <%- include ('layout/header.ejs')%>
 
+<section class="content-main 1">
+    <div class="row">
+        <div class="col-9">
+            <div class="content-header">
+                <h2 class="content-title">Add New Product</h2>
+                <form method="post" action="/admin/products" id="addProductForm">
+                            <div>
+                                <button class="btn btn-md rounded font-sm hover-up" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form method="post" action="/products" enctype="multipart/form-data">
+                                <div class="mb-4">
+                                    <label for="productname" class="form-label">Product Name</label>
+                                    <input type="text" placeholder="Type here" class="form-control" id="productname" name="productname">
+                                    <p class="perror mb-2" id="productNameError" style="display: none;"></p>
+                                </div>
+                                <div class="row gx-3">
+                                    <div class="col-md-4 mb-3">
+                                        <label for="size" class="form-label">Size</label>
+                                        <select class="form-select" id="size" name="size">
+                                            <option value="">Select Size</option>
+                                            <option value="S">S</option>
+                                            <option value="M">M</option>
+                                            <option value="L">L</option>
+                                            <option value="XL">XL</option>
+                                            <option value="XXL">XXL</option>
+                                        </select>
+                                    <p class="perror mb-2" id="sizeError" style="display: none;"></p>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="color" class="form-label">Color</label>
+                                        <select class="form-select" id="color" name="color">
+                                            <option value="">Select Color</option>
+                                            <option value="Red">Red</option>
+                                            <option value="Blue">Blue</option>
+                                            <option value="Green">Green</option>
+                                            <option value="Yellow">Yellow</option>
+                                        </select>
+                                        <p class="perror mb-2" id="colorError" style="display: none;"></p>
+                                    </div>
+                                    <div class="col-md-4  mb-3">
+                                        <label for="stock" class="form-label">Stock</label>
+                                        <input type="number" placeholder="Type here" class="form-control" id="stock" name="stock">
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <select name="brandname" class="form-control" id="brandname">
+                                        <option value="">Select Brand</option>
+                                        <% if(locals.brand) { for(let i = 0 ; i < locals.brand.length ; i ++) { %>
+                                        <option value="<%= locals.brand[i]._id %>"><%= locals.brand[i].brandname %></option>
+                                        <% } } %>
+                                    </select>
+                                    <p class="perror mb-2" id="brandError" style="display: none;"></p>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div>
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea placeholder="Type here" class="form-control" rows="4" id="description" name="description"></textarea>
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div>
+                                    <label for="mainimage">Main Image</label>
+                                    <input type="file" id="mainimage" name="mainimage" class="form-control" >
+                                    <input type="hidden" id="cropvaluesmain" name="cropvaluesmain" >
+                                    <p class="perror mb-2" id="error6" style="display: none;"></p>
+                                    <div class="preview1" id="preview1"></div>
 
-        <section class="content-main">
+                                    <label for="imgs"> Image</label>
+                                    <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
+                                    <input type="hidden" id="cropvaluesimg1" name="cropvaluesimg1" >
+                                    <input type="hidden" id="cropvaluesimg2" name="cropvaluesimg2" >
+                                    <input type="hidden" id="cropvaluesimg3" name="cropvaluesimg3" >
+                                    <input type="hidden" id="cropvaluesimg4" name="cropvaluesimg4" >
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label class="form-label">Price</label>
+                                    <input type="number" placeholder="Type here" class="form-control" id="price" name="price">
+                                    <p class="perror mb-2" id="priceError" style="display: none;"></p>
+                                </div>
+                                <div class="mb-4">
+                                    <select name="procategory" class="form-control" id="procategory">
+                                        <option value="">Select Category</option>
+                                        <% if(locals.category) { for(let i = 0 ; i < locals.category.length ; i ++) { %>
+                                            <option value="<%= locals.category[i]._id %>"><%= locals.category[i].categoryname %></option>
+                                            <% } } %>
+                                    </select>        
+                                    <p class="perror mb-2" id="catError" style="display: none;"></p>                                    
+                                </div>
+                            </div>
+                        </div> <!-- card end// -->
+                    </div>
+                </form>
+    </div>
+</section>
+
+
+        <section class="content-main 2">
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Products grid</h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                </div>
-                <div>
-                    <a href="#" class="btn btn-light rounded font-md">Export</a>
-                    <a href="#" class="btn btn-light rounded  font-md">Import</a>
-                    <a href="#" class="btn btn-primary btn-sm rounded">Create new</a>
                 </div>
             </div>
             <div class="card mb-4">
@@ -70,7 +175,102 @@
                     </ul>
                 </nav>
             </div>
-        </section> <!-- content-main end// -->
+        </section>
 
 
 <%- include('layout/footer.ejs') %>
+
+
+<script>
+
+    const productNameField = document.getElementById('productname');
+    const sizeField = document.getElementById('size');
+    const stockField = document.getElementById('stock');
+    const priceField = document.getElementById('price');
+    const colorField = document.getElementById('color');
+    const brandField = documnet.getElementById('brandname')
+    const categoryField = document.getElementById('procategory')
+
+    const productNameError = document.getElementById('productNameError');
+    const sizeError = document.getElementById('sizeError');
+    const brandError = document.getElementById('brandError');
+    const colorError = document.getElementById('colorError')
+    const catError = document.getElementById('catError')
+    const priceError = documnet.getElementById('priceError')
+    const stockError = document.getElementById('stockError')
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('addProductForm');
+
+    form.addEventListener('submit', function(event) {
+
+        productNameError.textContent = '';
+        sizeError.textContent = '';
+        stockError.textContent = '';
+        colorError.textContent = '';
+        brandError.textContent = '';
+        catError.textContent = '';
+        priceError.textContent = '';
+
+        const price = parseFloat(priceField.value);
+        const stock = parseInt(stockField.value)
+
+        if (!productNameField.value.trim()) {
+            productNameError.textContent = 'Product Name is required';
+            return;
+        }
+
+        if (sizeField.value === '') {
+            sizeError.textContent = 'Size is required';
+            return;
+        }
+
+        if (brandField.value === '') {
+            brandError.textContent = 'Brand is required';
+            return;
+        }
+
+        if (categoryField.value === '') {
+            catError.textContent = 'Category is required';
+            return;
+        }
+
+        if (colorField.value === '') {
+            catError.textContent = 'Color is required';
+            return;
+        }
+
+        if (!stockField.value.trim()) {
+            stockError.textContent = 'Stock number is required';
+            return;
+        }
+
+        if (!priceField.value.trim()) {
+            priceError.textContent = 'Price is required';
+            return;
+        }
+        
+        if (price < 0 || isNaN(price)) {
+            priceError.textContent = 'Price must be a positive number';
+            return;
+        }
+
+        if (stock <= 0) {
+            stockError.textContent = 'Stock must be a positive number';
+            return;
+        }
+
+        if (isNaN(stock) || stock !== parseFloat(stockField.value)) {
+            stockError.textContent = 'Stock must be a whole number';
+            return;
+        }
+
+        
+        form.submit();
+
+        event.preventDefault();
+
+    });
+});
+</script>
