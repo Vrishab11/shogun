@@ -8,7 +8,7 @@ const isLogged = async (req, res, next) => {
         const decoded = await jwttoken.verifytoken(req.cookies.token)
         console.log(decoded);
         if (decoded) {
-            const user = await User.findOne({ _id: decoded._id, isActive: true })
+            const user = await User.findOne({ _id: decoded._id, isBlocked: false })
             console.log(user)
             if (user === null) {
                 res.redirect("/login")
@@ -66,10 +66,10 @@ const isHome = async (req, res, next) => {
                     next();
                 }
             } else {
-                next();
+                req.redirect("/login")
             }
         } else {
-            next();
+            req.redirect("/login")
         }
     } catch (error) {
         console.log(error.message);
