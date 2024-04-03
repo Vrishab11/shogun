@@ -18,10 +18,10 @@ const isLogged = async (req, res, next) => {
                 next();
             }
         } else {
-            res.redirect('/login')
+            res.redirect("/login")
         }
     } else {
-        res.redirect('/login')
+        res.redirect("/login")
     }
 
 }
@@ -32,12 +32,12 @@ const notLogged = async (req, res, next) => {
     if (req.cookies.token != undefined) {
         const decoded = await jwttoken.verifytoken(req.cookies.token);
         if (decoded) {
-          const user = await User.findOne({ _id: decoded._id, isActive: 1 });
+          const user = await User.findOne({ _id: decoded._id, isBlocked: false });
           if (user === null) {
             next();
           } else {
             req.userid = decoded._id;
-            res.redirect("/")
+            next()
           }
         } else {
           console.log("error in authentication")
@@ -56,20 +56,20 @@ const isHome = async (req, res, next) => {
         if (req.cookies.token) {
             const decoded = await jwttoken.verifytoken(req.cookies.token);
             if (decoded) {
-                const user = await User.findOne({ _id: decoded._id, isActive: true });
+                const user = await User.findOne({ _id: decoded._id, isBlocked: false });
                 console.log(user)
                 if (user === null) {
-                    next();
+                    next()
                 } else {
                     req.user = user
                     req.userid = decoded._id;
                     next();
                 }
             } else {
-                req.redirect("/login")
+               next()
             }
         } else {
-            req.redirect("/login")
+            next()
         }
     } catch (error) {
         console.log(error.message);

@@ -3,17 +3,17 @@ const fs = require("fs").promises
 const Category = require("../models/categorySchema")
 
 const loadCategory = async (req, res) => {
-    try {
-      const catdet = await Category.find({ isListed: 0 });
-      // console.log(catdet);
-      if (catdet != null) {   
-        res.render("admin/category", {catdet});
-      } else {
-        res.render("admin/category", {catdet});
-      }
-    } catch (error) {
-      console.log(error.message);
+  try {
+    const catdet = await Category.find({ isListed: 0 });
+    // console.log(catdet);
+    if (catdet != null) {
+      res.render("admin/category", { catdet });
+    } else {
+      res.render("admin/category", { catdet });
     }
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 const addCategory = async (req, res) => {
@@ -54,7 +54,7 @@ const editCategory = async (req, res) => {
   try {
     const id = req.query.id;
     const catdata = await Category.findById({ _id: id });
-    res.render("admin/editCategory", {catdata})
+    res.render("admin/editCategory", { catdata })
   } catch (error) {
     console.log(error.message)
   }
@@ -68,11 +68,19 @@ const updateCategory = async (req, res) => {
     const catimage = req.file;
     console.log(req.body)
     console.log(req.file);
-    const updatedCategory = await Category.findByIdAndUpdate({_id:id},{$set:{ categoryname: catname, status: status, image: catimage.filename }},{ new: true });
+    const cat = await Category.find({ categoryname: catname })
+    const catdata = await Category.findById({ _id: id })
+    if (cat) {
+      res.render("admin/editCategory", {
+        data: catdata,
+        message: "Category already exists!!",
+      });
+    } else {
+      const updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status, image: catimage.filename } }, { new: true });
+      console.log(updatedCategory)
+      res.redirect("/admin/category");
+    }
 
-    console.log(updatedCategory)
-
-    res.redirect("/admin/category");
   } catch (error) {
     console.log(error.message);
     res.status(500).send("An error occurred while updating the category.");
@@ -81,8 +89,8 @@ const updateCategory = async (req, res) => {
 
 
 module.exports = {
-    loadCategory,
-    addCategory,
-    editCategory,
-    updateCategory
+  loadCategory,
+  addCategory,
+  editCategory,
+  updateCategory
 }

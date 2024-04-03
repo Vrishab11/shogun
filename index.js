@@ -20,6 +20,8 @@ app.use(express.urlencoded({extended:true}))
 app.set("view engine","ejs")
 app.use("/asset",express.static(path.join(__dirname,"./asset")))
 app.use('/assets',express.static(path.join(__dirname,'/assets')))
+app.use('/images',express.static(path.join(__dirname,'/images')))
+
 
 app.set("view engine", "ejs")
 

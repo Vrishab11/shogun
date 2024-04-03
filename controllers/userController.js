@@ -85,7 +85,8 @@ const loadRegister = async (req, res) => {
 
 const logout = async (req, res) => {
   try {
-    res.clearCookie("token").json({ data: "Logout Successful." })
+    res.clearCookie("token")
+    res.redirect('/')
   } catch (error) {
     console.log(error.message)
   }

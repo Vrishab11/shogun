@@ -36,7 +36,7 @@ router.post("/editBrand", adminAuth.isLogged, upload.single('image'), brandContr
 router.get("/products", adminAuth.isLogged, productController.getProducts)
 router.post("/products", adminAuth.isLogged, upload.fields([{ name: "mainimage", maxCount: 1 },{ name: "imgs", maxCount: 4 }]), productController.addProduct)
 
-
+router.get("/editProduct", adminAuth.isLogged, productController.editProduct)
 
 
 

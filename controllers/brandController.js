@@ -63,13 +63,19 @@ const updateBrand = async (req, res) => {
     const bname = req.body.bname;
     const status = req.body.status;
     const image = req.file;
-    console.log(req.body)
-    console.log(req.file);
-    const updatedBrand = await Brand.findByIdAndUpdate({_id:id},{$set:{ brandname: bname, status: status, image: image.filename }},{ new: true });
-
-    console.log(updatedBrand)
-
-    res.redirect("/admin/brand");
+    const bran = await Brand.find({ brandname: bname})
+    const bData = await Brand.findOne({_id:id})
+    if(bran.brandname === bname){
+      const bData = await Brand.find({ isListed: 0 });
+        res.render("admin/brand", {
+          data: bData,
+          message: "Brand already exists!!"
+        });
+    }else{
+      const updatedBrand = await Brand.findByIdAndUpdate({_id:id},{$set:{ brandname: bname, status: status, image: image.filename }},{ new: true });
+      console.log(updatedBrand)
+      res.redirect("/admin/brand");
+    }
   } catch (error) {
     console.log(error.message);
     res.status(500).send("An error occurred while updating the brand.");

@@ -5,7 +5,7 @@
         <div class="col-9">
             <div class="content-header">
                 <h2 class="content-title">Add New Product</h2>
-                <form method="post" action="/admin/products" id="addProductForm">
+                <form method="post" action="/admin/products" id="addProductForm" enctype="multipart/form-data">
                             <div>
                                 <button class="btn btn-md rounded font-sm hover-up" type="submit">Save</button>
                             </div>
@@ -14,7 +14,6 @@
                     <div class="col-lg-6">
                         <div class="card mb-4">
                             <div class="card-body">
-                                <form method="post" action="/products" enctype="multipart/form-data">
                                 <div class="mb-4">
                                     <label for="productname" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here" class="form-control" id="productname" name="productname">
@@ -76,7 +75,7 @@
                                     <input type="hidden" id="cropvaluesmain" name="cropvaluesmain" >
                                     <p class="perror mb-2" id="error6" style="display: none;"></p>
                                     <div class="preview1" id="preview1"></div>
-
+                                    <br>
                                     <label for="imgs"> Image</label>
                                     <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
                                     <input type="hidden" id="cropvaluesimg1" name="cropvaluesimg1" >
@@ -143,23 +142,23 @@
                             <% let pname = locals.products[i].productname.split(' ')[0] %>
                             <div class="product col-md-3">
                                 <div class="card my-4">
-                                    <a href=""><img src="/images/locals.products[i].mainimage %>" class="card-img-top" alt="..."></a>
+                                    <a href=""><img src="/images/<%= locals.products[i].mainimage %>" class="card-img-top" style="aspect-ratio:1/1;" alt="..."></a>
                                     <div class="card-body">
                                       <h5 class="card-title cardhead"><%= pname %></h5>
                                       <div class="carddesc"><p class="card-text"><%= desc %></p></div>
-                                      <div class="cardprice pmanage mb-4"><div><a href="/admin/products/editproduct?id=<%= locals.products[i]._id %>">Edit</a></div><div><a href="/admin/products/deleteproduct?id=<%= locals.products[i]._id %>">Delete</a></div><div><a href="/admin/products/review?id=<%= locals.products[i]._id %>">Review</a></div></div>
-                                      
-                                    </div>
-                                    <% if(locals.products[i].stock === 0) { %>
+                                      <div class="cardprice mb-4"><div><a href="/admin/editProduct?id=<%= locals.products[i]._id %>">Edit</a></div><div><a href="#">List</a></div></div>
+                                      <% if(locals.products[i].stock === 0) { %>
                                         <div class="stockbadge1">Out of Stock</div>
                                     <% } else {%>
-                                        <div class="stockbadge2">Stock <br> <%= locals.products[i].stock %></div>
+                                        <div class="stockbadge2">Stock : <%= locals.products[i].stock %></div>
                                     <% } %>
-                                  </div>
-                            </div>
-                            <% } }else{ %>
+                                    </div>
+                                    
+                                </div>
+                                <% } }else{ %>
                                     <h4>No Products to Show</h4>
-                        <% } %>
+                                <% } %>
+                            </div>
                     </div> <!-- row.// -->
                 </div> <!-- card-body end// -->
             </div> <!-- card end// -->
@@ -180,97 +179,3 @@
 
 <%- include('layout/footer.ejs') %>
 
-
-<script>
-
-    const productNameField = document.getElementById('productname');
-    const sizeField = document.getElementById('size');
-    const stockField = document.getElementById('stock');
-    const priceField = document.getElementById('price');
-    const colorField = document.getElementById('color');
-    const brandField = documnet.getElementById('brandname')
-    const categoryField = document.getElementById('procategory')
-
-    const productNameError = document.getElementById('productNameError');
-    const sizeError = document.getElementById('sizeError');
-    const brandError = document.getElementById('brandError');
-    const colorError = document.getElementById('colorError')
-    const catError = document.getElementById('catError')
-    const priceError = documnet.getElementById('priceError')
-    const stockError = document.getElementById('stockError')
-
-
-    document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('addProductForm');
-
-    form.addEventListener('submit', function(event) {
-
-        productNameError.textContent = '';
-        sizeError.textContent = '';
-        stockError.textContent = '';
-        colorError.textContent = '';
-        brandError.textContent = '';
-        catError.textContent = '';
-        priceError.textContent = '';
-
-        const price = parseFloat(priceField.value);
-        const stock = parseInt(stockField.value)
-
-        if (!productNameField.value.trim()) {
-            productNameError.textContent = 'Product Name is required';
-            return;
-        }
-
-        if (sizeField.value === '') {
-            sizeError.textContent = 'Size is required';
-            return;
-        }
-
-        if (brandField.value === '') {
-            brandError.textContent = 'Brand is required';
-            return;
-        }
-
-        if (categoryField.value === '') {
-            catError.textContent = 'Category is required';
-            return;
-        }
-
-        if (colorField.value === '') {
-            catError.textContent = 'Color is required';
-            return;
-        }
-
-        if (!stockField.value.trim()) {
-            stockError.textContent = 'Stock number is required';
-            return;
-        }
-
-        if (!priceField.value.trim()) {
-            priceError.textContent = 'Price is required';
-            return;
-        }
-        
-        if (price < 0 || isNaN(price)) {
-            priceError.textContent = 'Price must be a positive number';
-            return;
-        }
-
-        if (stock <= 0) {
-            stockError.textContent = 'Stock must be a positive number';
-            return;
-        }
-
-        if (isNaN(stock) || stock !== parseFloat(stockField.value)) {
-            stockError.textContent = 'Stock must be a whole number';
-            return;
-        }
-
-        
-        form.submit();
-
-        event.preventDefault();
-
-    });
-});
-</script>

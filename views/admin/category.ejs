@@ -59,7 +59,7 @@
                                         <% if(locals.catdet) {for (var i = 0; i < locals.catdet.length; i++) { %>
                                         <tr>
                                             <th><%= locals.catdet[i].categoryname  %></th>
-                                            <% if(locals.catdet[i].status === 0) { %>
+                                            <% if(locals.catdet[i].status === 1) { %>
                                                 <td><span class="badge rounded-pill alert-success">Active</span></td>
                                             <% }else{ %>
                                                 <td><span class="badge rounded-pill alert-success">Inctive</span></td>
