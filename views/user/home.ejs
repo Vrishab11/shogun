@@ -1,68 +1,5 @@
 <%- include('layout/header.ejs') %>
 
-        <div class="slider-area">
-            <div class="container-fluid p-0">
-                <div class="main-slider-active owl-carousel slider-dot-position-4 slider-dot-style-1">
-                    <div class="single-main-slider slider-animated-1 slider-height-hm4 align-items-center custom-d-flex bg-light-pink" data-dot="01">
-                        <div class="img-position-hm4-1">
-                            <img class="animated" src="assets/images/slider/slider-hm4-position-1.png" alt="slider">
-                        </div>
-                        <div class="img-position-hm4-2">
-                            <img class="animated" src="assets/images/slider/slider-hm4-position-2.png" alt="slider">
-                        </div>
-                        <div class="img-position-hm4-3">
-                            <img class="animated" src="assets/images/slider/slider-hm4-position-3.png" alt="slider">
-                        </div>
-                        <div class="row g-0 width-100-percent">
-                            <div class="ms-auto col-lg-6 col-md-7">
-                                <div class="main-slider-content-hm4-1 slider-content-hm4-mrg3 text-center">
-                                    <span class="animated">#Woman Dress </span>
-                                    <h1 class="animated">Satin Dress </h1>
-                                    <div class="slider-btn-4">
-                                        <a class="animated" href="product-details.html">Shop now <i class="fa fa-long-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="single-main-slider slider-animated-1 slider-height-hm4 hm4-bg-position align-items-center custom-d-flex bg-img res-white-overly-xs" data-dot="02" style="background-image:url(assets/images/slider/slider-hm4-2.jpg);">
-                        <div class="content-position-hm4-1">
-                            <span class="animated">Hot </span>
-                        </div>
-                        <div class="row g-0 width-100-percent">
-                            <div class="col-lg-7 col-md-7">
-                                <div class="main-slider-content-hm4-1 slider-content-hm4-mrg text-center">
-                                    <span class="animated">#Man Blazer </span>
-                                    <h1 class="animated hm4-h1-dec">Limited Edition Beaded <br>Dress </h1>
-                                    <div class="slider-btn-4">
-                                        <a class="animated" href="product-details.html">Shop now <i class="fa fa-long-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="single-main-slider slider-animated-1 slider-height-hm4 align-items-center custom-d-flex bg-gray" data-dot="03">
-                        <div class="img-position-hm4-4">
-                            <img class="animated" src="assets/images/slider/slider-hm4-position-4.png" alt="slider">
-                        </div>
-                        <div class="img-position-hm4-5">
-                            <img class="animated" src="assets/images/slider/slider-hm4-position-5.png" alt="slider">
-                        </div>
-                        <div class="row g-0 width-100-percent">
-                            <div class="ms-auto col-lg-6 col-md-7">
-                                <div class="main-slider-content-hm4-1 slider-content-hm4-mrg2 text-center">
-                                    <span class="animated">#Man Shirt </span>
-                                    <h1 class="animated hm4-h1-dec2">Oxford Shirt </h1>
-                                    <div class="slider-btn-4">
-                                        <a class="animated" href="product-details.html">Shop now <i class="fa fa-long-arrow-right"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="banner-area section-padding-1 pt-130">
             <div class="container-fluid">
                 <div class="section-title-3 mb-70 text-center">
@@ -70,60 +7,19 @@
                     <p>Vestibulum felis odio, imperdiet eget</p>
                 </div>
                 <div class="row">
-                    <div class="custom-col-width-43">
-                        <div class="banner-wrap default-overlay banner-zoom mb-30">
-                            <div class="banner-img">
-                                <a href="product-details.html"><img src="assets/images/banner/banner-4.jpg" alt="banner"></a>
+                    <div class="product d-flex gap-3">
+                        <% if(locals.product) { for(let i = 0 ; i < locals.product.length ; i++) { %>
+                    <div class="custom-col-width-43" >
+                        <div class="banner-wrap default-overlay banner-zoom mb-30" style="height: 400px; width: 400px;">
+                            <div class="banner-img" >
+                                <a href=""><img src="/images/<%= locals.product[i].mainimage %>" alt="banner"></a>
                             </div>
                             <div class="banner-content-3">
-                                <h3><a href="#">Woman Blazer</a></h3>
+                                <h3><a href="#"><%= locals.product[i].productname %></a></h3>
                             </div>
                         </div>
                     </div>
-                    <div class="custom-col-width-56">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="banner-wrap default-overlay banner-zoom mb-30">
-                                    <div class="banner-img">
-                                        <a href="product-details.html"><img src="assets/images/banner/banner-5.jpg" alt="banner"></a>
-                                    </div>
-                                    <div class="banner-content-4">
-                                        <h4><a href="#">Bag Collection</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="banner-wrap default-overlay banner-zoom mb-30">
-                                    <div class="banner-img">
-                                        <a href="product-details.html"><img src="assets/images/banner/banner-6.jpg" alt="banner"></a>
-                                    </div>
-                                    <div class="banner-content-4">
-                                        <h4><a href="#">Men Blazer</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="banner-wrap default-overlay banner-zoom mb-30">
-                                    <div class="banner-img">
-                                        <a href="product-details.html"><img src="assets/images/banner/banner-7.jpg" alt="banner"></a>
-                                    </div>
-                                    <div class="banner-content-4">
-                                        <h4><a href="#">Men Blazer</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="banner-wrap default-overlay banner-zoom mb-30">
-                                    <div class="banner-img">
-                                        <a href="product-details.html"><img src="assets/images/banner/banner-8.jpg" alt="banner"></a>
-                                    </div>
-                                    <div class="banner-content-4">
-                                        <h4><a href="#">Kids collection </a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <% }} %>
                 </div>
             </div>
         </div>
@@ -134,12 +30,13 @@
                 </div>
             </div>
             <div class="product-slider-active-3 product-slider-padding-2">
+                <% for(let i=0; i< locals.product.length; i++){ %>
                 <div class="pro-all product-wrap-opacity">
                     <div class="product-wrap">
                         <div class="product-img default-overlay mb-40">
                             <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-1.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-1-2.jpg" alt="">
+                                <img class="default-img" src="/images/<%= locals.product[i].mainimage %>" alt="">
+                                <img class="hover-img" src="/images/<%= locals.product[i].image[0] %>" alt="">
                             </a>
                             <div class="product-action product-action-position-1">
                                 <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
@@ -149,198 +46,15 @@
                             </div>
                         </div>
                         <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Double-breasted faux fur coat</a></h3>
+                            <h3><a href="product-details.html"><%= locals.product[i].productname %></a></h3>
                             <div class="product-price">
-                                <span class="new-price">$22.00</span>
+                                <span class="new-price"><%= locals.product[i].price %>></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-2.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-2-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-3.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-3-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-8.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-8-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-9.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-9-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-10.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-10-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-5.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-5-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-6.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-6-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pro-all product-wrap-opacity">
-                    <div class="product-wrap">
-                        <div class="product-img default-overlay mb-40">
-                            <a href="product-details.html">
-                                <img class="default-img" src="assets/images/product/product-8.jpg" alt="">
-                                <img class="hover-img" src="assets/images/product/product-8-2.jpg" alt="">
-                            </a>
-                            <div class="product-action product-action-position-1">
-                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                <a class="icon-blod" title="Add to Compare" href="#"><i class="dlicon arrows-4_compare"></i><span>Add to Compare</span></a>
-                                <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                            </div>
-                        </div>
-                        <div class="product-content-2 title-font-width-400 text-center">
-                            <h3><a href="product-details.html">Quilted parka with hood</a></h3>
-                            <div class="product-price">
-                                <span class="old-price">$80.00</span>
-                                <span class="new-price">$55.00</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <% } %>
+            </div>    
         </div>
         <div class="product-area pb-120 section-padding-1">
             <div class="container-fluid">

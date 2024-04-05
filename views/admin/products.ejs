@@ -76,7 +76,7 @@
                                     <p class="perror mb-2" id="error6" style="display: none;"></p>
                                     <div class="preview1" id="preview1"></div>
                                     <br>
-                                    <label for="imgs"> Image</label>
+                                    <label for="imgs">Image</label>
                                     <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
                                     <input type="hidden" id="cropvaluesimg1" name="cropvaluesimg1" >
                                     <input type="hidden" id="cropvaluesimg2" name="cropvaluesimg2" >
@@ -136,12 +136,12 @@
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
-                    <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                    <div class="row ">
+                        <div class="product d-flex gap-3">
                         <% if(locals.products) { for(let i = 0 ; i < locals.products.length ; i++) { %>
                             <% let desc = locals.products[i].description.split('.')[0] %>
                             <% let pname = locals.products[i].productname.split(' ')[0] %>
-                            <div class="product col-md-3">
-                                <div class="card my-4">
+                                <div class="card my-4 col-md-3">
                                     <a href=""><img src="/images/<%= locals.products[i].mainimage %>" class="card-img-top" style="aspect-ratio:1/1;" alt="..."></a>
                                     <div class="card-body">
                                       <h5 class="card-title cardhead"><%= pname %></h5>

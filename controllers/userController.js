@@ -3,21 +3,24 @@ const nodemailer = require("nodemailer")
 const jwttoken = require("../utils/jwt")
 const jwt = require("jsonwebtoken");
 const User = require("../models/userSchema")
+const Product = require("../models/productSchema")
 const bcrypt = require("bcryptjs");
 
 
 const getHome = async (req, res) => {
   try {
     const userId = req.query.userId;
+    const product = await Product.find({})
+
     if (userId) {
       const user = await User.findById(userId);
       if(user){
-        res.render('user/home', { user });
+        res.render('user/home', { user,product });
       }else{
-        res.render('user/home')
+        res.render('user/home',{product})
       }
     } else {
-      res.render('user/home');
+      res.render('user/home',{product});
     }
   } catch (error) {
     console.log(error.message)

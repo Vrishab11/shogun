@@ -219,7 +219,7 @@ const editProduct = async (req, res) => {
     const prodata = await Product.findOne({ _id:id }).populate( "category_id brand_id")
     console.log(prodata);
     const bdata = await Brand.find({ status: 1 })
-      const cdata = await Category.find({ status: 0 })
+    const cdata = await Category.find({ status: 0 })
     res.render('admin/editProduct',{ product:prodata, brand: bdata, category: cdata })
   } catch (error) {
     console.log(error.message)
