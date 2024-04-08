@@ -46,9 +46,11 @@
                                     <div class="col-md-4  mb-3">
                                         <label for="stock" class="form-label">Stock</label>
                                         <input type="number" placeholder="Type here" class="form-control" id="stock" name="stock">
+                                        <p class="perror mb-2" id="stockerr" style="display: none;"></p>
                                     </div>
                                 </div>
                                 <div class="mb-4">
+                                    <label for="brandname" class="form-label">Brand</label>
                                     <select name="brandname" class="form-control" id="brandname">
                                         <option value="">Select Brand</option>
                                         <% if(locals.brand) { for(let i = 0 ; i < locals.brand.length ; i ++) { %>
@@ -64,6 +66,8 @@
                                 <div>
                                     <label for="description" class="form-label">Description</label>
                                     <textarea placeholder="Type here" class="form-control" rows="4" id="description" name="description"></textarea>
+                                    <p class="perror mb-2" id="descError" style="display: none;"></p>
+                                
                                 </div>
                             </div>
                         </div> <!-- card end// -->
@@ -82,6 +86,8 @@
                                     <input type="hidden" id="cropvaluesimg2" name="cropvaluesimg2" >
                                     <input type="hidden" id="cropvaluesimg3" name="cropvaluesimg3" >
                                     <input type="hidden" id="cropvaluesimg4" name="cropvaluesimg4" >
+                                    <p class="perror mb-2" id="error7" style="display: none;"></p>
+                                    
                                 </div>
                             </div>
                         </div> <!-- card end// -->
@@ -95,6 +101,7 @@
                                     <p class="perror mb-2" id="priceError" style="display: none;"></p>
                                 </div>
                                 <div class="mb-4">
+                                    <label for="procategory" class="form-label">Category</label>
                                     <select name="procategory" class="form-control" id="procategory">
                                         <option value="">Select Category</option>
                                         <% if(locals.category) { for(let i = 0 ; i < locals.category.length ; i ++) { %>
@@ -136,8 +143,7 @@
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
-                    <div class="row ">
-                        <div class="product d-flex gap-3">
+                        <div class="row product d-flex  gap-5 ps-5">
                         <% if(locals.products) { for(let i = 0 ; i < locals.products.length ; i++) { %>
                             <% let desc = locals.products[i].description.split('.')[0] %>
                             <% let pname = locals.products[i].productname.split(' ')[0] %>
@@ -159,7 +165,7 @@
                                     <h4>No Products to Show</h4>
                                 <% } %>
                             </div>
-                    </div> <!-- row.// -->
+                    <!-- </div>  -->
                 </div> <!-- card-body end// -->
             </div> <!-- card end// -->
             <div class="pagination-area mt-30 mb-50">
@@ -175,7 +181,7 @@
                 </nav>
             </div>
         </section>
-
+<script src="/public/js/product.js"></script>
 
 <%- include('layout/footer.ejs') %>
 

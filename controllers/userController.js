@@ -150,6 +150,7 @@ const registerUser = async (req, res) => {
         console.log(otp, "otp")
         if (info) {
           req.session.userOtp = otp
+          setTimeout(()=>req.session.userOtp = null,60000)
           req.session.userData = req.body
           res.redirect('/verifyotp')
           console.log("Email sented", info.messageId)

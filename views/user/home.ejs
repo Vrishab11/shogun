@@ -8,7 +8,7 @@
                 </div>
                 <div class="row">
                     <div class="product d-flex">
-                        <% if(locals.product) { for(let i = 0 ; i < 4 ; i++) { %>
+                        <% if(locals.product && locals.product.length > 0) { for(let i = 0 ; i < 4 ; i++) { %>
                     <div class="custom-col" >
                         <div class="banner-wrap default-overlay banner-zoom mb-30" style="height: 385px; width: 360px;">
                             <div class="banner-img" >
@@ -90,7 +90,7 @@
                                     <div class="product-content-2 title-font-width-400 text-center">
                                         <h3><a href="/productDetails?id=<%= locals.product[i]._id %>"></a><%=locals.product[i].productname %></a></h3>
                                         <div class="product-price">
-                                            <span class="new-price"><%=locals.product[i].price %></span>
+                                            <span class="new-price">RS.<%=locals.product[i].price %></span>
                                         </div>
                                     </div>
                                 </div>

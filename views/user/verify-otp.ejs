@@ -9,6 +9,7 @@
         <!-- Add your email verification modal content here -->
 
         <!-- Add OTP input field -->
+        <div id="timer"></div>
         <form action="/verifyotp" method="post">
             <div class="form-group">
                 <label for="otp">Enter OTP:</label>
@@ -19,9 +20,9 @@
             <button type="submit" class="btn btn-primary">Verify Email</button>
 
             <!-- Add Resend OTP option -->
-            <!-- <div class="text-muted text-center pt-25">
+            <div class="text-muted text-center pt-25" id="resend" style="display: none;">
                 <a href="/resend-otp">Resend OTP</a>
-            </div> -->
+            </div>
             <br>
             <br>
             <% if (locals.message&&message.length>0) { %>
@@ -36,5 +37,26 @@
         </div>
     </div>
 </div>
+<script>
+    const timer = document.getElementById('timer')
+    const resend = document.getElementById('resend')
 
+    let seconds = 60;
+
+    function timerStart(){
+        timer.innerHTML = `00: ${seconds}`
+        if(seconds > 0){
+            seconds--
+            setTimeout(timerStart,1000)
+        }else{
+            timer.innerHTML = ''
+            resend.style.display = 'block'
+        }
+    }
+    window.onload = () => {
+        timerStart()    
+        console.log("kkkkk");
+    }
+
+</script>
 <%- include('layout/footer.ejs') %>
