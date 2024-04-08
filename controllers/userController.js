@@ -1,7 +1,6 @@
 require("dotenv").config()
 const nodemailer = require("nodemailer")
 const jwttoken = require("../utils/jwt")
-const jwt = require("jsonwebtoken");
 const User = require("../models/userSchema")
 const Product = require("../models/productSchema")
 const bcrypt = require("bcryptjs");
@@ -9,7 +8,7 @@ const bcrypt = require("bcryptjs");
 
 const getHome = async (req, res) => {
   try {
-    const userId = req.query.userId;
+    const userId = req.userid;
     const product = await Product.find({})
 
     if (userId) {
@@ -30,12 +29,36 @@ const getHome = async (req, res) => {
 
 const getProfile = async (req, res) => {
  try {
-  id = req.query.id
+  id = req.userid
   const user = await User.findById(id)
   res.render('user/profile',{user})
  } catch (error) {
   console.log(error.message)
  }
+}
+
+const changePassword = async (req, res) => {
+
+  try {
+    const { password, npassword, cpassword} = req.body
+    id = req.userid
+    const user = await User.findById(id)
+    const passtrue = await bcrypt.compare(password, user.password)
+    if(passtrue){
+      if( npassword === cpassword){
+        const passwordHash = await securePassword(npassword)
+        await User.updateOne({_id: id},{password: passwordHash})
+        res.redirect('/myAccount')
+      }else{
+        res.render('user/profile', { err: "Password does not Match!!" })
+      }
+    }else{
+      res.render('user/profile', { err: "Wrong Password" })
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+
 }
 
 const loadLogin = async (req, res) => {
@@ -61,7 +84,7 @@ const login = async (req, res) => {
       };
       const token = jwttoken.createtoken(payload);
       res.cookie("token", token, { secure: true, httpOnly: true })
-      res.redirect('/?userId=' + logUser._id)
+      res.redirect('/')
     } else {
       res.render('user/login', { err: "Invalid password" })
     }
@@ -195,7 +218,7 @@ const verifyOtp = async (req, res) => {
       res.redirect("/login")
     } else {
       console.log("otp not matching");
-      res.json({ status: false })
+      res.render('user/verify-otp', { message: "Wrong OTP" })
     }
 
   } catch (error) {
@@ -233,5 +256,6 @@ module.exports = {
   registerUser,
   getOtpPage,
   verifyOtp,
+  changePassword,
   logout
 }

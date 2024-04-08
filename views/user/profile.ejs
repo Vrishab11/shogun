@@ -1,40 +1,93 @@
 <%- include('layout/header.ejs') %>
+<% if(locals.user){ %>
 
-
-<div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+<div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
     <div class="container-fluid">
         <div class="breadcrumb-content text-center">
             <div class="breadcrumb-title">
+                <ul>
+                    <li>
+                        <a href="/">Home </a>
+                    </li>
+                    <li><span> &gt; </span></li>
+                    <li class="active"> My Account </li>
+                </ul>
+
                 <h2>My Account</h2>
+                <br>
+                <div>
+                    <h4>Name : <%= locals.user.fname %> <%= locals.user.lname %></h4>
+                    <h4>Email : <%= locals.user.email %> </h4>
+                    <h4>Mobile : <%= locals.user.mobile %> </h4>
+                </div>
+
+                <br>
             </div>
-            <ul>
-                <li>
-                    <a href="index.html">Home 01 </a>
-                </li>
-                <li><span> &gt; </span></li>
-                <li class="active"> My Account </li>
-            </ul>
         </div>
     </div>
 </div>
-        <div class="my-account-area pt-100 pb-95">
+        <div class="my-account-area pb-95">
             <div class="container">
                 <div class="row flex-row-reverse">
                     <div class="col-lg-12">
                         <div class="myaccount-tab-menu nav" role="tablist">
-                            <a href="#dashboad" class="active" data-bs-toggle="tab">
-                                Dashboard</a>
+                            <a href="/myAccount" class="active" data-bs-toggle="tab">Change Password</a>
                             <a href="#orders" data-bs-toggle="tab"> Orders</a>
-                            <a href="#download" data-bs-toggle="tab"> Download</a>
                             <a href="#address-edit" data-bs-toggle="tab"> address</a>
-                            <a href="#account-info" data-bs-toggle="tab"> Account Details</a>
-                            <a href="login-register.html"> Logout</a>
+                            <a href="/logout"> Logout</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6" style="align-self: center;">
+            <div class="login-register-wrap register-wrap">
+                <form id="changePass" action="/myAccount/changePass" method="post">
+        
+                    <% if(locals.err) { %> 
+                        <div class="error1 alert alert-danger w-75"><%= locals.err  %></div>
+                        <% } %>
+                    <div class="sin-login-register">
+                        <label>Old Password </label>
+                        <input type="password" name="password" id="password">
+                        <p class="error mb-2" id="passerror" style="display: none;"></p>
+                        <% if(locals.err){ %>
+                            <p class="text-danger"><%= locals.err %></p>
+                        <% } %>
+                    </div>
+                    <br>
+                    <div class="sin-login-register">
+                        <label>New Password </label>
+                        <input type="password" name="npassword" id="npassword">
+                        <p class="error mb-2" id="newpass" style="display: none;"></p>
+                        <% if(locals.err){ %>
+                            <p class="text-danger"><%= locals.err %></p>
+                        <% } %>
+                    </div>
+                    <br>
+                    <div class="sin-login-register">
+                        <label>Confirm New Password </label>
+                        <input type="password" name="cpassword" id="cpassword">
+                        <p class="error mb-2" id="confirmpass" style="display: none;"></p>
+                    </div>
+                    <br>
+                    <div class="login-register-btn">
+                        <button type="submit">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% } %>
+
+<br>
+
+<script src="/public/js/changePass.js"></script>
 
 
         <%- include('layout/footer.ejs') %>

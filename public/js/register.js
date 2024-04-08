@@ -3,7 +3,10 @@ const lname = document.getElementById('lname')
 const email = document.getElementById('email')
 const mob = document.getElementById('mobile')
 const pass = document.getElementById('password')
+const npass = document.getElementById('npassword')
 const cpass = document.getElementById('cpassword')
+
+
 
 const registerform = document.getElementById('registerForm')
 const error1 = document.getElementById('fnameerror')
@@ -11,7 +14,8 @@ const error2 = document.getElementById('lnameerror')
 const error3 = document.getElementById('emailerror')
 const error4 = document.getElementById('moberror')
 const error5 = document.getElementById('passerror')
-const error6 = document.getElementById('confirmpasserror')
+const error6 = document.getElementById('newpass')
+const error7 = document.getElementById('confirmpass')
 
 
 
@@ -196,6 +200,15 @@ pass.addEventListener('keyup',()=>{
 })
 pass.addEventListener('blur',()=>{
     const passdata = pass.value
+    passfunc(passdata)
+})
+
+pass.addEventListener('keyup',()=>{
+    const passdata = npass.value
+    passfunc(passdata)
+})
+pass.addEventListener('blur',()=>{
+    const passdata = npass.value
     passfunc(passdata)
 })
 

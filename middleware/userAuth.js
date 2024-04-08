@@ -9,9 +9,8 @@ const isLogged = async (req, res, next) => {
         console.log(decoded);
         if (decoded) {
             const user = await User.findOne({ _id: decoded._id, isBlocked: false })
-            console.log(user)
             if (user === null) {
-                res.redirect("/login")
+                res.redirect('/login?msg=invalid');
             } else {
                 req.user = user
                 req.userid = decoded._id;
@@ -37,7 +36,7 @@ const notLogged = async (req, res, next) => {
             next();
           } else {
             req.userid = decoded._id;
-            next()
+            res.redirect('/')
           }
         } else {
           console.log("error in authentication")
@@ -52,14 +51,13 @@ const notLogged = async (req, res, next) => {
 
 const isHome = async (req, res, next) => {
 
-    try {
+    try { 
         if (req.cookies.token) {
             const decoded = await jwttoken.verifytoken(req.cookies.token);
             if (decoded) {
                 const user = await User.findOne({ _id: decoded._id, isBlocked: false });
-                console.log(user)
                 if (user === null) {
-                    next()
+                    next();
                 } else {
                     req.user = user
                     req.userid = decoded._id;

@@ -1,0 +1,128 @@
+<%- include ('layout/header.ejs') %>
+
+<% if(locals.product){ %>
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="/">Home </a>
+                    </li>
+                    <li><span> &gt; </span></li>
+                    <li>
+                        <a href="/shop">Shop </a>
+                    </li>
+                    <li><span> &gt; </span></li>
+                    <li class="active"> <%= locals.product.productname %> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<div class="product-details-area section-padding-1 pb-90">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="product-details-tab">
+                    <div class="product-dec-right pro-dec-big-img-slider">
+                        <div class="easyzoom-style">
+                            <div class="easyzoom easyzoom--overlay" data-zoom-factor="5">
+                                <a href="/images/<%= locals.product.mainimage %>">
+                                    <img src="/images/<%= locals.product.mainimage %>" alt="">
+                                </a>
+                            </div>
+                            <a class="easyzoom-pop-up img-popup" href="/images/<%= locals.product.mainimage %>"><i class="dlicon ui-1_zoom-in "></i></a>
+                        </div>
+                        <% for(let i=0; i< locals.product.image.length ; i++) { %>
+                        <div class="easyzoom-style">
+                            <div class="easyzoom easyzoom--overlay">
+                                <a href="/images/<%= locals.product.image[i] %>">
+                                    <img src="/images/<%= locals.product.image[i] %>" alt="">
+                                </a>
+                            </div>
+                            <a class="easyzoom-pop-up img-popup" href="/images/<%= locals.product.image[i] %>"><i class="dlicon ui-1_zoom-in "></i></a>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="product-dec-slider product-dec-left">
+                        <div class="product-dec-small active">
+                            <img src="/images/<%= locals.product.mainimage %>" alt="">
+                        </div>
+                        <% for(let i=0; i< locals.product.image.length ; i++) { %>
+                        <div class="product-dec-small">
+                            <img src="/images/<%= locals.product.image[i] %>" alt="">
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="product-details-col-90">
+                        <div class="product-details-content p-dec-content-edit">
+                            <div class="pro-dec-next-prev">
+                                <a class="prev" href="#"><i class="dlicon arrows-1_tail-left"></i></a>
+                                <a class="next" href="#"><i class="dlicon arrows-1_tail-right"></i></a>
+                            </div>
+                            <h2 class="uppercase"><%= locals.product.productname %></h2>
+                            <div class="product-details-ratting-wrap">
+                                <div class="product-details-ratting">
+                                    <i class="yellow fa fa-star"></i>
+                                    <i class="yellow fa fa-star"></i>
+                                    <i class="yellow fa fa-star"></i>
+                                    <i class="yellow fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <a href="#"> (1 customer review)</a>
+                            </div>
+                            <h3>RS. <%= locals.product.price %></h3>
+                            <div class="product-details-peragraph">
+                                <p> <%= locals.product.description %> </p>
+                            </div>
+                            <div class="product-details-action-wrap">
+                                <div class="affiliate-btn">
+                                    <a title="Add to Cart" href="#">Add to Cart</a>
+                                </div>
+                                <div class="product-details-wishlist affiliate-res-xs">
+                                    <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
+                                </div>
+                                <div class="product-details-compare affiliate-res-xs">
+                                    <a title="Add to compare" href="#"><i class="dlicon arrows-4_compare"></i></a>
+                                </div>
+                            </div>
+                            <div class="product-details-info">
+                                <a href="#">Stock <%= locals.product.stock %></a>
+                                <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
+                            </div>
+                            <div class="product-details-meta">
+                                <span>Categories: <%= locals.product.category_id.categoryname %> </span>
+                                <span>Brand: <%= locals.product.brand_id.brandname %>  </span>
+                            </div>
+                            <div class="social-icon-style-3">
+                                <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                                <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
+                                <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
+                                <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% } %>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/easyzoom/2.5.0/easyzoom.min.js"></script>
+    <script>
+
+        const easyzoom = new EasyZoom('#myEasyZoom', {
+        });
+        
+        const instance = easyzoom.data('easyZoom');
+        instance._options.zoomFactor = 5; 
+
+    </script>
+
+<%- include ('layout/footer.ejs') %>

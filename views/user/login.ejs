@@ -6,6 +6,18 @@
         }
     </script>
 
+    <script>
+            window.onload = function() {
+                if(window.location.href){
+                    if(window.location.href.split('?')[1] === 'msg=invalid'){
+                        console.log('entered');
+                        document.getElementById('err').innerHTML = 'User Blocked!!'
+                        history.replaceState(null, null,'http://localhost:5000/login')
+                    }
+                }
+            }
+    </script>
+
     <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
         <div class="container-fluid">
             <div class="breadcrumb-content text-center">
@@ -32,6 +44,7 @@
                             <% if(locals.err){ %>
                                 <p class="text-danger"><%= locals.err %></p>
                             <% } %>
+                            <p id="err" class="text-danger"></p>
                             <form id="loginForm" action="/login" method="post">
                                 <div class="sin-login-register">
                                     <label>Email address</label>

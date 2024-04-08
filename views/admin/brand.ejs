@@ -49,6 +49,7 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th></th>
                                             <th>Name</th>
                                             <th>Status</th>
                                             <th>Listed</th>
@@ -58,6 +59,7 @@
                                     <thead>
                                         <% if(locals.bData) {for (var i = 0; i < locals.bData.length; i++) { %>
                                         <tr>
+                                            <th><img src='/images/<%= locals.bData[i].image %>' style="width: 80px; height: 30px;"></th>
                                             <th><%= locals.bData[i].brandname  %></th>
                                             <% if(locals.bData[i].status === 1) { %>
                                                 <td><span class="badge rounded-pill alert-success">Active</span></td>

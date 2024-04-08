@@ -227,10 +227,38 @@ const editProduct = async (req, res) => {
 
 }
 
+
+const viewProduct = async (req, res) => {
+
+  try {
+    const id = req.query.id
+    const user = req.user
+    const product = await Product.findOne({ _id:id }).populate("category_id brand_id")
+    res.render('user/productDetails',{product,user})
+  } catch (error) {
+    console.log(error.message)
+  }
+
+}
+
+const viewShop = async (req, res) => {
+
+  try {
+    const user = req.user
+    const product = await Product.find({})
+    res.render('user/shop', {product,user})
+  } catch (error) {
+    console.log(error.message);
+  }
+
+}
+
 module.exports = {
 
   addProduct,
   getProducts,
-  editProduct
+  editProduct,
+  viewProduct,
+  viewShop
 
 }

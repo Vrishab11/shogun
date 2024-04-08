@@ -27,7 +27,6 @@ const notLogged = async (req, res, next) => {
             req.adminid = decoded.id
             res.redirect("/admin/dashboard")
         }else{
-            res.redirect('/admin/login')
             next()
         }
     }else{
