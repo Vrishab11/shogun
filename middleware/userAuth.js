@@ -4,54 +4,61 @@ const { decode } = require('jsonwebtoken');
 
 const isLogged = async (req, res, next) => {
 
-    if (req.cookies.token) {
-        const decoded = await jwttoken.verifytoken(req.cookies.token)
-        console.log(decoded);
-        if (decoded) {
-            const user = await User.findOne({ _id: decoded._id, isBlocked: false })
-            if (user === null) {
-                res.redirect('/login?msg=invalid');
+    try {
+        if (req.cookies.token) {
+            const decoded = await jwttoken.verifytoken(req.cookies.token)
+            console.log(decoded);
+            if (decoded) {
+                const user = await User.findOne({ _id: decoded._id, isBlocked: false })
+                if (user === null) {
+                    res.redirect('/login?msg=invalid');
+                } else {
+                    req.user = user
+                    req.userid = decoded._id;
+                    next();
+                }
             } else {
-                req.user = user
-                req.userid = decoded._id;
-                next();
+                res.redirect("/login")
             }
         } else {
             res.redirect("/login")
         }
-    } else {
-        res.redirect("/login")
+    } catch (err) {
+        console.log(er.message);
     }
-
 }
 
 
 const notLogged = async (req, res, next) => {
 
-    if (req.cookies.token != undefined) {
-        const decoded = await jwttoken.verifytoken(req.cookies.token);
-        if (decoded) {
-          const user = await User.findOne({ _id: decoded._id, isBlocked: false });
-          if (user === null) {
-            next();
-          } else {
-            req.userid = decoded._id;
-            res.redirect('/')
-          }
+    try {
+        if (req.cookies.token != undefined) {
+            const decoded = await jwttoken.verifytoken(req.cookies.token);
+            if (decoded) {
+                const user = await User.findOne({ _id: decoded._id, isBlocked: false });
+                if (user === null) {
+                    next();
+                } else {
+                    req.userid = decoded._id;
+                    res.redirect('/')
+                }
+            } else {
+                console.log("error in authentication")
+                next();
+            }
         } else {
-          console.log("error in authentication")
-          next();
+            next();
         }
-      } else {
-        next();
-      }
+    } catch (error) {
+        console.log(error.message);
+    }
 
 }
 
 
 const isHome = async (req, res, next) => {
 
-    try { 
+    try {
         if (req.cookies.token) {
             const decoded = await jwttoken.verifytoken(req.cookies.token);
             if (decoded) {
@@ -64,7 +71,7 @@ const isHome = async (req, res, next) => {
                     next();
                 }
             } else {
-               next()
+                next()
             }
         } else {
             next()

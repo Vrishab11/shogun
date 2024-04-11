@@ -4,8 +4,7 @@ const Mongoose = require("mongoose");
 const userSchema = Mongoose.Schema({
     fname: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     lname: {
         type: String,

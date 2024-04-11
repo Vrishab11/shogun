@@ -20,8 +20,8 @@
             <button type="submit" class="btn btn-primary">Verify Email</button>
 
             <!-- Add Resend OTP option -->
-            <div class="text-muted text-center pt-25" id="resend" style="display: none;">
-                <a href="/resend-otp">Resend OTP</a>
+            <div class="button" id="resend" style="display: none;">
+                <a href="#">Resend OTP</a>
             </div>
             <br>
             <br>
@@ -54,8 +54,10 @@
         }
     }
     window.onload = () => {
-        timerStart()    
-        console.log("kkkkk");
+        if(!localStorage.getItem('once')){
+            timerStart() 
+            localStorage.setItem('once',true)
+        }   
     }
 
 </script>

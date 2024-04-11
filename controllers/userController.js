@@ -61,6 +61,16 @@ const changePassword = async (req, res) => {
 
 }
 
+const forgotPassword = async (req, res) => {
+
+}
+
+const resendOtp = async (req, res) => {
+
+
+
+}
+
 const loadLogin = async (req, res) => {
   try {
     res.render('user/login')
@@ -97,11 +107,9 @@ const login = async (req, res) => {
 
 const loadRegister = async (req, res) => {
   try {
-    if (!req.session.user) {
+
       res.render('user/register')
-    } else {
-      res.redirect('/')
-    }
+    
   } catch (err) {
     console.log(err.message)
   }
@@ -149,23 +157,29 @@ const registerUser = async (req, res) => {
         })
         console.log(otp, "otp")
         if (info) {
+
           req.session.userOtp = otp
-          setTimeout(()=>req.session.userOtp = null,60000)
+          console.log('====>',req.session.userOtp);
+          setTimeout(()=>{
+            req.session.userOtp = null
+            req.session.save()
+            console.log('====>',req.session.userOtp);
+          },60000)
+
           req.session.userData = req.body
           res.redirect('/verifyotp')
-          console.log("Email sented", info.messageId)
         } else {
           res.json("email-error")
         }
       } else {
         console.log("User already Exist");
-        res.render("signup", {
+        res.render("user/signup", {
           message: "User with this email already exists",
         });
       }
     } else {
       console.log("the confirm pass is not matching")
-      res.render("signup", { message: "The confirm pass is not matching" })
+      res.render("user/register", { message: "The confirm pass is not matching" })
     }
   } catch (error) {
     console.log(error.message)
@@ -201,6 +215,8 @@ const verifyOtp = async (req, res) => {
   try {
 
     const { otp } = req.body
+    console.log(otp);
+    console.log("Session",req.session);
     if (otp === req.session.userOtp) {
       const user = req.session.userData
       const passwordHash = await securePassword(user.password)
