@@ -17,6 +17,7 @@ router.post('/register', userAuth.notLogged, userController.registerUser)
 
 router.get('/verifyotp', userAuth.notLogged, userController.getOtpPage)
 router.post('/verifyotp', userAuth.notLogged, userController.verifyOtp)
+router.post('/verifyotp/resendOtp', userAuth.notLogged, userController.resendOtp)
 
 router.get('/myAccount',userAuth.isLogged, userController.getProfile)
 router.post('/myAccount/changePass', userAuth.isLogged, userController.changePassword)

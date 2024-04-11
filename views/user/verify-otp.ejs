@@ -9,19 +9,21 @@
         <!-- Add your email verification modal content here -->
 
         <!-- Add OTP input field -->
-        <div id="timer"></div>
+        <div id="timer" class="text-muted text-center pt-10"></div>
         <form action="/verifyotp" method="post">
             <div class="form-group">
                 <label for="otp">Enter OTP:</label>
+                <br>
                 <input type="text" id="otp" name="otp" class="form-control" required>
             </div>
             <br>
             <!-- Add Verify Email button -->
             <button type="submit" class="btn btn-primary">Verify Email</button>
-
+            <br>
             <!-- Add Resend OTP option -->
-            <div class="button" id="resend" style="display: none;">
-                <a href="#">Resend OTP</a>
+            <br>
+            <div id="resend" style="display: none;">
+                <a href="#" id="resendLink" >Resend OTP</a>
             </div>
             <br>
             <br>
@@ -35,30 +37,69 @@
         <div class="text-muted text-center pt-25">
             Already verified? <a href="/login">Login now</a>
         </div>
+        <br>
+        <br>
     </div>
 </div>
 <script>
-    const timer = document.getElementById('timer')
-    const resend = document.getElementById('resend')
 
-    let seconds = 60;
 
-    function timerStart(){
-        timer.innerHTML = `00: ${seconds}`
-        if(seconds > 0){
-            seconds--
-            setTimeout(timerStart,1000)
-        }else{
-            timer.innerHTML = ''
-            resend.style.display = 'block'
+    document.addEventListener("DOMContentLoaded", function() {
+        var timeLimit = 60; // Time limit for OTP resend (in seconds)
+        var resendButton = document.getElementById("resend");
+        var resendLink = document.getElementById("resendLink");
+        var timerElement = document.getElementById("timer");
+        var lastResendTime = localStorage.getItem("otpResendTime");
+        
+        function startTimer(timeLeft) {
+            timerElement.innerHTML = "Resend OTP in " + timeLeft + " seconds";
+            var timerInterval = setInterval(function() {
+                timeLeft--;
+                localStorage.setItem('otpTime', timeLeft);
+                if (timeLeft < 0) {
+                    clearInterval(timerInterval);
+                    resendButton.style.display = "block";
+                    timerElement.innerHTML = "";
+                } else {
+                    timerElement.innerHTML = "Resend OTP in " + timeLeft + " seconds";
+                }
+            }, 1000);
         }
-    }
-    window.onload = () => {
-        if(!localStorage.getItem('once')){
-            timerStart() 
-            localStorage.setItem('once',true)
-        }   
-    }
+        
+        function initializeTimer() {
+            if (lastResendTime) {
+                var elapsedTime = Math.max(0, timeLimit - Math.floor((Date.now() - lastResendTime) / 1000));
+                if (elapsedTime === 0) {
+                    resendButton.style.display = "block";
+                } else {
+                    startTimer(elapsedTime);
+                }
+            } else {
+                resendButton.style.display = "none";
+            }
+        }
+
+        initializeTimer();
+        let times = localStorage.getItem('otpTime');
+        startTimer(times ? times : timeLimit);
+        
+        resendLink.addEventListener("click", function(event) {
+            // Make an AJAX request to resend OTP
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/verifyotp/resendOtp", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    // Handle successful response, if needed
+                    localStorage.setItem("otpResendTime", Date.now());
+                    resendButton.style.display = "none";
+                    startTimer(timeLimit);
+                }
+            };
+            xhr.send();
+            event.preventDefault();
+        });
+    })
 
 </script>
+
 <%- include('layout/footer.ejs') %>

@@ -13,46 +13,53 @@ const getHome = async (req, res) => {
 
     if (userId) {
       const user = await User.findById(userId);
-      if(user){
-        res.render('user/home', { user,product });
-      }else{
-        res.render('user/home',{product})
+      if (user) {
+        res.render('user/home', { user, product });
+      } else {
+        res.render('user/home', { product })
       }
     } else {
-      res.render('user/home',{product});
+      res.render('user/home', { product });
     }
   } catch (error) {
     console.log(error.message)
   }
 }
 
+const loadLogin = async (req, res) => {
+  try {
+    res.render('user/login')
+  } catch (error) {
+    console.log(error.message)
+  }
+}
 
 const getProfile = async (req, res) => {
- try {
-  id = req.userid
-  const user = await User.findById(id)
-  res.render('user/profile',{user})
- } catch (error) {
-  console.log(error.message)
- }
+  try {
+    id = req.userid
+    const user = await User.findById(id)
+    res.render('user/profile', { user })
+  } catch (error) {
+    console.log(error.message)
+  }
 }
 
 const changePassword = async (req, res) => {
 
   try {
-    const { password, npassword, cpassword} = req.body
+    const { password, npassword, cpassword } = req.body
     id = req.userid
     const user = await User.findById(id)
     const passtrue = await bcrypt.compare(password, user.password)
-    if(passtrue){
-      if( npassword === cpassword){
+    if (passtrue) {
+      if (npassword === cpassword) {
         const passwordHash = await securePassword(npassword)
-        await User.updateOne({_id: id},{password: passwordHash})
+        await User.updateOne({ _id: id }, { password: passwordHash })
         res.redirect('/myAccount')
-      }else{
+      } else {
         res.render('user/profile', { err: "Password does not Match!!" })
       }
-    }else{
+    } else {
       res.render('user/profile', { err: "Wrong Password" })
     }
   } catch (error) {
@@ -63,21 +70,15 @@ const changePassword = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
 
-}
-
-const resendOtp = async (req, res) => {
-
-
-
-}
-
-const loadLogin = async (req, res) => {
   try {
-    res.render('user/login')
+
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
+
 }
+
+
 
 const login = async (req, res) => {
   const { email, password } = req.body
@@ -108,8 +109,8 @@ const login = async (req, res) => {
 const loadRegister = async (req, res) => {
   try {
 
-      res.render('user/register')
-    
+    res.render('user/register')
+
   } catch (err) {
     console.log(err.message)
   }
@@ -132,7 +133,6 @@ const registerUser = async (req, res) => {
   try {
     console.log(req.body)
     const { fname, lname, email, mobile, password, cpassword } = req.body
-    console.log(fname, lname, email, mobile, password, cpassword)
     const findUser = await User.findOne({ email });
     if (req.body.password === req.body.cpassword) {
       if (!findUser) {
@@ -156,24 +156,28 @@ const registerUser = async (req, res) => {
           html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  </b>`,
         })
         console.log(otp, "otp")
+        
         if (info) {
 
           req.session.userOtp = otp
-          console.log('====>',req.session.userOtp);
-          setTimeout(()=>{
+          console.log('====>', req.session.userOtp);
+          setTimeout(() => {
             req.session.userOtp = null
             req.session.save()
-            console.log('====>',req.session.userOtp);
-          },60000)
+            console.log('====>', req.session.userOtp);
+          }, 60000)
 
           req.session.userData = req.body
+
+          console.log(req.session.userData);
+
           res.redirect('/verifyotp')
         } else {
           res.json("email-error")
         }
       } else {
         console.log("User already Exist");
-        res.render("user/signup", {
+        res.render("user/register", {
           message: "User with this email already exists",
         });
       }
@@ -189,34 +193,12 @@ const registerUser = async (req, res) => {
 
 
 
-function generateOtp() {
-  const digits = "1234567890";
-  var otp = "";
-  for (i = 0; i < 6; i++) {
-    otp += digits[Math.floor(Math.random() * 10)]
-  }
-  return otp
-}
-
-
-
-
-const getOtpPage = async (req, res) => {
-  try {
-    res.render("user/verify-otp")
-  } catch (err) {
-    console.log(err.message)
-  }
-}
-
-
-
 const verifyOtp = async (req, res) => {
   try {
 
     const { otp } = req.body
     console.log(otp);
-    console.log("Session",req.session);
+    console.log("Session", req.session);
     if (otp === req.session.userOtp) {
       const user = req.session.userData
       const passwordHash = await securePassword(user.password)
@@ -244,6 +226,64 @@ const verifyOtp = async (req, res) => {
 }
 
 
+const resendOtp = async (req, res) => {
+  try {
+
+    var newOtp = generateOtp();
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    })
+
+    const info = await transporter.sendMail({
+      from: process.env.NODEMAILER_EMAIL,
+      to: req.session.userData.email,
+      subject: "Verify Your Account ✔",
+      text: `Your newOtp is ${newOtp}`,
+      html: `<b>  <h4 >Your newOtp  ${newOtp}</h4>    <br>  </b>`,
+    })
+
+    if(info){
+      
+      console.log(newOtp, "newOtp")
+      req.session.userOtp = newOtp
+      res.redirect('/verifyotp')
+
+    }else{
+      console.log("Mail error");
+      res.redirect('/verifyotp')  
+    }
+    
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+
+function generateOtp() {
+  const digits = "1234567890";
+  var otp = "";
+  for (i = 0; i < 6; i++) {
+    otp += digits[Math.floor(Math.random() * 10)]
+  }
+  return otp
+}
+
+
+const getOtpPage = async (req, res) => {
+  try {
+    res.render("user/verify-otp")
+  } catch (err) {
+    console.log(err.message)
+  }
+}
 
 const securePassword = async (password) => {
   try {
@@ -273,6 +313,8 @@ module.exports = {
   registerUser,
   getOtpPage,
   verifyOtp,
+  resendOtp,
+  forgotPassword,
   changePassword,
   logout
 }
