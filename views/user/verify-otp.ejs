@@ -45,7 +45,7 @@
 
 
     document.addEventListener("DOMContentLoaded", function() {
-        var timeLimit = 60; // Time limit for OTP resend (in seconds)
+        var timeLimit = 60;
         var resendButton = document.getElementById("resend");
         var resendLink = document.getElementById("resendLink");
         var timerElement = document.getElementById("timer");
@@ -84,12 +84,10 @@
         startTimer(times ? times : timeLimit);
         
         resendLink.addEventListener("click", function(event) {
-            // Make an AJAX request to resend OTP
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/verifyotp/resendOtp", true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    // Handle successful response, if needed
                     localStorage.setItem("otpResendTime", Date.now());
                     resendButton.style.display = "none";
                     startTimer(timeLimit);

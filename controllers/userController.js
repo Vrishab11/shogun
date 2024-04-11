@@ -68,9 +68,52 @@ const changePassword = async (req, res) => {
 
 }
 
+const loadForgotPassword = async (req, res) => {
+
+  try {
+
+    res.render('user/forgotPass')
+
+  } catch (error) {
+    console.log(error.message);
+  }
+
+}
+
+
 const forgotPassword = async (req, res) => {
 
   try {
+
+    const { email } = req.body
+
+    const findUser = await User.findOne({ email })
+
+    if (findUser) {
+      var otp = generateOtp();
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+          user: process.env.NODEMAILER_EMAIL,
+          pass: process.env.NODEMAILER_PASSWORD,
+        },
+      })
+
+      const info = await transporter.sendMail({
+        from: process.env.NODEMAILER_EMAIL,
+        to: email,
+        subject: "Verify Your Account ✔",
+        text: `Your OTP is ${otp}`,
+        html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  </b>`,
+      })
+      console.log(otp, "otp")
+      req.session.userOtp = otp
+    }else{
+      res.render('user/forgotPass', { err: "User not registered" })
+    }
 
   } catch (error) {
     console.log(error.message);
@@ -314,6 +357,7 @@ module.exports = {
   getOtpPage,
   verifyOtp,
   resendOtp,
+  loadForgotPassword,
   forgotPassword,
   changePassword,
   logout

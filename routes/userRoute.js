@@ -10,6 +10,9 @@ router.get('/', userAuth.isHome, userController.getHome);
 router.get('/login', userAuth.notLogged, userController.loadLogin)
 router.post('/login', userAuth.notLogged, userController.login)
 
+router.get('/forgotPassword', userAuth.notLogged, userController.loadForgotPassword)
+router.post('/forgotPasswordOtp', userAuth.notLogged, userController.forgotPassword)
+
 router.get('/logout', userAuth.isLogged, userController.logout)
 
 router.get('/register', userAuth.notLogged, userController.loadRegister)
