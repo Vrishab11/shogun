@@ -79,8 +79,7 @@ const isHome = async (req, res, next) => {
     } catch (error) {
         console.log(error.message);
     }
-
-
+    
 }
 
 module.exports = {

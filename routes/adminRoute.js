@@ -26,6 +26,7 @@ router.post("/category", adminAuth.isLogged, upload.single('catimage'), category
 
 router.get("/editCategory", adminAuth.isLogged, categoryController.editCategory)
 router.post("/editCategory", adminAuth.isLogged, upload.single('catimage'), categoryController.updateCategory)
+router.get("/editCategory/listUnlist", adminAuth.isLogged, categoryController.categoryListUnlist)
 
 router.get("/brand", adminAuth.isLogged, brandController.loadBrand)
 router.post("/brand", adminAuth.isLogged, upload.single('bimage'), brandController.addBrand)
@@ -35,8 +36,10 @@ router.post("/editBrand", adminAuth.isLogged, upload.single('image'), brandContr
 
 router.get("/products", adminAuth.isLogged, productController.getProducts)
 router.post("/products", adminAuth.isLogged, upload.fields([{ name: "mainimage", maxCount: 1 },{ name: "imgs", maxCount: 4 }]), productController.addProduct)
+router.get('/products/listUnlist', adminAuth.isLogged, productController.productListUnlist)
 
 router.get("/editProduct", adminAuth.isLogged, productController.editProduct)
+router.post("/editProduct", adminAuth.isLogged, upload.fields([{ name: "mainimage", maxCount: 1 },{ name: "imgs", maxCount: 4 }]), productController.saveEditProduct)
 
 
 

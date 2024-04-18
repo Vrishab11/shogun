@@ -9,17 +9,17 @@ const bcrypt = require("bcryptjs");
 const getHome = async (req, res) => {
   try {
     const userId = req.userid;
-    const product = await Product.find({})
-
+    const product = await Product.find({isBlocked:0}).populate("category_id brand_id")
+    const allowedProducts = product.filter(pro=>pro.category_id.isListed === 0)
     if (userId) {
       const user = await User.findById(userId);
       if (user) {
-        res.render('user/home', { user, product });
+        res.render('user/home', { user, product:allowedProducts});
       } else {
-        res.render('user/home', { product })
+        res.render('user/home', { product:allowedProducts})
       }
     } else {
-      res.render('user/home', { product });
+      res.render('user/home', { product:allowedProducts});
     }
   } catch (error) {
     console.log(error.message)
@@ -109,8 +109,20 @@ const forgotPassword = async (req, res) => {
         text: `Your OTP is ${otp}`,
         html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  </b>`,
       })
+
       console.log(otp, "otp")
+
       req.session.userOtp = otp
+
+      setTimeout(() => {
+        req.session.userOtp = null
+        req.session.save()
+        console.log('====>', req.session.userOtp);
+      }, 60000)
+
+      req.session.data = findUser
+      res.render('user/resetPassOtp')
+
     }else{
       res.render('user/forgotPass', { err: "User not registered" })
     }
@@ -119,6 +131,64 @@ const forgotPassword = async (req, res) => {
     console.log(error.message);
   }
 
+}
+
+const resendOtpChangePass = async (req, res) => {
+  try {
+
+    var newOtp = generateOtp();
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    })
+
+    const info = await transporter.sendMail({
+      from: process.env.NODEMAILER_EMAIL,
+      to: req.session.data.email,
+      subject: "Verify Your Account ✔",
+      text: `Your newOtp is ${newOtp}`,
+      html: `<b>  <h4 >Your newOtp  ${newOtp}</h4>    <br>  </b>`,
+    })
+
+    if(info){
+      
+      console.log(newOtp, "newOtp")
+      req.session.userOtp = newOtp
+      res.redirect('/verifyotp')
+
+    }else{
+      console.log("Mail error");
+      res.redirect('/verifyotp')  
+    }
+    
+
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+const verifyChangePassOtp = async (req, res) =>{
+  try {
+
+    const {otp} = req.body
+
+    if(otp === req.session.otp){
+     
+      res.render('user/changePass')
+     
+    }else{
+      res.render('user/resetPassOtp')
+    }
+    
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 
@@ -359,6 +429,8 @@ module.exports = {
   resendOtp,
   loadForgotPassword,
   forgotPassword,
+  verifyChangePassOtp,
+  resendOtpChangePass,
   changePassword,
   logout
 }

@@ -151,7 +151,14 @@
                                     <div class="card-body">
                                       <h5 class="card-title cardhead"><%= pname %></h5>
                                       <div class="carddesc"><p class="card-text"><%= desc %></p></div>
-                                      <div class="cardprice mb-4"><div><a href="/admin/editProduct?id=<%= locals.products[i]._id %>">Edit</a></div><div><a href="#">List</a></div></div>
+                                      <br>
+                                      <div class="cardprice mb-4"><div><a href="/admin/editProduct?id=<%= locals.products[i]._id %>">Edit</a></div>
+                                      <% if(locals.products[i].isBlocked === 0) { %>
+                                        <div><button class="btn btn-sm btn-brand rounded font-sm mt-15 unlistbtn"  data-uid="<%= locals.products[i]._id%>">Unlist</button></div>
+                                      <%} else { %>
+                                        <div><button class="btn btn-sm btn-brand rounded font-sm mt-15 listbtn"  data-uid="<%= locals.products[i]._id%>">List</button></div>
+                                      <% } %>
+                                    </div>
                                       <% if(locals.products[i].stock === 0) { %>
                                         <div class="stockbadge1">Out of Stock</div>
                                     <% } else {%>
@@ -182,6 +189,7 @@
         </section>
         
 <script src="/public/js/product.js"></script>
+<script src="/public/js/productListUnlist.js"></script>
 
 <%- include('layout/footer.ejs') %>
 

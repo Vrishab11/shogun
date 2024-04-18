@@ -12,6 +12,8 @@ router.post('/login', userAuth.notLogged, userController.login)
 
 router.get('/forgotPassword', userAuth.notLogged, userController.loadForgotPassword)
 router.post('/forgotPasswordOtp', userAuth.notLogged, userController.forgotPassword)
+router.post('/changePassword', userAuth.notLogged, userController.verifyChangePassOtp)
+router.post('/changePassword/resendOtp', userAuth.notLogged, userController.resendOtpChangePass)
 
 router.get('/logout', userAuth.isLogged, userController.logout)
 
@@ -25,9 +27,9 @@ router.post('/verifyotp/resendOtp', userAuth.notLogged, userController.resendOtp
 router.get('/myAccount',userAuth.isLogged, userController.getProfile)
 router.post('/myAccount/changePass', userAuth.isLogged, userController.changePassword)
 
-router.get('/productDetails', userAuth.isLogged, productController.viewProduct)
+router.get('/productDetails', userAuth.isHome, productController.viewProduct)
 
-router.get('/shop', userAuth.isLogged, productController.viewShop)
+router.get('/shop', userAuth.isHome, productController.viewShop)
 
 
 

@@ -4,8 +4,7 @@ const Category = require("../models/categorySchema")
 
 const loadCategory = async (req, res) => {
   try {
-    const catdet = await Category.find({ isListed: 0 });
-    // console.log(catdet);
+    const catdet = await Category.find({});
     if (catdet != null) {
       res.render("admin/category", { catdet });
     } else {
@@ -87,10 +86,48 @@ const updateCategory = async (req, res) => {
   }
 };
 
+const categoryListUnlist = async (req, res) => {
+
+  try{
+    const { id } = req.query
+    const state = await Category.findById({_id:id})
+    if(state !== null){
+        if(state.isListed === 0){
+            const list = await Category.findOneAndUpdate(
+                {_id: id},
+                {$set: { isListed: 1}},
+                {new: 0}
+            )
+            if(list !== null){
+                res.json({unlist:"Category is listed"})
+            }else{
+                res.json({err:"Error in unlisting"})
+            }
+        }else{
+            const unlist = await Category.findOneAndUpdate(
+                {_id: id},
+                {$set: { isListed: 0}},
+                {new: 0}
+            )
+            if(unlist !== null){
+                res.json({list:"Category is unlisted"})
+            }else{
+                res.json({err:"Error in unlisting"})
+            }
+        }
+    }else{
+        console.log('No action performed')
+    }
+}catch(error){
+    console.log(error.message)
+}
+
+}
 
 module.exports = {
   loadCategory,
   addCategory,
   editCategory,
-  updateCategory
+  updateCategory,
+  categoryListUnlist
 }
