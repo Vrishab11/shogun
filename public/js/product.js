@@ -12,7 +12,6 @@ const imgs = document.getElementById('imgs');
 const main = document.getElementById('mainimage');
 
 
-
 const productNameError = document.getElementById('productNameError')
 const sizeError = document.getElementById('sizeError')
 const colorError = document.getElementById('colorError')
@@ -96,9 +95,9 @@ function stockVal(name)
         stockerr.innerHTML = "Please enter the stock."
         stockerr.style.display = "block"
     }
-    else if(name < 0)
+    else if(name <= 0)
     {
-        stockerr.innerHTML = "Stock should not be negative"
+        stockerr.innerHTML = "Stock should not be zero or negative"
         stockerr.style.display = "block"
     }
     else{
@@ -114,9 +113,9 @@ function priceVal(name)
         priceError.innerHTML = "Please enter the stock."
         priceError.style.display = "block"
     }
-    else if(name < 0)
+    else if(name <= 0)
     {
-        priceError.innerHTML = "Stock should not be negative"
+        priceError.innerHTML = "Stock should not be zero or negative"
         priceError.style.display = "block"
     }
     else{

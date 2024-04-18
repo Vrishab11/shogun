@@ -23,13 +23,14 @@ router.get('/viewUsers/blockUnblockUser', adminAuth.isLogged, usermanageControll
 
 router.get("/category", adminAuth.isLogged, categoryController.loadCategory)
 router.post("/category", adminAuth.isLogged, upload.single('catimage'), categoryController.addCategory)
+router.get("/category/listUnlist", adminAuth.isLogged, categoryController.categoryListUnlist)
 
 router.get("/editCategory", adminAuth.isLogged, categoryController.editCategory)
 router.post("/editCategory", adminAuth.isLogged, upload.single('catimage'), categoryController.updateCategory)
-router.get("/editCategory/listUnlist", adminAuth.isLogged, categoryController.categoryListUnlist)
 
 router.get("/brand", adminAuth.isLogged, brandController.loadBrand)
 router.post("/brand", adminAuth.isLogged, upload.single('bimage'), brandController.addBrand)
+router.get("/brand/listUnlist", adminAuth.isLogged, brandController.brandListUnlist)
 
 router.get("/editBrand", adminAuth.isLogged, brandController.editBrand)
 router.post("/editBrand", adminAuth.isLogged, upload.single('image'), brandController.updateBrand)

@@ -51,7 +51,6 @@
                                         <tr>
                                             <th></th>
                                             <th>Name</th>
-                                            <th>Status</th>
                                             <th>Listed</th>
                                             <th class="text-end">Action</th>
                                         </tr>
@@ -61,11 +60,6 @@
                                         <tr>
                                             <th><img src='/images/<%= locals.bData[i].image %>' style="width: 80px; height: 30px;"></th>
                                             <th><%= locals.bData[i].brandname  %></th>
-                                            <% if(locals.bData[i].status === 1) { %>
-                                                <td><span class="badge rounded-pill alert-success">Active</span></td>
-                                            <% }else{ %>
-                                                <td><span class="badge rounded-pill alert-success">Inactive</span></td>
-                                            <% } %>
                                             <% if(locals.bData[i].isListed == 0) { %>
                                                 <td><span class="badge rounded-pill alert-success ">Listed</span></td>
                                             <% }else{ %>
@@ -74,9 +68,9 @@
                                             <td class="text-end">
                                                 <a class="dropdown-item" href="/admin/editBrand?id=<%= locals.bData[i]._id  %>">Edit</a>
                                                 <% if(locals.bData[i].isListed === 0) { %>
-                                                    <a class="dropdown-item text-danger" href="#">Unlist</a>
+                                                    <button class="btn btn-sm btn-brand rounded font-sm mt-15 unlistbtn"  data-uid="<%= locals.bData[i]._id%>">Unlist</button>
                                                 <% }else{ %>
-                                                    <a class="dropdown-item text-safe" href="#">List</a>
+                                                    <button class="btn btn-sm btn-brand rounded font-sm mt-15 listbtn"  data-uid="<%= locals.bData[i]._id%>">List</button>
                                                 <% } %>  
                                             </td>
                                         </tr>
@@ -93,90 +87,6 @@
 <%- include('layout/footer.ejs') %>
 
 
-<script>
+<script src="/public/js/brand.js"></script>
+<script src="/public/js/brandListUnlist.js"></script>
 
-const bname = document.getElementById('bname')
-const bimage = document.getElementById('bimage')
-const bform = document.getElementById('bform')
-const error1 = document.getElementById('error1')
-const error2 = document.getElementById('error2')
-
-function notnull(data)
-{
-    if(data.trim()==="")
-    {
-        error1.innerHTML = "Please Enter Brand Name."
-        error1.style.display = "block"
-    }else if (data.trim().length === 0) {
-        error1.innerHTML = "Brand Name cannot be just whitespace.";
-        error1.style.display = "block";
-    } 
-    else{
-        error1.innerHTML = ""
-        error1.style.display = "none"
-    }
-}
-
-function imgval(data)
-{
-    if(data.length === 0)
-    {
-        error2.innerHTML = "Please Select an Image."
-        error2.style.display = "block"
-    }
-    else if(!data[0].type.startsWith('image/'))
-    {
-        error2.innerHTML = "Please Select Image files Only."
-        error2.style.display = "block"
-    }
-    else{
-        error2.innerHTML = ""
-        error2.style.display = "none"
-    }
-}
-
-bname.addEventListener('keyup',()=>{
-    const cdata = bname.value
-    notnull(cdata)
-})
-bname.addEventListener('blur',()=>{
-    const cdata = bname.value
-    notnull(cdata)
-})
-
-bimage.addEventListener('change',()=>{
-    const i1data = bimage.files
-    imgval(i1data)
-})
-
-bform.addEventListener('submit',(e)=>{
-
-    const cdata = bname.value
-    const i1data = bimage.files
-
-    imgval(i1data)
-    notnull(cdata)
-
-    if(error1.innerHTML !== "" || error2.innerHTML !== "" )
-    {
-        e.preventDefault()
-    }
-})
-
-
-document.getElementById('bimage').addEventListener('change', function(event) {
-    console.log('Yoooo');
-    const file = event.target.files[0];
-    const imagePreview = document.getElementById('imagePreview');
-
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-</script>

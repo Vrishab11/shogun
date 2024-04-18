@@ -4,7 +4,7 @@ const Brand = require("../models/brandSchema")
 
 const loadBrand = async (req, res) => {
     try {
-      const bData = await Brand.find({ isListed: 0 });
+      const bData = await Brand.find({});
       if (bData != null) {   
         res.render("admin/brand", {bData});
       } else {
@@ -82,12 +82,51 @@ const updateBrand = async (req, res) => {
   }
 }
 
+const brandListUnlist = async (req, res) => {
+
+  try{
+    const { id } = req.query
+    const state = await Brand.findById({_id:id})
+    if(state !== null){
+        if(state.isListed === 0){
+            const list = await Brand.findOneAndUpdate(
+                {_id: id},
+                {$set: { isListed: 1}},
+                {new: 0}
+            )
+            if(list !== null){
+                res.json({unlist:"Brand is listed"})
+            }else{
+                res.json({err:"Error in unlisting"})
+            }
+        }else{
+            const unlist = await Brand.findOneAndUpdate(
+                {_id: id},
+                {$set: { isListed: 0}},
+                {new: 0}
+            )
+            if(unlist !== null){
+                res.json({list:"Brand is unlisted"})
+            }else{
+                res.json({err:"Error in unlisting"})
+            }
+        }
+    }else{
+        console.log('No action performed')
+    }
+}catch(error){
+    console.log(error.message)
+}
+
+}
+
 
 module.exports ={
 
     loadBrand,
     addBrand,
     editBrand,
-    updateBrand
+    updateBrand,
+    brandListUnlist
 
 }

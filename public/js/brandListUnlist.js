@@ -2,14 +2,14 @@ const unlistbtn = document.querySelectorAll('.unlistbtn');
 const listbtn = document.querySelectorAll('.listbtn');
 
 function unlist(id) {
-    fetch(`/admin/category/listUnlist?id=${id}`)
+    fetch(`/admin/brand/listUnlist?id=${id}`)
         .then(res => res.json())
         .then(data => {
             if (data && data.unlist) {
                 window.location.reload();
                 console.log(data.unlist)
             } else {
-                console.log("Error: Category not unlisted.");
+                console.log("Error: Brand not unlisted.");
             }
         })
         .catch(err => {
@@ -18,14 +18,14 @@ function unlist(id) {
 }
 
 function list(id) {
-    fetch(`/admin/category/listUnlist?id=${id}`)
+    fetch(`/admin/brand/listUnlist?id=${id}`)
         .then(res => res.json())
         .then(data => {
             if (data && data.list) {
                 window.location.reload();
                 console.log(data.list)
             } else {
-                console.log("Error: Category not listed.");
+                console.log("Error: Brand not listed.");
             }
         })
         .catch(err => {
@@ -40,7 +40,7 @@ if (unlistbtn) {
         btn.addEventListener('click', () => {
             const id = btn.dataset.uid;
             console.log(id);
-            const confirmResult = confirm("Are you sure you want to list this category?");
+            const confirmResult = confirm("Are you sure you want to list this brand?");
             if (confirmResult) {
                 unlist(id);
             }
@@ -53,7 +53,7 @@ if (listbtn) {
         btn.addEventListener('click', () => {
             const id = btn.dataset.uid;
             console.log(id);
-            const confirmResult = confirm("Are you sure you want to unlist this category?");
+            const confirmResult = confirm("Are you sure you want to unlist this brand?");
             console.log(confirmResult);
             if (confirmResult) {
                 list(id);

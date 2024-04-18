@@ -1,6 +1,7 @@
 require("dotenv").config()
 const nodemailer = require("nodemailer")
 const jwttoken = require("../utils/jwt")
+const jwt = require("jsonwebtoken")
 const User = require("../models/userSchema")
 const Product = require("../models/productSchema")
 const bcrypt = require("bcryptjs");
@@ -80,17 +81,18 @@ const loadForgotPassword = async (req, res) => {
 
 }
 
-
-const forgotPassword = async (req, res) => {
-
+const sendEmail = async (req, res) => {
   try {
+    const { email } = req.body;
 
-    const { email } = req.body
+    const isRegisteredUser = await User.findOne({ email: email });
 
-    const findUser = await User.findOne({ email })
-
-    if (findUser) {
-      var otp = generateOtp();
+    if (isRegisteredUser) {
+      const payload = { id: isRegisteredUser._id };
+      const secret = process.env.JWT_secret + isRegisteredUser.password;
+      const token = jwt.sign(payload, secret, { expiresIn: "10m" })
+      const link = `http://localhost:5000/resetPassword?id=${isRegisteredUser._id}&token=${token}`;
+      console.log(link);
       const transporter = nodemailer.createTransport({
         service: "gmail",
         port: 587,
@@ -101,94 +103,79 @@ const forgotPassword = async (req, res) => {
           pass: process.env.NODEMAILER_PASSWORD,
         },
       })
-
-      const info = await transporter.sendMail({
+  
+      const mailSend = await transporter.sendMail({
         from: process.env.NODEMAILER_EMAIL,
         to: email,
-        subject: "Verify Your Account ✔",
-        text: `Your OTP is ${otp}`,
-        html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  </b>`,
+        subject: "Reset Password",
+        text: `Reset Password link ${link}`,
+        html: `<b>  <h4 >Reset Password link ${link}</h4>    <br>  </b>`,
       })
 
-      console.log(otp, "otp")
-
-      req.session.userOtp = otp
-
-      setTimeout(() => {
-        req.session.userOtp = null
-        req.session.save()
-        console.log('====>', req.session.userOtp);
-      }, 60000)
-
-      req.session.data = findUser
-      res.render('user/resetPassOtp')
-
-    }else{
-      res.render('user/forgotPass', { err: "User not registered" })
+      if (mailSend) {
+        console.log("mail");
+        res.render("user/forgotPass", {
+          success: "A link is send to your e-mail.",
+        });
+      }
+    } else {
+      res.render("user/forgotPass", 
+        { err: "User not registered" }
+      );
     }
-
   } catch (error) {
     console.log(error.message);
   }
+};
+
+
+
+const resetPassword = async (req, res) => {
+
+  try {
+    const { id, token } = req.query;
+    const matchUser = await User.find({_id: id})
+
+    console.log(matchUser);
+
+    if (matchUser.length > 0) {
+      if (token) {
+        const secret = process.env.JWT_secret + matchUser[0].password;
+        const isVerified = jwt.verify(token, secret);
+        console.log(isVerified);
+        if (isVerified) {
+          res.render("user/changePass", { id: matchUser[0]._id});
+        } else {
+          console.log("Error 1");
+        }
+      } else {
+        console.log("Error 2")
+      }
+    } else {
+      console.log("Error 3")
+    }
+  } catch (error) {
+    console.log(error.message);
+  }  
 
 }
 
-const resendOtpChangePass = async (req, res) => {
-  try {
+const saveResetPassword = async (req, res) => {
 
-    var newOtp = generateOtp();
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: process.env.NODEMAILER_EMAIL,
-        pass: process.env.NODEMAILER_PASSWORD,
-      },
-    })
+  try{
 
-    const info = await transporter.sendMail({
-      from: process.env.NODEMAILER_EMAIL,
-      to: req.session.data.email,
-      subject: "Verify Your Account ✔",
-      text: `Your newOtp is ${newOtp}`,
-      html: `<b>  <h4 >Your newOtp  ${newOtp}</h4>    <br>  </b>`,
-    })
-
-    if(info){
-      
-      console.log(newOtp, "newOtp")
-      req.session.userOtp = newOtp
-      res.redirect('/verifyotp')
-
+    const { id,npassword, cpassword } = req.body
+    if(npassword === cpassword) {
+      const passwordHash = await securePassword(npassword)
+      await User.updateOne({ _id: id }, { password: passwordHash })
+      res.redirect('/login')
     }else{
-      console.log("Mail error");
-      res.redirect('/verifyotp')  
+      console.log("Error Password Does not match");
     }
-    
-
-  } catch (error) {
+  }catch (error) {
     console.log(error.message);
   }
-}
 
-const verifyChangePassOtp = async (req, res) =>{
-  try {
-
-    const {otp} = req.body
-
-    if(otp === req.session.otp){
-     
-      res.render('user/changePass')
-     
-    }else{
-      res.render('user/resetPassOtp')
-    }
-    
-  } catch (error) {
-    console.log(error.message);
-  }
 }
 
 
@@ -380,6 +367,7 @@ const resendOtp = async (req, res) => {
 }
 
 
+
 function generateOtp() {
   const digits = "1234567890";
   var otp = "";
@@ -413,10 +401,6 @@ const securePassword = async (password) => {
 
 
 
-
-
-
-
 module.exports = {
   getHome,
   getProfile,
@@ -428,9 +412,11 @@ module.exports = {
   verifyOtp,
   resendOtp,
   loadForgotPassword,
-  forgotPassword,
-  verifyChangePassOtp,
-  resendOtpChangePass,
   changePassword,
+  sendEmail,
+  resetPassword,
+  saveResetPassword,
   logout
 }
+
+

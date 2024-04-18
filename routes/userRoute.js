@@ -11,9 +11,10 @@ router.get('/login', userAuth.notLogged, userController.loadLogin)
 router.post('/login', userAuth.notLogged, userController.login)
 
 router.get('/forgotPassword', userAuth.notLogged, userController.loadForgotPassword)
-router.post('/forgotPasswordOtp', userAuth.notLogged, userController.forgotPassword)
-router.post('/changePassword', userAuth.notLogged, userController.verifyChangePassOtp)
-router.post('/changePassword/resendOtp', userAuth.notLogged, userController.resendOtpChangePass)
+router.post('/forgotPassword', userAuth.notLogged, userController.sendEmail)
+
+router.get('/resetPassword', userAuth.notLogged, userController.resetPassword)
+router.post('/resetPassword', userAuth.notLogged, userController.saveResetPassword)
 
 router.get('/logout', userAuth.isLogged, userController.logout)
 

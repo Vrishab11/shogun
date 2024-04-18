@@ -10,15 +10,18 @@
                         <% if(locals.err){ %>
                             <p class="text-danger"><%= locals.err %></p>
                         <% } %>
+                        <% if(locals.success){ %>
+                            <p class="text" style="color: green;"><%= locals.success %></p>
+                        <% } %>
                         <p id="err" class="text-danger"></p>
-                        <form id="loginForm" action="/forgotPasswordOtp" method="post">
+                        <form id="loginForm" action="/forgotPassword" method="post">
                             <div class="sin-login-register">
                                 <label>Email address</label>
                                 <input type="text" name="email" id="email">
                             </div>
                             <div class="login-register-btn-remember">
                                 <div class="login-register-btn">
-                                    <button type="submit">Send OTP</button>
+                                    <button type="submit">Send Email</button>
                                 </div>
                             </div>
                         </form>

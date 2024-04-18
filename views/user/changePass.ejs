@@ -4,7 +4,13 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 offset-md-1" style="align-self: center;">
             <div class="login-register-wrap register-wrap">
-                <form id="changePass" action="/myAccount/changePass" method="post">
+                <br>
+                <br>
+                <h3><i class="fa fa-user-o"></i> Reset Password</h3>
+                <br>
+                <br>
+                <form id="resetPass" action="/resetPassword" method="post">
+                    <input type="hidden" id="id" name="id" value="<%= locals.id %>" >
         
                     <% if(locals.err) { %> 
                         <div class="error1 alert alert-danger w-75"><%= locals.err  %></div>
@@ -29,11 +35,14 @@
                         <button type="submit">Change Password</button>
                     </div>
                 </form>
+                <br>
+                <br>
             </div>
         </div>
     </div>
 </div>
-
-<script src="/public/js/changePass.js"></script>
+<br>
+<br>
+<script src="/public/js/resetpass.js"></script>
 
 <%- include ('layout/footer.ejs') %>
