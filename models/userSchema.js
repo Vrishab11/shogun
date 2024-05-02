@@ -34,6 +34,35 @@ const userSchema = Mongoose.Schema({
     isAdmin: {
         type: String,
         default: "0"
+    },
+    cart: {
+        type:[
+            {
+                product_id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref:'product'
+                },
+                qty: {
+                    type: Number
+                }
+            }
+        ],
+        default: []
+    },
+    wishlist: {
+        type:[
+            {
+                product_id: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref:'product'
+                }
+            }
+        ],
+        default: []
+    },
+    wallet: {
+        type: Number,
+        default: 0
     }
 });
 

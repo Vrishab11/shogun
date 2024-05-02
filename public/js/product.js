@@ -313,3 +313,92 @@ addProductForm.addEventListener('submit',(e)=>{
         e.preventDefault()
     }
 })
+
+
+document.getElementById('mainimage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    const imagePreviewContainer = document.getElementById('imagePreview');
+
+    imagePreviewContainer.innerHTML = '';
+
+    if (file) {
+        const reader = new FileReader();
+        const imagePreview = document.createElement('img');
+        const removeButton = document.createElement('button');
+
+        imagePreview.className = 'preview-image';
+        imagePreview.style.display = 'none';
+        imagePreview.src = '';
+        imagePreview.alt = 'Preview';
+        imagePreview.style.maxWidth = '100px';
+        imagePreview.style.maxHeight = '100px';
+
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+
+        removeButton.textContent = 'X';
+        removeButton.className = 'remove-image-btn';
+        removeButton.addEventListener('click', function() {
+            imagePreviewContainer.removeChild(imagePreview);
+            imagePreviewContainer.removeChild(removeButton);
+            document.getElementById('mainimage').value = '';
+        });
+
+        imagePreviewContainer.appendChild(imagePreview);
+        imagePreviewContainer.appendChild(removeButton);
+    }
+});
+
+
+
+document.getElementById('imgs').addEventListener('change', function(event) {
+    const files = event.target.files;
+    const imagePreviewsContainer = document.getElementById('imagePreviews');
+    const fileInputs = [];
+
+    imagePreviewsContainer.innerHTML = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        if (file) {
+            const reader = new FileReader();
+            const imagePreviewContainer = document.createElement('div');
+            const imagePreview = document.createElement('img');
+            const removeButton = document.createElement('button');
+
+            imagePreviewContainer.className = 'preview-image-container';
+            imagePreview.className = 'preview-image';
+            imagePreview.style.display = 'none';
+            imagePreview.src = '';
+            imagePreview.alt = 'Preview';
+            imagePreview.style.maxWidth = '100px';
+            imagePreview.style.maxHeight = '100px';
+
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+
+            removeButton.textContent = 'X';
+            removeButton.className = 'remove-image-btn';
+            removeButton.addEventListener('click', function() {
+                imagePreviewsContainer.removeChild(imagePreviewContainer);
+                fileInputs.forEach(function(input) {
+                    input.value = '';
+                });
+            });
+
+            imagePreviewContainer.appendChild(imagePreview);
+            imagePreviewContainer.appendChild(removeButton);
+            imagePreviewsContainer.appendChild(imagePreviewContainer);
+
+            fileInputs.push(document.getElementById('imgs'));
+        }
+    }
+});

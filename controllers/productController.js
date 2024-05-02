@@ -26,12 +26,7 @@ const addProduct = async (req, res) => {
       brandname,
       procategory,
       price,
-      stock,
-      cropvaluesmain,
-      cropvaluesimg1,
-      cropvaluesimg2,
-      cropvaluesimg3,
-      cropvaluesimg4,
+      stock
     } = req.body;
 
     let protrim = productname.trim();

@@ -76,16 +76,12 @@
                                 <div>
                                     <label for="mainimage">Main Image</label>
                                     <input type="file" id="mainimage" name="mainimage" class="form-control" >
-                                    <input type="hidden" id="cropvaluesmain" name="cropvaluesmain" >
+                                    <div class="row mb-2" id="imagePreview"></div>
                                     <p class="perror mb-2" id="error6" style="display: none;"></p>
-                                    <div class="preview1" id="preview1"></div>
                                     <br>
                                     <label for="imgs">Image</label>
                                     <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
-                                    <input type="hidden" id="cropvaluesimg1" name="cropvaluesimg1" >
-                                    <input type="hidden" id="cropvaluesimg2" name="cropvaluesimg2" >
-                                    <input type="hidden" id="cropvaluesimg3" name="cropvaluesimg3" >
-                                    <input type="hidden" id="cropvaluesimg4" name="cropvaluesimg4" >
+                                    <div class="row mb-8" id="imagePreviews"></div>
                                     <p class="perror mb-2" id="error7" style="display: none;"></p>
                                 </div>
                             </div>
@@ -190,6 +186,7 @@
         
 <script src="/public/js/product.js"></script>
 <script src="/public/js/productListUnlist.js"></script>
+
 
 <%- include('layout/footer.ejs') %>
 

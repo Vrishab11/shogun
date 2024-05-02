@@ -1,8 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const userAuth = require("../middleware/userAuth")
+
 const userController = require("../controllers/userController") 
 const productController = require("../controllers/productController")
-const userAuth = require("../middleware/userAuth")
+const cartController = require("../controllers/cartController")
+
 
 
 router.get('/', userAuth.isHome, userController.getHome);
@@ -32,6 +35,10 @@ router.get('/productDetails', userAuth.isHome, productController.viewProduct)
 
 router.get('/shop', userAuth.isHome, productController.viewShop)
 
+router.get('/cart', userAuth.isLogged, cartController.viewCart)
+router.get('/addToCart', userAuth.isLogged, cartController.addToCart)
+
+router.get('/checkout', userAuth.isLogged, cartController.checkout)
 
 
 module.exports = router

@@ -79,30 +79,23 @@
                                 <p> <%= locals.product.description %> </p>
                             </div>
                             <div class="product-details-action-wrap">
-                                <div class="affiliate-btn">
-                                    <a title="Add to Cart" href="#">Add to Cart</a>
+                                <div class="product-details-quality">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" id="qty" value="1" readonly>
+                                    </div>
                                 </div>
+                                <button class="affiliate-btn" id="addToCart">Add to Cart</button>
                                 <div class="product-details-wishlist affiliate-res-xs">
                                     <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
                                 </div>
-                                <div class="product-details-compare affiliate-res-xs">
-                                    <a title="Add to compare" href="#"><i class="dlicon arrows-4_compare"></i></a>
-                                </div>
                             </div>
                             <div class="product-details-info">
-                                <a href="#">Stock <%= locals.product.stock %></a>
+                                <a href="#">Stock : <%= locals.product.stock %></a>
                                 <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
                             </div>
                             <div class="product-details-meta">
-                                <span>Categories: <%= locals.product.category_id.categoryname %> </span>
-                                <span>Brand: <%= locals.product.brand_id.brandname %>  </span>
-                            </div>
-                            <div class="social-icon-style-3">
-                                <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
-                                <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
-                                <a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a>
-                                <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
-                                <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                                <span>Category : <%= locals.product.category_id.categoryname %> </span>
+                                <span>Brand : <%= locals.product.brand_id.brandname %>  </span>
                             </div>
                         </div>
                     </div>
@@ -115,14 +108,23 @@
 <% } %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/easyzoom/2.5.0/easyzoom.min.js"></script>
-    <script>
+<script>
 
-        const easyzoom = new EasyZoom('#myEasyZoom', {
-        });
+    const easyzoom = new EasyZoom('#myEasyZoom', {
+    });
         
-        const instance = easyzoom.data('easyZoom');
-        instance._options.zoomFactor = 5; 
+    const instance = easyzoom.data('easyZoom');
+    instance._options.zoomFactor = 5; 
 
-    </script>
+</script>
+
+<script>
+    document.getElementById('qty').addEventListener('change', function() {
+        var value = parseInt(this.value);
+        if (isNaN(value) || value < 1) {
+            this.value = 1;
+        }
+    });
+</script>
 
 <%- include ('layout/footer.ejs') %>
