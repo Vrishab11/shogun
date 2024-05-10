@@ -69,7 +69,6 @@ bform.addEventListener('submit',(e)=>{
 
 
 document.getElementById('bimage').addEventListener('change', function(event) {
-    console.log('Yoooo');
     const file = event.target.files[0];
     const imagePreview = document.getElementById('imagePreview');
 

@@ -65,17 +65,20 @@ const updateCategory = async (req, res) => {
     const catname = req.body.catName;
     const status = req.body.status;
     const catimage = req.file;
-    console.log(req.body)
-    console.log(req.file);
     const cat = await Category.find({ categoryname: catname })
     const catdata = await Category.findById({ _id: id })
-    if (cat) {
+    if (cat.length  && !cat[0]._id.equals(id)) {
       res.render("admin/editCategory", {
         data: catdata,
         message: "Category already exists!!",
       });
     } else {
-      const updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status, image: catimage.filename } }, { new: true });
+      let updatedCategory
+      if(req.file){
+        updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status, image: catimage.filename } }, { new: true });
+      }else{
+       updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status } }, { new: true });
+      }
       console.log(updatedCategory)
       res.redirect("/admin/category");
     }

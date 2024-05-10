@@ -19,7 +19,7 @@
                                     <input type="hidden" name="id" class="form-control" value="<%= locals.product._id %>" >
                                     <label for="productname" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here" class="form-control" id="productname" name="productname" value="<%= locals.product.productname %>">
-                                    <p class="perror mb-2" id="productNameError" style="display: none;"></p>
+                                    <p class="perror mb-2" id="productNameError" style="display: none; color: red;"></p>
                                 </div>
                                 <div class="row gx-3">
                                     <div class="col-md-4 mb-3">
@@ -32,7 +32,7 @@
                                             <option value="XL">XL</option>
                                             <option value="XXL">XXL</option>
                                         </select>
-                                    <p class="perror mb-2" id="sizeError" style="display: none;"></p>
+                                    <p class="perror mb-2" id="sizeError" style="display: none; color: red;"></p>
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="color" class="form-label">Color</label>
@@ -43,11 +43,12 @@
                                             <option value="Green">Green</option>
                                             <option value="Yellow">Yellow</option>
                                         </select>
-                                        <p class="perror mb-2" id="colorError" style="display: none;"></p>
+                                        <p class="perror mb-2" id="colorError" style="display: none; color: red;"></p>
                                     </div>
                                     <div class="col-md-4  mb-3">
                                         <label for="stock" class="form-label">Stock</label>
                                         <input type="number" placeholder="Type here" class="form-control" value="<%= locals.product.stock %>" id="stock" name="stock">
+                                        <p class="perror mb-2" id="stockerr" style="display: none; color: red;"></p>
                                     </div>
                                 </div>
                                 <div class="mb-4">
@@ -58,7 +59,7 @@
                                         <option value="<%= locals.brand[i]._id %>"><%= locals.brand[i].brandname %></option>
                                         <%} } } %>
                                     </select>
-                                    <p class="perror mb-2" id="brandError" style="display: none;"></p>
+                                    <p class="perror mb-2" id="brandError" style="display: none;color: red;"></p>
                                 </div>
                             </div>
                         </div> <!-- card end// -->
@@ -67,6 +68,7 @@
                                 <div>
                                     <label for="description" class="form-label">Description</label>
                                     <textarea placeholder="Type here" class="form-control" rows="4" id="description" name="description"><%= locals.product.description %></textarea>
+                                    <p class="perror mb-2" id="descError" style="display: none; color: red;"></p>
                                 </div>
                             </div>
                         </div> <!-- card end// -->
@@ -78,15 +80,11 @@
                                     <input type="hidden" id="cropvaluesmain" name="cropvaluesmain">
                                     <br>                                    
                                     <img src="/images/<%= locals.product.mainimage %>" alt="..." data-filename="<% locals.product.mainimage %>" style=" height: 80px; width: 80px;"> 
-                                    <p class="perror mb-2" id="error6" style="display: none;"></p>
+                                    <p class="perror mb-2" id="error6" style="display: none; color: red;"></p>
                                     <div class="preview1" id="preview1" ></div>
                                     <br>
                                     <label for="imgs"> Image</label>
                                     <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
-                                    <input type="hidden" id="cropvaluesimg1" name="cropvaluesimg1" >
-                                    <input type="hidden" id="cropvaluesimg2" name="cropvaluesimg2" >
-                                    <input type="hidden" id="cropvaluesimg3" name="cropvaluesimg3" >
-                                    <input type="hidden" id="cropvaluesimg4" name="cropvaluesimg4" >
                                     <br>
                                     <% for(let i=0; i< locals.product.image.length ; i++) { %>
                                         <img src="/images/<%= locals.product.image[i] %>" alt="..." data-filename="<%= locals.product.image[i] %>" style=" height: 80px; width: 80px;"> 
@@ -101,7 +99,7 @@
                                 <div class="mb-4">
                                     <label class="form-label">Price</label>
                                     <input type="number" placeholder="Type here" class="form-control" value="<%= locals.product.price %>" id="price" name="price">
-                                    <p class="perror mb-2" id="priceError" style="display: none;"></p>
+                                    <p class="perror mb-2" id="priceError" style="display: none; color: red;"></p>
                                 </div>
                                 <div class="mb-4">
                                     <select name="procategory" class="form-control" id="procategory">
@@ -111,7 +109,7 @@
                                             <option value="<%= locals.category[i]._id %>"><%= locals.category[i].categoryname %></option>
                                             <% } } } %>
                                     </select>        
-                                    <p class="perror mb-2" id="catError" style="display: none;"></p>                                    
+                                    <p class="perror mb-2" id="catError" style="display: none; color: red;"></p>                                    
                                 </div>
                             </div>
                         </div> <!-- card end// -->

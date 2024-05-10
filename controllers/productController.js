@@ -83,11 +83,11 @@ const editProduct = async (req, res) => {
 
   try {
     const id = req.query.id
-    const prodata = await Product.findOne({ _id:id }).populate( "category_id brand_id")
+    const prodata = await Product.findOne({ _id: id }).populate("category_id brand_id")
     console.log(prodata);
     const bdata = await Brand.find({ status: 1 })
     const cdata = await Category.find({ status: 0 })
-    res.render('admin/editProduct',{ product:prodata, brand: bdata, category: cdata })
+    res.render('admin/editProduct', { product: prodata, brand: bdata, category: cdata })
   } catch (error) {
     console.log(error.message)
   }
@@ -96,15 +96,22 @@ const editProduct = async (req, res) => {
 
 const saveEditProduct = async (req, res) => {
 
-try{  
-  const id = req.body.id
-  const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs} = req.body
-  await Product.updateOne({_id:id},{productname:productname, size:size, color:color, stock:stock, brand_id:brandname, category_id: procategory, description:description, mainimage:mainimage, image:imgs})
-  res.redirect('/admin/products')
-}catch(error){
-  console.log(error.message)
-} 
-
+  try {
+    const id = req.body.id
+    const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs } = req.body
+    if (mainimage.length !== 0 && imgs.length !== 0) {
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs })
+    } else if (mainimage.length === 0 && imgs.length !== 0) {
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs })
+    } else if (mainimage.length !== 0 && imgs.length === 0) {
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage })
+    } else {
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description })
+    }
+    res.redirect('/admin/products')
+  } catch (error) {
+    console.log(error.message)
+  }
 
 }
 
@@ -114,9 +121,8 @@ const viewProduct = async (req, res) => {
   try {
     const id = req.query.id
     const user = req.user
-    const product = await Product.findOne({ _id:id }).populate("category_id brand_id")
-    // console.log(product)
-    res.render('user/productDetails',{product,user})
+    const product = await Product.findOne({ _id: id }).populate("category_id brand_id")
+    res.render('user/productDetails', { product, user })
   } catch (error) {
     console.log(error.message)
   }
@@ -127,9 +133,9 @@ const viewShop = async (req, res) => {
 
   try {
     const user = req.user
-    const product = await Product.find({isBlocked:0}).populate("category_id brand_id")
-    const allowedProducts = product.filter(pro=>pro.category_id.isListed === 0)
-    res.render('user/shop', {product:allowedProducts,user})
+    const product = await Product.find({ isBlocked: 0 }).populate("category_id brand_id")
+    const allowedProducts = product.filter(pro => pro.category_id.isListed === 0)
+    res.render('user/shop', { product: allowedProducts, user })
   } catch (error) {
     console.log(error.message);
   }
@@ -138,39 +144,39 @@ const viewShop = async (req, res) => {
 
 const productListUnlist = async (req, res) => {
 
-  try{
+  try {
     const { id } = req.query
-    const state = await Product.findById({_id:id})
-    if(state !== null){
-        if(state.isBlocked === 0){
-            const list = await Product.findOneAndUpdate(
-                {_id: id},
-                {$set: { isBlocked: 1}},
-                {new: 0}
-            )
-            if(list !== null){
-                res.json({unlist:"Product is listed"})
-            }else{
-                res.json({err:"Error in unlisting"})
-            }
-        }else{
-            const unlist = await Product.findOneAndUpdate(
-                {_id: id},
-                {$set: { isBlocked: 0}},
-                {new: 0}
-            )
-            if(unlist !== null){
-                res.json({list:"Product is unlisted"})
-            }else{
-                res.json({err:"Error in unlisting"})
-            }
+    const state = await Product.findById({ _id: id })
+    if (state !== null) {
+      if (state.isBlocked === 0) {
+        const list = await Product.findOneAndUpdate(
+          { _id: id },
+          { $set: { isBlocked: 1 } },
+          { new: 0 }
+        )
+        if (list !== null) {
+          res.json({ unlist: "Product is listed" })
+        } else {
+          res.json({ err: "Error in unlisting" })
         }
-    }else{
-        console.log('No action performed')
+      } else {
+        const unlist = await Product.findOneAndUpdate(
+          { _id: id },
+          { $set: { isBlocked: 0 } },
+          { new: 0 }
+        )
+        if (unlist !== null) {
+          res.json({ list: "Product is unlisted" })
+        } else {
+          res.json({ err: "Error in unlisting" })
+        }
+      }
+    } else {
+      console.log('No action performed')
     }
-}catch(error){
+  } catch (error) {
     console.log(error.message)
-}
+  }
 
 }
 
