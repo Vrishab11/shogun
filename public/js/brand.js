@@ -68,16 +68,40 @@ bform.addEventListener('submit',(e)=>{
 })
 
 
-document.getElementById('bimage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
+document.addEventListener('DOMContentLoaded', function() {
+    const catimageInput = document.getElementById('bimage');
     const imagePreview = document.getElementById('imagePreview');
+    const closeButton = document.getElementById('closeButton');
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            imagePreview.src = e.target.result;
-            imagePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+    if (catimageInput) {
+        catimageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    closeButton.style.display = 'block';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.src = '#';
+                imagePreview.style.display = 'none';
+                closeButton.style.display = 'none';
+            }
+        });
+
+        closeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
+            closeButton.style.display = 'none';
+            catimageInput.value = '';
+        });
+    } else {
+        console.error('File input element not found');
     }
 });

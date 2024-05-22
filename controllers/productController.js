@@ -133,7 +133,7 @@ const viewShop = async (req, res) => {
 
   try {
     const user = req.user
-    const product = await Product.find({ isBlocked: 0 }).populate("category_id brand_id")
+    const product = await Product.find({$and:[ {isBlocked: 0}, {stock : {$gt:5}} ]}).populate("category_id brand_id")
     const allowedProducts = product.filter(pro => pro.category_id.isListed === 0)
     res.render('user/shop', { product: allowedProducts, user })
   } catch (error) {

@@ -10,10 +10,7 @@ function notnull(data)
     {
         error1.innerHTML = "Please Enter Category Name."
         error1.style.display = "block"
-    }else if (data.trim().length === 0) {
-        error1.innerHTML = "Category Name cannot be just whitespace.";
-        error1.style.display = "block";
-    } 
+    }
     else{
         error1.innerHTML = ""
         error1.style.display = "none"
@@ -52,19 +49,6 @@ catimage.addEventListener('change',()=>{
     imgval(i1data)
 })
 
-catform.addEventListener('submit',(e)=>{
-
-    const cdata = catname.value
-    const i1data = catimage.files
-
-    imgval(i1data)
-    notnull(cdata)
-
-    if(error1.innerHTML !== "" || error2.innerHTML !== "" )
-    {
-        e.preventDefault()
-    }
-})
 
 document.addEventListener('DOMContentLoaded', function() {
     const catimageInput = document.getElementById('catimage');
@@ -103,3 +87,20 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('File input element not found');
     }
 });
+
+
+
+catform.addEventListener('submit',(e)=>{
+
+    const cdata = catname.value
+    const i1data = catimage.files
+    if(i1data.length){
+        imgval(i1data)
+    }
+    notnull(cdata)
+
+    if(error1.innerHTML !== "" || error2.innerHTML !== "")
+    {
+        e.preventDefault()
+    }
+})

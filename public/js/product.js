@@ -323,15 +323,17 @@ document.getElementById('mainimage').addEventListener('change', function(event) 
 
     if (file) {
         const reader = new FileReader();
-        const imagePreview = document.createElement('img');
-        const removeButton = document.createElement('button');
+        const imagePreviewCont = document.createElement('div');
+            const imagePreview = document.createElement('img');
+            const removeButton = document.createElement('button');
 
-        imagePreview.className = 'preview-image';
-        imagePreview.style.display = 'none';
-        imagePreview.src = '';
-        imagePreview.alt = 'Preview';
-        imagePreview.style.maxWidth = '100px';
-        imagePreview.style.maxHeight = '100px';
+            imagePreviewCont.className = 'preview-image-container';
+            imagePreview.className = 'preview-image';
+            imagePreview.style.display = 'none';
+            imagePreview.src = '';
+            imagePreview.alt = 'Preview';
+            imagePreview.style.maxWidth = '100px';
+            imagePreview.style.maxHeight = '100px';
 
         reader.onload = function(e) {
             imagePreview.src = e.target.result;
@@ -341,14 +343,16 @@ document.getElementById('mainimage').addEventListener('change', function(event) 
 
         removeButton.textContent = 'X';
         removeButton.className = 'remove-image-btn';
+        removeButton.style.right = '1rem';
         removeButton.addEventListener('click', function() {
-            imagePreviewContainer.removeChild(imagePreview);
-            imagePreviewContainer.removeChild(removeButton);
+            imagePreviewCont.removeChild(imagePreview);
+            imagePreviewCont.removeChild(removeButton);
             document.getElementById('mainimage').value = '';
         });
 
-        imagePreviewContainer.appendChild(imagePreview);
-        imagePreviewContainer.appendChild(removeButton);
+        imagePreviewCont.appendChild(imagePreview);
+        imagePreviewCont.appendChild(removeButton);
+        imagePreviewContainer.appendChild(imagePreviewCont);
     }
 });
 

@@ -7,7 +7,6 @@ const isLogged = async (req, res, next) => {
     try {
         if (req.cookies.token) {
             const decoded = await jwttoken.verifytoken(req.cookies.token)
-            console.log(decoded);
             if (decoded) {
                 const user = await User.findOne({ _id: decoded._id, isBlocked: false })
                 if (user === null) {
@@ -43,7 +42,6 @@ const notLogged = async (req, res, next) => {
                     res.redirect('/')
                 }
             } else {
-                console.log("error in authentication")
                 next();
             }
         } else {

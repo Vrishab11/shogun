@@ -24,7 +24,6 @@ const notLogged = async (req, res, next) => {
     try {
         if (req.cookies.admintoken != undefined) {
             const decoded = await jwttoken.verifytoken(req.cookies.admintoken)
-            console.log(decoded)
             if (decoded) {
                 req.adminid = decoded.id
                 res.redirect("/admin/dashboard")

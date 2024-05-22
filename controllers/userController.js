@@ -4,7 +4,7 @@ const jwttoken = require("../utils/jwt")
 const jwt = require("jsonwebtoken")
 const User = require("../models/userSchema")
 const Product = require("../models/productSchema")
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs")
 
 
 const getHome = async (req, res) => {
@@ -129,7 +129,6 @@ const sendEmail = async (req, res) => {
 };
 
 
-
 const resetPassword = async (req, res) => {
 
   try {
@@ -234,13 +233,13 @@ const registerUser = async (req, res) => {
     console.log(req.body)
     const { fname, lname, email, mobile, password, cpassword } = req.body
     const findUser = await User.findOne({ email });
-    if (req.body.password === req.body.cpassword) {
+    if (password === cpassword) {
       if (!findUser) {
         var otp = generateOtp();
         const transporter = nodemailer.createTransport({
           service: "gmail",
           port: 587,
-          secure: false,
+          secure: true,
           requireTLS: true,
           auth: {
             user: process.env.NODEMAILER_EMAIL,
@@ -258,18 +257,13 @@ const registerUser = async (req, res) => {
         console.log(otp, "otp")
         
         if (info) {
-
           req.session.userOtp = otp
-          console.log('====>', req.session.userOtp);
           setTimeout(() => {
             req.session.userOtp = null
             req.session.save()
-            console.log('====>', req.session.userOtp);
           }, 60000)
 
           req.session.userData = req.body
-
-          console.log(req.session.userData);
 
           res.redirect('/verifyotp')
         } else {
@@ -282,8 +276,8 @@ const registerUser = async (req, res) => {
         });
       }
     } else {
-      console.log("the confirm pass is not matching")
-      res.render("user/register", { message: "The confirm pass is not matching" })
+      console.log("Password is not Matching")
+      res.render("user/register", { message: "The password is not matching" })
     }
   } catch (error) {
     console.log(error.message)
@@ -312,9 +306,14 @@ const verifyOtp = async (req, res) => {
       })
 
       await saveUserData.save()
-
+      const id = saveUserData._id
+      const payload = {
+        _id: id,
+      };
+      const token = jwttoken.createtoken(payload);
+      res.cookie("token", token, { secure: true, httpOnly: true })
+      res.redirect('/')
       req.session.user = saveUserData._id
-      res.redirect("/login")
     } else {
       console.log("otp not matching");
       res.render('user/verify-otp', { message: "Wrong OTP" })

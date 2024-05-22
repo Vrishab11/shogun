@@ -22,8 +22,8 @@ const addToCart = async (req, res) => {
           if (qty <= pdata.stock) {
             const updatedCart = await User.findByIdAndUpdate(
               { _id: uid },
-              { $addToSet: { cart: { product_id: id, qty: qty } } },
-              { new: true }
+              { $addToSet: { cart: { product_id: id, qty: qty } } }, 
+              { new: true } 
             )
             if (updatedCart) {
               res.json({ data: "Added to Cart Succesfully." })

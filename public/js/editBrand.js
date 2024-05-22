@@ -1,6 +1,6 @@
-const catname = document.getElementById('catName')
-const catimage = document.getElementById('catimage')
-const catform = document.getElementById('catform')
+const bname = document.getElementById('bname')
+const image = document.getElementById('image')
+const bform = document.getElementById('bform')
 const error1 = document.getElementById('error1')
 const error2 = document.getElementById('error2')
 
@@ -10,10 +10,7 @@ function notnull(data)
     {
         error1.innerHTML = "Please Enter Category Name."
         error1.style.display = "block"
-    }else if (data.trim().length === 0) {
-        error1.innerHTML = "Category Name cannot be just whitespace.";
-        error1.style.display = "block";
-    } 
+    }
     else{
         error1.innerHTML = ""
         error1.style.display = "none"
@@ -38,36 +35,23 @@ function imgval(data)
     }
 }
 
-catname.addEventListener('keyup',()=>{
-    const cdata = catname.value
+bname.addEventListener('keyup',()=>{
+    const cdata = bname.value
     notnull(cdata)
 })
-catname.addEventListener('blur',()=>{
-    const cdata = catname.value
+bname.addEventListener('blur',()=>{
+    const cdata = bname.value
     notnull(cdata)
 })
 
-catimage.addEventListener('change',()=>{
-    const i1data = catimage.files
+image.addEventListener('change',()=>{
+    const i1data = image.files
     imgval(i1data)
 })
 
-catform.addEventListener('submit',(e)=>{
-
-    const cdata = catname.value
-    const i1data = catimage.files
-
-    imgval(i1data)
-    notnull(cdata)
-
-    if(error1.innerHTML !== "" || error2.innerHTML !== "" )
-    {
-        e.preventDefault()
-    }
-})
 
 document.addEventListener('DOMContentLoaded', function() {
-    const catimageInput = document.getElementById('catimage');
+    const catimageInput = document.getElementById('image');
     const imagePreview = document.getElementById('imagePreview');
     const closeButton = document.getElementById('closeButton');
 
@@ -103,3 +87,20 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('File input element not found');
     }
 });
+
+
+bform.addEventListener('submit',(e)=>{
+
+    const cdata = bname.value
+    const i1data = image.files
+
+    if(i1data.length){
+        imgval(i1data)
+    }
+    notnull(cdata)
+
+    if(error1.innerHTML !== "" || error2.innerHTML !== "")
+    {
+        e.preventDefault()
+    }
+})

@@ -36,10 +36,14 @@
                                                 <label for="img1"> Image</label>
                                                 <input type="file" id="image" name="image" class="form-control" accept="image/*">
                                                 <br>
-                                                <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100px; max-height: 100px;">
+                                                <div class="row col-md-4">
+                                                    <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100px; max-height: 100px;">
+                                                    <button id="closeButton" style="display: none; color: red;">X</button>
+                                                </div>
                                                 <p class="perror mb-2" id="error2" style="display: none; color: red;"></p>
+                                                <br><br>
                                                 <P>Old Image</P>
-                                                <img id="imagePreview" src="/images/<%= locals.bData.image %>" alt="Image Preview" style="display: none; max-width: 100px; max-height: 100px;">
+                                                <img src="/images/<%= locals.bData.image %>" alt="Image Preview" style="max-width: 100px; max-height: 100px;">
                                             </div>
                                     </div>
                                 <% } %>
@@ -56,103 +60,4 @@
 <%- include('layout/footer.ejs') %>
 
 
-<script>
-
-const bname = document.getElementById('bname')
-const image = document.getElementById('image')
-const bform = document.getElementById('bform')
-const error1 = document.getElementById('error1')
-const error2 = document.getElementById('error2')
-
-function notnull(data)
-{
-    if(data.trim()==="")
-    {
-        error1.innerHTML = "Please Enter Category Name."
-        error1.style.display = "block"
-    }
-    else{
-        error1.innerHTML = ""
-        error1.style.display = "none"
-    }
-}
-
-function imgval(data)
-{
-    if(data.length === 0)
-    {
-        error2.innerHTML = "Please Select an Image."
-        error2.style.display = "block"
-    }
-    else if(!data[0].type.startsWith('image/'))
-    {
-        error2.innerHTML = "Please Select Image files Only."
-        error2.style.display = "block"
-    }
-    else{
-        error2.innerHTML = ""
-        error2.style.display = "none"
-    }
-}
-
-bname.addEventListener('keyup',()=>{
-    const cdata = bname.value
-    notnull(cdata)
-})
-bname.addEventListener('blur',()=>{
-    const cdata = bname.value
-    notnull(cdata)
-})
-
-image.addEventListener('change',()=>{
-    const i1data = image.files
-    imgval(i1data)
-})
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const catimageInput = document.getElementById('image');
-    const imagePreview = document.getElementById('imagePreview');
-
-    if (catimageInput) {
-        catimageInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.src = '#';
-                imagePreview.style.display = 'none';
-            }
-        });
-    } else {
-        console.error('File input element not found');
-    }
-});
-
-
-
-bform.addEventListener('submit',(e)=>{
-
-    const cdata = bname.value
-    const i1data = image.files
-
-    if(i1data.length){
-        imgval(i1data)
-    }
-    notnull(cdata)
-
-    if(error1.innerHTML !== "" || error2.innerHTML !== "")
-    {
-        e.preventDefault()
-    }
-})
-
-</script>
+<script src="/public/js/editBrand.js"></script>
