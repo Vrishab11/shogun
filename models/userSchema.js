@@ -2,6 +2,10 @@ const { default: mongoose } = require("mongoose");
 const Mongoose = require("mongoose");
 
 const userSchema = Mongoose.Schema({
+    date:{
+        type:Date,
+        default:Date.now()
+      },
     fname: {
         type: String,
         required: true

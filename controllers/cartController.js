@@ -53,9 +53,28 @@ const checkout = async (req, res) => {
 
 }
 
+const deleteCart = async (req, res) => {
+  try {
+    const id = req.userid;
+    const { proid } = req.query;
+    const delspec = await User.findByIdAndUpdate(
+      { _id: id },
+      { $pull: { cart: { product_id: proid } } }
+    );
+    if (delspec) {
+      res.json({ data: "Item removed from Cart!!" });
+    } else {
+      res.json({ err: "Failed" });
+    }
+  } catch (error) {
+    console.log(err.message);
+  }
+};
+
 
 module.exports = {
     viewCart,
     addToCart,
-    checkout
+    checkout,
+    deleteCart
 }

@@ -1,0 +1,137 @@
+<%- include("layout/header.ejs") %>
+
+<style>
+
+    .button {
+        background-color: #d94545;
+        color: white;
+        border: none;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+</style>
+
+<div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
+            <div class="container-fluid">
+                <div class="breadcrumb-content text-center">
+                    <div class="breadcrumb-title">
+                        <ul>
+                            <li>
+                                <a href="/">Home </a>
+                            </li>
+                            <li><span> &gt; </span></li>
+                            <li class="active"> My Account </li>
+                        </ul>
+
+                        <h2>My Account</h2>
+                        <br>
+                        <div>
+                            <h4>Name : <%= locals.user.fname %> <%= locals.user.lname %></h4>
+                            <h4>Email : <%= locals.user.email %> </h4>
+                            <h4>Mobile : <%= locals.user.mobile %> </h4>
+                        </div>
+
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my-account-area pb-95">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-12">
+                        <div class="myaccount-tab-menu nav" role="tablist">
+                            <a href="/myAccount" >Change Password</a>
+                            <a href="#orders" > Orders</a>
+                            <a href="/addresses" class="active">Address</a>
+                            <a href="/logout"> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <main class="promain pb-5">
+        <section class="products pt-5 pt-sm-5">
+            <div class="container ">
+                <div class="row px-4">
+                    <h2 class=" mt-4 mb-3">ADD ADDRESS</h2>
+                    <div class="addaddress col-md-12 mt-4">
+                        <div class="card">
+                            <div class="card-body addressbody ">
+                                <form action="/addAddress" id="addressform" method="post">
+                                    <div class="combine my-4">
+                                        <div class="addfield ">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="name" name="name">
+                                        <p class="error1 mb-2" id="nameerror" style="display: none;"></p>
+                                        </div>
+                                        <div class="addfield ">
+                                            <label for="mobile">Mobile</label>
+                                            <input type="number" id="mobile" name="mobile">
+                                        <p class="error1 mb-2" id="mobileerror" style="display: none;"></p>
+                                            </div>
+                                    </div>
+
+                                    <div class="combine my-4">
+                                            <div class="addfield ">
+                                            <label for="district">District</label>
+                                            <input type="text" id="district" name="district">
+                                            <p class="error1 mb-2" id="districterror" style="display: none;"></p>
+
+                                            </div>
+                                            <div class="addfield ">
+                                                <label for="pin">Pincode</label>
+                                                <input type="number" id="pin" name="pincode">
+                                                <p class="error1 mb-2" id="pinerror" style="display: none;"></p>
+
+                                            </div>
+                                    </div>
+
+                                    <div class="combine my-4">
+                                    <div class="addfield ">
+                                    <label for="country">Country</label>
+                                    <select name="country" class="form-control" id="country">                               
+                                        <option value="" selected="selected">--Select Country--</option>
+                                        
+                                    </select>
+                                    <p class="error1 mb-2" id="countryerror" style="display: none;"></p>
+                                    </div>
+                                    <div class="addfield ">
+                                        <label for="state">State</label>
+                                        <select name="state" class="form-control" id="state">                               
+                                            <option value="" selected="selected">--Select State--</option>
+                                        </select>
+                                        <p class="error1 mb-2" id="stateerror" style="display: none;"></p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="addfield1 my-4">
+                                        <label for="street">Street Address</label>
+                                        <textarea name="streetAddress" id="streetAddress" cols="30" rows="5" class="form-control"></textarea>
+                                        <p class="perror mb-2" id="streeterror" style="display: none;"></p>
+                                    </div>
+                                    <div class="addfield1 my-4">
+                                        <label for="landmark">Landmark</label>
+                                        <textarea name="landmark" id="landmark" cols="30" rows="5" class="form-control"></textarea>
+                                        <p class="perror mb-2" id="landerror" style="display: none;"></p>
+                                    </div>
+
+                                    <div ><button class="button mt-5 mb-4 text-center" type="submit">Add Address</button></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+        </section>
+    </main>
+<script src="public/js/addaddress.js"></script>
+<%- include("layout/footer.ejs") %>

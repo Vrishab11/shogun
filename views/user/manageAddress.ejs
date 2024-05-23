@@ -1,0 +1,114 @@
+<%- include('layout/header.ejs') %>
+
+<style>
+
+    .button {
+        background-color: #d94545;
+        color: white;
+        border: none;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+</style>
+
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <ul>
+                        <li>
+                            <a href="/">Home </a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> My Account </li>
+                    </ul>
+
+                    <h2>My Account</h2>
+                    <br>
+                    <div>
+                        <h4>Name : <%= locals.user.fname %> <%= locals.user.lname %></h4>
+                        <h4>Email : <%= locals.user.email %> </h4>
+                        <h4>Mobile : <%= locals.user.mobile %> </h4>
+                    </div>
+
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="my-account-area pb-95">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-12">
+                        <div class="myaccount-tab-menu nav" role="tablist">
+                            <a href="/myAccount" >Change Password</a>
+                            <a href="#orders" > Orders</a>
+                            <a href="/addresses" class="active">Address</a>
+                            <a href="/logout"> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <main class="promain pb-5">
+        <section class="products pt-5 pt-sm-5">
+            <div class="container ">
+                <div class="row px-4">
+                    <h2 class=" mt-4 mb-3">ADDRESSES</h2>
+                    <div class="checkaddress col-md-12 mt-4">
+                        <div class="card">
+                            <div class="card-body checkaddbody">
+                                <div class="head">
+                                    <h4 class="card-title  fw-bold my-4">Manage Addresses</h4> 
+                                    <br>
+                                    <a href="/addaddress"><button class="button" type="button">Add Address</button></a>
+                                </div>
+                                <br>
+                                <div class="card">
+                                    <% if(locals.addData && locals.addData.length > 0) { locals.addData.forEach(element => { %>
+                                        <div class="card-body addresscard">
+                                            <!-- <input type="radio" name="address" value=""> -->
+                                            <div class="address address1">
+                                                <h6>Name : <%= element.name %></h6>
+                                                <p>Mobile : <%= element.mobile %></p>
+                                                <p>StreetAddress : <%= element.streetAddress %></p>
+                                                <p>Landmark : <%= element.landmark %></p>
+                                                <p>District : <%= element.district %></p>
+                                                <p>State : <%= element.state %></p>
+                                                <p>Country : <%= element.country %></p>
+                                                <p>Pincode : <%= element.pincode %></p>
+                                            </div>
+                                            <div class="addaction">
+                                                <a href="/editAddress?id=<%= element._id %>"><button class="button" type="button" >&nbsp;&nbsp;&nbsp;&nbsp;Edit Address&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
+                                                <a href="/removeAddress?id=<%= element._id %>"><button class="button" type="button">Remove Address</button></a>
+                                            </div>
+                                        </div>     
+                                    <% }) } else { %> 
+                                
+                                    <div class="card-body h-100 d-flex justify-content-center align-items-center addresscard">
+                                        <div class="card-title d-flex flex-column justify-content-center align-items-center ">
+                                        <img src="/public/images/logo.png" alt="" width="550rem" height="200rem">
+                                        <br>
+                                        <h2>No Address Added!!</h2>
+                                        </div>
+                                    </div>
+
+                                    <% } %>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<%- include('layout/footer.ejs') %>

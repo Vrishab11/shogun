@@ -1,5 +1,29 @@
 <%- include ('layout/header.ejs') %>
 
+<style>
+
+    .button {
+        background-color: #d94545;
+        color: white;
+        border: none;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+    .button:hover {
+        -webkit-transform: translateY(-2px);
+        transform: translateY(-2px);
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+    }
+
+</style>
+
 <% if(locals.product){ %>
     <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
         <div class="container-fluid">
@@ -84,7 +108,7 @@
                                         <input class="cart-plus-minus-box" type="text" name="qtybutton" id="qty" value="1" readonly>
                                     </div>
                                 </div>
-                                <button class="affiliate-btn" id="addToCart">Add to Cart</button>
+                                <button class="button" id="addToCart">Add to Cart</button>
                                 <div class="product-details-wishlist affiliate-res-xs">
                                     <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
                                 </div>
