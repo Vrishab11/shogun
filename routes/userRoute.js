@@ -7,8 +7,6 @@ const productController = require("../controllers/productController")
 const cartController = require("../controllers/cartController")
 const addressController = require("../controllers/addressController")
 
-
-
 router.get('/', userAuth.isHome, userController.getHome);
 
 router.get('/login', userAuth.notLogged, userController.loadLogin)

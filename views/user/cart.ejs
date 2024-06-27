@@ -26,6 +26,7 @@
                                             <th>total</th>
                                         </tr>
                                     </thead>
+                                    <% for(let i=0; i< udata.cart.length ; i++) {%>
                                         <tbody>
                                             <tr>
                                                 <td class="product-remove">
@@ -34,19 +35,19 @@
                                                 <td class="product-img">
                                                     <a href="#"><img src="assets/images/cart/cart-1.jpg" alt=""></a>
                                                 </td>
-                                                <td class="product-name"><a href="#"><%= udata.cart.product_id.productname %></a></td>
-                                                <td class="product-price"><span class="amount"><%= udata.cart.product_id.price %></span></td>
+                                                <td class="product-name"><a href="#"><%= udata.cart[i].product_id.productname %></a></td>
+                                                <td class="product-price"><span class="amount"><%= udata.cart[i].product_id.price %></span></td>
                                                 <td class="cart-quality">
                                                     <div class="product-details-quality quality-width-cart">
                                                         <div class="cart-plus-minus">
-                                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                                            <input class="cart-plus-minus-box" type="text" name="qty" id="qty" value="<%= udata.cart[i].qty %>">
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="product-total"><span>$110.00</span></td>
+                                                <td class="product-total"><span><%= total = udata.cart[i].product_id.price * udata.cart[i].qty %></span></td>
                                             </tr>
                                         </tbody>
-                                    <% } %>
+                                    <% }} %>
                                 </table>
                             </div>
                             <div class="cart-shiping-update-wrapper">

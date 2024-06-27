@@ -398,8 +398,6 @@ const securePassword = async (password) => {
 
 
 
-
-
 module.exports = {
   getHome,
   getProfile,

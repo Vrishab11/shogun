@@ -5,6 +5,7 @@ const viewCart = async (req, res) => {
     try{
         const uid = req.userid;
         const udata = await User.findById({ _id: uid }).populate("cart.product_id")
+        console.log(udata.cart)
         res.render("user/cart", { udata })
     }catch(err){
         console.log(err.message)
@@ -18,7 +19,7 @@ const addToCart = async (req, res) => {
         const { id, qty } = req.query
         const isExist = await User.find({ _id: uid, "cart.product_id": id })
         if (isExist.length === 0) {
-          const pdata = await Product.findById({ _id: id })
+          const pdata = await Product.findById({ _id: id }) 
           if (qty <= pdata.stock) {
             const updatedCart = await User.findByIdAndUpdate(
               { _id: uid },
@@ -26,6 +27,8 @@ const addToCart = async (req, res) => {
               { new: true } 
             )
             if (updatedCart) {
+              pdata.stock = pdata.stock- 1;
+              pdata.save();
               res.json({ data: "Added to Cart Succesfully." })
             } else {
               res.json({ err: "Failed in Adding." })

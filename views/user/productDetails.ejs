@@ -42,84 +42,85 @@
             </div>
         </div>
     </div>
-<div class="product-details-area section-padding-1 pb-90">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="product-details-tab">
-                    <div class="product-dec-right pro-dec-big-img-slider">
-                        <div class="easyzoom-style">
-                            <div class="easyzoom easyzoom--overlay" data-zoom-factor="5">
-                                <a href="/images/<%= locals.product.mainimage %>">
-                                    <img src="/images/<%= locals.product.mainimage %>" alt="">
-                                </a>
+    <div class="product-details-area section-padding-1 pb-90">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product-details-tab">
+                        <div class="product-dec-right pro-dec-big-img-slider">
+                            <div class="easyzoom-style">
+                                <div class="easyzoom easyzoom--overlay" data-zoom-factor="5">
+                                    <a href="/images/<%= locals.product.mainimage %>">
+                                        <img src="/images/<%= locals.product.mainimage %>" alt="">
+                                    </a>
+                                </div>
+                                <a class="easyzoom-pop-up img-popup" href="/images/<%= locals.product.mainimage %>"><i class="dlicon ui-1_zoom-in "></i></a>
                             </div>
-                            <a class="easyzoom-pop-up img-popup" href="/images/<%= locals.product.mainimage %>"><i class="dlicon ui-1_zoom-in "></i></a>
-                        </div>
-                        <% for(let i=0; i< locals.product.image.length ; i++) { %>
-                        <div class="easyzoom-style">
-                            <div class="easyzoom easyzoom--overlay">
-                                <a href="/images/<%= locals.product.image[i] %>">
-                                    <img src="/images/<%= locals.product.image[i] %>" alt="">
-                                </a>
+                            <% for(let i=0; i< locals.product.image.length ; i++) { %>
+                            <div class="easyzoom-style">
+                                <div class="easyzoom easyzoom--overlay">
+                                    <a href="/images/<%= locals.product.image[i] %>">
+                                        <img src="/images/<%= locals.product.image[i] %>" alt="">
+                                    </a>
+                                </div>
+                                <a class="easyzoom-pop-up img-popup" href="/images/<%= locals.product.image[i] %>"><i class="dlicon ui-1_zoom-in "></i></a>
                             </div>
-                            <a class="easyzoom-pop-up img-popup" href="/images/<%= locals.product.image[i] %>"><i class="dlicon ui-1_zoom-in "></i></a>
+                            <% } %>
                         </div>
-                        <% } %>
-                    </div>
-                    <div class="product-dec-slider product-dec-left">
-                        <div class="product-dec-small active">
-                            <img src="/images/<%= locals.product.mainimage %>" alt="">
+                        <div class="product-dec-slider product-dec-left">
+                            <div class="product-dec-small active">
+                                <img src="/images/<%= locals.product.mainimage %>" alt="">
+                            </div>
+                            <% for(let i=0; i< locals.product.image.length ; i++) { %>
+                            <div class="product-dec-small">
+                                <img src="/images/<%= locals.product.image[i] %>" alt="">
+                            </div>
+                            <% } %>
                         </div>
-                        <% for(let i=0; i< locals.product.image.length ; i++) { %>
-                        <div class="product-dec-small">
-                            <img src="/images/<%= locals.product.image[i] %>" alt="">
-                        </div>
-                        <% } %>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="product-details-col-90">
-                        <div class="product-details-content p-dec-content-edit">
-                            <div class="pro-dec-next-prev">
-                                <a class="prev" href="#"><i class="dlicon arrows-1_tail-left"></i></a>
-                                <a class="next" href="#"><i class="dlicon arrows-1_tail-right"></i></a>
-                            </div>
-                            <h2 class="uppercase"><%= locals.product.productname %></h2>
-                            <div class="product-details-ratting-wrap">
-                                <div class="product-details-ratting">
-                                    <i class="yellow fa fa-star"></i>
-                                    <i class="yellow fa fa-star"></i>
-                                    <i class="yellow fa fa-star"></i>
-                                    <i class="yellow fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="product-details-col-90">
+                            <div class="product-details-content p-dec-content-edit">
+                                <div class="pro-dec-next-prev">
+                                    <a class="prev" href="#"><i class="dlicon arrows-1_tail-left"></i></a>
+                                    <a class="next" href="#"><i class="dlicon arrows-1_tail-right"></i></a>
                                 </div>
-                                <a href="#"> (1 customer review)</a>
-                            </div>
-                            <h3>RS. <%= locals.product.price %></h3>
-                            <div class="product-details-peragraph">
-                                <p> <%= locals.product.description %> </p>
-                            </div>
-                            <div class="product-details-action-wrap">
-                                <div class="product-details-quality">
-                                    <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" id="qty" value="1" readonly>
+                                <h2 class="uppercase"><%= locals.product.productname %></h2>
+                                <div class="product-details-ratting-wrap">
+                                    <div class="product-details-ratting">
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="yellow fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <a href="#"> (1 customer review)</a>
+                                </div>
+                                <h3>RS. <%= locals.product.price %></h3>
+                                <div class="product-details-peragraph">
+                                    <p> <%= locals.product.description %> </p>
+                                </div>
+                                <div class="product-details-action-wrap">
+                                    <div class="product-details-quality">
+                                        <div class="cart-plus-minus">
+                                            <input class="cart-plus-minus-box" type="text" name="qty" id="qty" value="1" readonly>
+                                        </div>
+                                    </div>
+                                    <button class="button" id="addToCart" data-productid="<%= locals.product._id %>">Add to Cart</button>
+                                    <div class="product-details-wishlist affiliate-res-xs">
+                                        <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
                                     </div>
                                 </div>
-                                <button class="button" id="addToCart">Add to Cart</button>
-                                <div class="product-details-wishlist affiliate-res-xs">
-                                    <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
+                                <div class="product-details-info">
+                                    <a href="#">Stock : <%= locals.product.stock %></a>
+                                    <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
                                 </div>
-                            </div>
-                            <div class="product-details-info">
-                                <a href="#">Stock : <%= locals.product.stock %></a>
-                                <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
-                            </div>
-                            <div class="product-details-meta">
-                                <span>Category : <%= locals.product.category_id.categoryname %> </span>
-                                <span>Brand : <%= locals.product.brand_id.brandname %>  </span>
+                                <div class="product-details-meta">
+                                    <span>Category : <%= locals.product.category_id.categoryname %> </span>
+                                    <span>Brand : <%= locals.product.brand_id.brandname %>  </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,20 +128,9 @@
             </div>
         </div>
     </div>
-</div>
-
 <% } %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/easyzoom/2.5.0/easyzoom.min.js"></script>
-<script>
-
-    const easyzoom = new EasyZoom('#myEasyZoom', {
-    });
-        
-    const instance = easyzoom.data('easyZoom');
-    instance._options.zoomFactor = 5; 
-
-</script>
 
 <script>
     document.getElementById('qty').addEventListener('change', function() {
@@ -150,5 +140,8 @@
         }
     });
 </script>
+
+
+<script src="/public/js/cart.js"></script>
 
 <%- include ('layout/footer.ejs') %>

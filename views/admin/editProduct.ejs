@@ -37,7 +37,7 @@
                                     <div class="col-md-4 mb-3">
                                         <label for="color" class="form-label">Color</label>
                                         <select class="form-select" id="color" name="color">
-                                            <option value="">Select Color</option>
+                                            <option value="<%= locals.product.color %>"><%= locals.product.color %></option>
                                             <option value="Red">Red</option>
                                             <option value="Blue">Blue</option>
                                             <option value="Green">Green</option>
@@ -116,6 +116,8 @@
                     </div>
                     <% } %>
                 </form>
+            </div>
+        </div>
     </div>
 </section>
 
