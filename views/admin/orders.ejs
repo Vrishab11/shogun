@@ -1,0 +1,82 @@
+<%-include ("layout/header.ejs") %>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order List </h2>
+            <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+        </div>
+    
+    </div>
+   
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col" class="text-end"> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     
+
+                        <% for (let i = 0; i < orders.length; i++) { %>
+                            
+                            <tr>
+                            <td><%= orders[i]._id %></td>
+                            <td><b><%= orders[i].address_id.name %></b></td>
+                            <td><%= orders[i].address_id.mobile %></td>
+                            <td><%= orders[i].total_amount %></td>
+                            <td>
+                              <% if (orders[i].status == "Canceled") { %>
+                                  <span class="badge rounded-pill alert-danger"><%= orders[i].status %></span>
+                              <% } else if (orders[i].status == "Confirmed") { %>
+                                  <span class="badge rounded-pill alert-warning"><%= orders[i].status %></span>
+                              <% } else if (orders[i].status == "Shipped") { %>
+                                  <span class="badge rounded-pill alert-primary"><%= orders[i].status %></span>
+                              <% } else if (orders[i].status == "Delivered") { %>
+                                  <span class="badge rounded-pill alert-success"><%= orders[i].status %></span>
+                              <% } else if (orders[i].status == "Pending") { %>
+                                  <span class="badge rounded-pill alert-warning"><%= orders[i].status %></span>
+                              <% } %> 
+                          </td>
+                          
+                            
+                            <td><%= orders[i].date.toDateString() %></td>
+                            <td class="text-end">
+                                <a href="/admin/orderDetails?id=<%= orders[i]._id %>" class="btn btn-md rounded font-sm">Summary</a>
+                               
+                            </td>
+                        </tr>
+
+
+                       
+                            
+                      <%  } %>
+
+
+
+
+                       
+                       
+                    </tbody>
+                </table>
+
+            
+                    
+       
+                
+                
+            </div> <!-- table-responsive //end -->
+        </div> <!-- card-body end// -->
+    </div> <!-- card end// -->
+   
+</section>
+
+<%-include ("layout/footer.ejs") %>

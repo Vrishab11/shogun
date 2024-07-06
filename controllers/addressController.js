@@ -57,9 +57,19 @@ const saveAddress = async (req, res) => {
       landmark,
     };
 
+    const addressCount = await Address.countDocuments({ user_id: uid });
+    const limit = 3;
+
+    if (addressCount >= limit) {
+      const oldestAddress = await Address.findOne({ user_id: uid }).sort({ _id: 1 });
+      if (oldestAddress) {
+        await Address.deleteOne({ _id: oldestAddress._id });
+      }
+    }
+
     const addressAdd = await Address.create(addressdata);
     if (addressAdd != null) {
-      res.redirect("/addresses");
+      res.redirect("/checkout");
     }
   } catch (error) {
     console.log(error.message);
@@ -114,7 +124,7 @@ const editAddress = async (req, res) => {
       { $set: addressUpdate }
     );
     if (addressUp != null) {
-      res.redirect("/addresses");
+      res.redirect("/checkout");
     }
   } catch (error) {
     console.log(error.message);
@@ -126,7 +136,7 @@ const removeAddress = async (req, res) => {
     const addId = req.query.id;
     const remAdd = await Address.findByIdAndUpdate({ _id: addId },{$set:{isListed:1}});
     if (remAdd != null) {
-      res.redirect("/addresses");
+      res.redirect("/checkout");
     }
   } catch (error) {
     console.log(error.message);

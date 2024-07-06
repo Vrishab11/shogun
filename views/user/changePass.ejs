@@ -1,5 +1,35 @@
 <%- include ('layout/header.ejs') %>
 
+<style>
+    .password-container {
+        position: relative;
+        width: 500px;
+    }
+
+    .password-input {
+        width: 100%;
+        padding: 10px;
+        padding-right: 40px;
+        box-sizing: border-box;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .toggle-password .fas {
+        font-size: 18px;
+        color: #de1f1f;
+    }
+</style>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 offset-md-1" style="align-self: center;">
@@ -16,18 +46,24 @@
                         <div class="error1 alert alert-danger w-75"><%= locals.err  %></div>
                         <% } %>
                     <br>
-                    <div class="sin-login-register">
+                    <div class="password-container sin-login-register">
                         <label>New Password </label>
-                        <input type="password" name="npassword" id="npassword">
+                        <input type="password" name="npassword" class="password-input" id="npassword">
+                        <button type="button" id="ntogglePassword" class="toggle-password">
+                            <i id="neyeIcon" class="fas fa-eye"></i>
+                        </button>
                         <p class="error mb-2" id="newpass" style="display: none; color: red;"></p>
                         <% if(locals.err){ %>
                             <p class="text-danger"><%= locals.err %></p>
                         <% } %>
                     </div>
                     <br>
-                    <div class="sin-login-register">
+                    <div class="password-container sin-login-register">
                         <label>Confirm New Password </label>
-                        <input type="password" name="cpassword" id="cpassword">
+                        <input type="password" name="cpassword" class="password-input" id="cpassword">
+                        <button type="button" id="ctogglePassword" class="toggle-password">
+                            <i id="ceyeIcon" class="fas fa-eye"></i>
+                        </button>
                         <p class="error mb-2" id="confirmpass" style="display: none; color: red;"></p>
                     </div>
                     <br>

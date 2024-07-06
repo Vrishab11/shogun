@@ -18,6 +18,36 @@
             }
     </script>
 
+    <style>
+        .password-container {
+            position: relative;
+            width: 500px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 10px;
+            padding-right: 40px;
+            box-sizing: border-box;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .toggle-password .fas {
+            font-size: 18px;
+            color: #de1f1f;
+        }
+    </style>
+
     <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
         <div class="container-fluid">
             <div class="breadcrumb-content text-center">
@@ -51,9 +81,12 @@
                                     <input type="text" name="email" id="email">
                                     <p class="error mb-2" id="error1" style="display: none; color: red;"></p>
                                 </div>
-                                <div class="sin-login-register">
+                                <div class="password-container sin-login-register">
                                     <label>Password</label>
-                                    <input type="password" name="password" id="password">
+                                    <input type="password" name="password" class="password-input" id="password">
+                                    <button type="button" id="togglePassword" class="toggle-password">
+                                        <i id="eyeIcon" class="fas fa-eye"></i>
+                                    </button>
                                     <p class="error mb-2" id="error2" style="display: none; color: red;"></p>
                                 </div>
                                 <div class="login-register-btn-remember">

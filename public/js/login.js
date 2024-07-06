@@ -3,6 +3,8 @@ const password = document.getElementById('password')
 const logform = document.getElementById('loginForm')
 const error1 = document.getElementById('error1')
 const error2 = document.getElementById('error2')
+const togglePassword = document.getElementById('togglePassword');
+const eyeIcon = document.getElementById('eyeIcon');
 
 function emailfunc(emaild)
 {
@@ -67,6 +69,14 @@ password.addEventListener('blur',()=>{
     pass(passdata)
 })
 
+togglePassword.addEventListener('click', () => {
+    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+    password.setAttribute('type', type);
+
+    eyeIcon.classList.toggle('fa-eye');
+    eyeIcon.classList.toggle('fa-eye-slash');
+})
+
 logform.addEventListener('submit',(event)=>{
 
     const emaildata = email.value
@@ -79,3 +89,4 @@ logform.addEventListener('submit',(event)=>{
         event.preventDefault()
     }
 })  
+

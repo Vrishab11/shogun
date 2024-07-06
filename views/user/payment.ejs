@@ -1,0 +1,174 @@
+<%- include('layout/header.ejs') %> 
+
+<section class="mt-50 mb-50">
+    <div class="container">
+        <div class="row">
+
+
+            <!-- Add your form tag with the appropriate action attribute -->
+
+
+
+           
+
+            <!-- Order Summary and Payment Column (Right Side) -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="order_review">
+                        <div class="mb-20">
+                            <h4>Your Orders</h4>
+                        </div>
+
+
+
+                        <div class="table-responsive order_table text-center">
+                            <table class="table mt-40">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <% if(locals.proext && locals.proext.length > 0) { locals.proext.forEach(element => { %>
+                                            
+                                            <tr>
+                                                <td class="image product-thumbnail"><img
+                                                        src="/images/<%= element.product_id.mainimage %>"
+                                                        alt="#" width="70px" height="70px"></td>
+                                                <td>
+                                                    <h5><a href="shop-product-full.html">
+                                                        <div class="checkprodet">  <%= element.product_id.productname %> </div>
+                                                        </a></h5>
+                                                </td>
+                                                   <td>
+                                                    <%= element.qty %>
+                                                </td> 
+                                                <td>
+                                                    <%= element.product_id.price*element.qty %>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                                <% } else { %>
+                                                    <tr>
+                                                        <td colspan="4">No products found</td>
+                                                    </tr>
+                                                    <% } %>
+
+                                </tbody>
+                                <% let totalAmount=0; %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+
+
+
+               
+                
+                <div class="d-flex">
+                    <div class="col-8">
+                        <div class="row align-items-start mt-30 ml-150">
+                            <!-- Use align-items-start to vertically align content at the top -->
+                            <% if(locals.addData) { %>
+                
+                                            <div class="col-lg-6 mb-3">
+                                                <div class="card">
+                                                    
+                                                    <div class="card-body">
+                                                        <address>
+                                                            <% if(locals.addData) { %>
+                                                            <p><%= locals.addData.name %> </p>
+                                                            <p><%= locals.addData.mobile %></p>
+                                                            <p><%= locals.addData.landmark %>,<%= locals.addData.streetAddress %></p>
+                                                            <p><%= locals.addData.district %>,<%= locals.addData.state %>,<%= locals.addData.country %></p>
+                                                            <p><%= locals.addData.pincode %></p>
+                                                            <% } %>
+                                                        </address>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            <% } %>
+                    
+                        </div>
+                    </div>
+
+                    <div class="col-6 mt-50 ">
+                    
+                        <div class="payment_method">
+                        <div class="mb-25 ml-150">
+                            <h5>Payment</h5>
+                        </div>
+                        <div class="custome-radio ml-150">
+                            <input class="form-check-input payradio" type="radio" value="cod"   name="payment_option"  id="CashOnDelivey" checked="">
+                            <label class="ms-3 form-check-label" for="CashOnDelivey" product-bs-toggle="collapse"
+                                product-target="#CashOnDelivey" aria-controls="CashOnDelivey">Cash on
+                                Delivery</label>
+                        </div>
+                       
+                        <div class="custome-radio ml-150">
+                            <input class="form-check-input payradio" required="" value="razorpay" type="radio"
+                                name="payment_option" id="Razorpay" checked="">
+                            <label class="ms-3  form-check-label" for="Razorpay" data-bs-toggle="collapse"
+                                data-target="#Razorpay" aria-controls="paypal">Razorpay</label>
+                        </div> <div class="custome-radio ml-150">
+                            <input class="form-check-input payradio" required="" value="wallet" type="radio"
+                                name="payment_option" id="wallet" checked="">
+                            <label class=" ms-3 form-check-label" for="wallet" data-bs-toggle="collapse"
+                                data-target="#wallet" aria-controls="wallet">wallet</label>
+                        </div>
+                   
+                        </div>
+                    </div>
+
+                </div>
+
+                
+                
+
+                </div>
+                <div class="container d-flex justify-content-end">
+                    <% let tot = locals.proext.map(el=>{ return el.product_id.price * el.qty }) %>
+                    <% let prosum = tot.reduce((acc,curr) => { return acc + curr}) %>
+                
+                    <!-- Display total and shipping information outside the loop -->
+                    <div style="width: 35%;">
+                        <table class="table mt-45">
+                            <tbody>
+
+                                <tr>
+                                    <th>Total</th>
+                                    <td colspan="2" class="product-subtotal" >
+                                        <span class="font-xl text-brand fw-900" id="totalValue">₹<%=
+                                            prosum %></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                
+                        <div class="ml-65">
+                            
+                                <button type="button" class="btn btn-primary" id="placeorder">Place Order</button>
+                        </div>
+                       
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+</section>
+
+<script src="/public/js/payment.js" ></script>
+
+<%- include('layout/footer.ejs') %> 

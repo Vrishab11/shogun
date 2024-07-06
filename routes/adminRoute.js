@@ -8,6 +8,7 @@ const usermanageController = require("../controllers/usermanageController")
 const productController = require("../controllers/productController")
 const categoryController = require("../controllers/categoryController")
 const brandController = require("../controllers/brandController")
+const orderController = require("../controllers/orderController")
 
 const adminAuth = require("../middleware/adminAuth")
 
@@ -42,6 +43,7 @@ router.get('/products/listUnlist', adminAuth.isLogged, productController.product
 router.get("/editProduct", adminAuth.isLogged, productController.editProduct)
 router.post("/editProduct", adminAuth.isLogged, upload.fields([{ name: "mainimage", maxCount: 1 },{ name: "imgs", maxCount: 4 }]), productController.saveEditProduct)
 
-
+router.get('/orders', adminAuth.isLogged, orderController.viewOrders)
+router.get('/orderDetails', adminAuth.isLogged, orderController.viewOrderSummery)
 
 module.exports = router

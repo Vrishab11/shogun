@@ -1,101 +1,62 @@
 <%- include ('layout/header.ejs') %>
 
+
 <div class="checkout-main-area pt-100 pb-100">
     <div class="container">
         <div class="customer-zone mb-30">
-            <p class="cart-page-title">Have a coupon? <a class="checkout-click" href="#">Click here to enter your code</a></p>
-            <div class="checkout-login-info">
+            <!-- <p class="cart-page-title">Have a coupon? <a class="checkout-click" href="#">Click here to enter your code</a></p> -->
+            <!-- <div class="checkout-login-info">
                 <p>If you have a coupon code, please apply it below.</p>
                 <form action="#">
                     <input type="text" placeholder="Coupon code">
                     <input type="submit" value="Apply Coupon">
                 </form>
-            </div>
+            </div> -->
         </div>
         <div class="checkout-wrap">
             <div class="row">
                 <div class="col-lg-7">
                     <div class="billing-info-wrap mr-100">
                         <h3>Billing Details</h3>
+                        <a href="/addAddress"><button class="btn" type="button">New Address</button></a>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-25">
-                                    <label>First name <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
+                            <% if(locals.addData && locals.addData.length > 0) { locals.addData.forEach((element,index) => { %>
+                                <div class="card my-4">
+                                    <div class="card-body p-0">
+                                        <br>
+                                        <div class="d-flex align-items-center">
+                                            <input type="radio" class="addressradio form-check-input medium-radio p-0" name="address" value="<%=element._id %>" <% if(index === 0){ %> checked <% } %>>
+                                        </div>
+                                        <br>
+                                        <div class="address">
+                                            <h6>Name : <%= element.name %></h6>
+                                            <p>Mobile : <%= element.mobile %></p>
+                                            <p>StreetAddress : <%= element.streetAddress %></p>
+                                            <p>Landmark : <%= element.landmark %></p>
+                                            <p>District : <%= element.district %></p>
+                                            <p>State : <%= element.state %></p>
+                                            <p>Country : <%= element.country %></p>
+                                            <p>Pincode : <%= element.pincode %></p>
+                                        </div>
+                                        <br>
+                                        <div class="addaction">
+                                            <a href="/editAddress?id=<%= element._id %>"><button class="btn" type="button">Edit Address</button></a>
+                                            <a href="/removeAddress?id=<%= element._id %>"><button class="btn" type="button">Remove Address</button></a>
+                                        </div>
+                                        <br>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-25">
-                                    <label>Last name <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-25">
-                                    <label>Company name (optional) <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-select mb-25">
-                                    <label>Country <abbr class="required" title="required">*</abbr></label>
-                                    <select class="select-active">
-                                        <option>Azerbaijan</option>
-                                        <option>Bahamas</option>
-                                        <option>Bahrain</option>
-                                        <option>Bangladesh</option>
-                                        <option>Barbados</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-25">
-                                    <label>Street address <abbr class="required" title="required">*</abbr></label>
-                                    <input class="billing-address" placeholder="House number and street name" type="text">
-                                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-25">
-                                    <label>Town / City <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-select mb-25">
-                                    <label>District <abbr class="required" title="required">*</abbr></label>
-                                    <select class="select-active">
-                                        <option>Azerbaijan</option>
-                                        <option>Bahamas</option>
-                                        <option>Bahrain</option>
-                                        <option>Bangladesh</option>
-                                        <option>Barbados</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-25">
-                                    <label>Postcode / ZIP (optional) <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-25">
-                                    <label>Phone <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-25">
-                                    <label>Email Address <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="additional-info-wrap">
-                            <h3>Additional information</h3>
-                            <label>Order notes (optional)</label>
-                            <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
+                                <% }); } else { %>
+                                        <div class="card m-auto border-0 h-100 ">
+                                          <div class="card-body h-100 d-flex justify-content-center align-items-center addresscard">
+                                            <div class="card-title d-flex flex-column justify-content-center align-items-center ">
+                                              <img src="/public/images/oops.png" alt="" width="300rem" height="300rem">
+                                              <h2>No Address Added!!</h2>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    
+                                <% } %>
                         </div>
                     </div>
                 </div>
@@ -104,42 +65,41 @@
                         <h3>Your order</h3>
                         <div class="your-order-wrap gray-bg-4">
                             <div class="your-order-info-wrap">
+                            <% if(locals.user){ %>
                                 <div class="your-order-info">
                                     <ul>
                                         <li>Product <span>Total</span></li>
                                     </ul>
                                 </div>
                                 <div class="your-order-middle">
-                                    <ul>
-                                        <li>Product Name X 1 <span>$329 </span></li>
-                                        <li>Product Name X 1 <span>$329 </span></li>
-                                    </ul>
+                                    <% for(let i=0; i< user.cart.length ; i++) {%>
+                                        <% let total = user.cart[i].qty * user.cart[i].product_id.price %>
+                                        <ul>
+                                            <li><%= user.cart[i].product_id.productname %> X <%= user.cart[i].qty %> <span> Rs. <%= total %> </span></li>
+                                        </ul>
+                                     <% } %>
                                 </div>
+                                <% let grandtotal = 0%>
+                                <% for(let i=0; i < user.cart.length ; i++) { 
+                                    let subtotal = parseInt(user.cart[i].qty) * parseInt(user.cart[i].product_id.price)
+                                    grandtotal += parseInt(subtotal)  } %>
                                 <div class="your-order-info order-subtotal">
                                     <ul>
-                                        <li>Subtotal <span>$329 </span></li>
+                                        <li>Total <span id="ordertotal">Rs. <%= grandtotal %> </span></li>
                                     </ul>
                                 </div>
-                                <div class="your-order-info order-total">
+                                <!-- <div class="your-order-info order-total">
                                     <ul>
                                         <li>Total <span>£273.00 </span></li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
-                            <div class="payment-method">
-                                <h5>Direct Bank Transfer</h5>
-                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                            </div>
-                            <div class="condition-wrap">
-                                <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a></p>
-                                <div class="condition-form mb-25">
-                                    <input type="checkbox">
-                                    <span>I have read and agree to the website <a href="#">terms and conditions</a><span class="star">*</span></span>
-                                </div>
-                            </div>
+                            <% } %>
                         </div>
                         <div class="Place-order mt-30">
-                            <a href="#">Place Order</a>
+                            <div class="proceedbtn my-5 text-center " id="proceedbtn">
+                                <a href="/payment"><button class="btn">Proceed To Payment</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,5 +107,7 @@
         </div>
     </div>
 </div>
+
+<script src="/public/js/checkout.js"></script>
 
 <%- include('layout/footer.ejs') %>

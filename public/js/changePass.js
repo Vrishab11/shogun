@@ -5,6 +5,10 @@ const changePass = document.getElementById('changePass')
 const error1 = document.getElementById('passerror')
 const error2 = document.getElementById('newpass')
 const error3 = document.getElementById('confirmpass')
+const ntogglePassword = document.getElementById('ntogglePassword');
+const ctogglePassword = document.getElementById('ctogglePassword');
+const neyeIcon = document.getElementById('neyeIcon');
+const ceyeIcon = document.getElementById('ceyeIcon');
 
 
 function passfunc(pwd)
@@ -106,6 +110,22 @@ cpass.addEventListener('keyup',()=>{
 cpass.addEventListener('blur',()=>{
     const passdata = cpass.value
     confirmpassfunc(passdata)
+})
+
+ntogglePassword.addEventListener('click', () => {
+    const type = npass.getAttribute('type') === 'password' ? 'text' : 'password';
+    npass.setAttribute('type', type);
+
+    neyeIcon.classList.toggle('fa-eye');
+    neyeIcon.classList.toggle('fa-eye-slash');
+})
+
+ctogglePassword.addEventListener('click', () => {
+    const type = cpass.getAttribute('type') === 'password' ? 'text' : 'password';
+    cpass.setAttribute('type', type);
+
+    ceyeIcon.classList.toggle('fa-eye');
+    ceyeIcon.classList.toggle('fa-eye-slash');
 })
 
 changePass.addEventListener('submit',(event)=>{

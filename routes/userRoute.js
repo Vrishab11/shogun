@@ -6,6 +6,8 @@ const userController = require("../controllers/userController")
 const productController = require("../controllers/productController")
 const cartController = require("../controllers/cartController")
 const addressController = require("../controllers/addressController")
+const paymentController = require("../controllers/paymentController")
+const orderController = require("../controllers/orderController")
 
 router.get('/', userAuth.isHome, userController.getHome);
 
@@ -36,6 +38,10 @@ router.get('/shop', userAuth.isHome, productController.viewShop)
 
 router.get('/cart', userAuth.isLogged, cartController.viewCart)
 router.get('/addToCart', userAuth.isLogged, cartController.addToCart)
+router.get("/cart/qtyinc", userAuth.isLogged, cartController.qtyInc);
+router.get("/cart/qtydec", userAuth.isLogged, cartController.qtyDec);
+router.get("/cart/deletecart", userAuth.isLogged, cartController.deleteCart);
+router.get("/cart/clearcart", userAuth.isLogged, cartController.clearCart)
 
 router.get('/addresses', userAuth.isLogged, addressController.loadAddress)
 
@@ -48,6 +54,13 @@ router.post('/editAddress', userAuth.isLogged, addressController.editAddress)
 router.get("/removeAddress", userAuth.isLogged, addressController.removeAddress)
 
 router.get('/checkout', userAuth.isLogged, cartController.checkout)
+
+router.get('/payment', userAuth.isLogged, paymentController.loadPayment)
+router.get("/placeorder",userAuth.isLogged,paymentController.paymentConfirm)
+
+router.get('/ordered', userAuth.isLogged, orderController.loadOrdered)
+router.get('/orders', userAuth.isLogged, orderController.loadOrders)
+
 
 
 module.exports = router

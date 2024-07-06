@@ -230,7 +230,6 @@ const logout = async (req, res) => {
 
 const registerUser = async (req, res) => {
   try {
-    console.log(req.body)
     const { fname, lname, email, mobile, password, cpassword } = req.body
     const findUser = await User.findOne({ email });
     if (password === cpassword) {
@@ -254,7 +253,6 @@ const registerUser = async (req, res) => {
           text: `Your OTP is ${otp}`,
           html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  </b>`,
         })
-        console.log(otp, "otp")
         
         if (info) {
           req.session.userOtp = otp
