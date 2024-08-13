@@ -8,6 +8,7 @@ const cartController = require("../controllers/cartController")
 const addressController = require("../controllers/addressController")
 const paymentController = require("../controllers/paymentController")
 const orderController = require("../controllers/orderController")
+const walletController = require("../controllers/walletController")
 
 router.get('/', userAuth.isHome, userController.getHome);
 
@@ -37,7 +38,7 @@ router.get('/productDetails', userAuth.isHome, productController.viewProduct)
 router.get('/shop', userAuth.isHome, productController.viewShop)
 
 router.get('/cart', userAuth.isLogged, cartController.viewCart)
-router.get('/addToCart', userAuth.isLogged, cartController.addToCart)
+router.get('/addToCart', userAuth.isHome, cartController.addToCart)
 router.get("/cart/qtyinc", userAuth.isLogged, cartController.qtyInc);
 router.get("/cart/qtydec", userAuth.isLogged, cartController.qtyDec);
 router.get("/cart/deletecart", userAuth.isLogged, cartController.deleteCart);
@@ -57,10 +58,16 @@ router.get('/checkout', userAuth.isLogged, cartController.checkout)
 
 router.get('/payment', userAuth.isLogged, paymentController.loadPayment)
 router.get("/placeorder",userAuth.isLogged,paymentController.paymentConfirm)
+router.post("/verifyPayment",userAuth.isLogged ,paymentController.verifyPayment);
 
 router.get('/ordered', userAuth.isLogged, orderController.loadOrdered)
 router.get('/orders', userAuth.isLogged, orderController.loadOrders)
+router.get("/ordersummary",userAuth.isLogged,orderController.loadSummary);
+router.get("/orders/cancel", userAuth.isLogged, orderController.cancelOrder);
+router.get("/orders/return", userAuth.isLogged, orderController.returnOrder);
 
+router.get('/wallet', userAuth.isLogged, walletController.loadWallet)
 
+router.get("/generateInvoice",userAuth.isLogged,orderController.generateInvoice);
 
 module.exports = router

@@ -1,0 +1,60 @@
+<%- include('layout/header.ejs') %>
+
+
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Coupons</h2>
+                    <p>add coupons for special occations</p>
+                </div>
+                <div>
+                    <a href="/admin/addCoupon" class="btn btn-primary btn-sm rounded">Create new</a>
+                </div>
+            </div>
+            <div class="card mb-6">
+               
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table  text-center ">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Coupon Code</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Discount</th>
+                                    <th class="text-center">Limit</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                                <tr class="" style="background-color: rgb(221, 220, 220); ">
+                                    <% for(let i=0; i<coupondata.length; i++) { %>
+                                                 <td><%= coupondata[i].couponcode %></td> 
+                                                 <td><%= coupondata[i].couponname %></td> 
+                                                 <td>RS.<%= coupondata[i].reductionrate %></td> 
+                                                 <td>RS.<%= coupondata[i].couponlimit %></td> 
+                                                <% if(coupondata[i].status == 0){ %>
+                                                        <td class="badge rounded-pill alert-success">Active</td>
+                                                <% }else{ %>
+                                                        <td class="badge rounded-pill alert-warning">Inactive</td>
+                                                <% }%>
+                                                
+                                                <td class="col-lg-2 col-sm-1 col-action text-center">
+                                                    <% if (coupondata[i].status == 0) { %>
+                                                            <button class="btn font-sm  rounded unlistbtn" data-couponid="<%= locals.coupondata[i]._id%>">Unlist</button>
+                                                    <% } else { %>
+                                                            <button class="btn font-sm btn-brand rounded listbtn" data-couponid="<%= locals.coupondata[i]._id%>">List</button>
+                                                    <% } %>        
+                                                    </td>
+                                        <% } %> 
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div> 
+           
+        </section>
+
+        <script src="/public/js/listUnlistCoupon.js"></script>
+
+<%- include('layout/footer.ejs') %>

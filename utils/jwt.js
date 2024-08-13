@@ -5,7 +5,7 @@ const JWT_secret = process.env.JWT_secret
 
 const createtoken =  (user)=>{
 
-    return  jwt.sign(user,JWT_secret,{ expiresIn: '2h' })
+    return  jwt.sign(user,JWT_secret,{ expiresIn: '9h' })
 }
 
 const verifytoken =async (token)=>{

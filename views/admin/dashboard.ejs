@@ -1,428 +1,223 @@
 <%- include('layout/header.ejs') %>
 
-        <section class="content-main">
-            <div class="content-header">
-                <div>
-                    <h2 class="content-title card-title">Dashboard </h2>
-                    <p>Whole data about your business here</p>
-                </div>
-                <div>
-                    <a href="#" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Create report</a>
-                </div>
+<section class="dashboard">
+    <div class="dashboardmain">
+      <div class="container px-lg-5">
+        <div class="row firstportion my-5 ">
+          <div class="card mt-4 col-md-7">
+            <div class="card-body">
+            <div class="card-title saleschart"><h3>Sales Report</h3> <div class="optionbuttons"><button type="button" id="weekbtn">This Week</button><button type="button" id="monthbtn">This Month</button><button type="button" id="yearbtn">This Year</button></div></div>
+              <div class="chart" id="weekchart" >
+                  <canvas id="linechart" ></canvas>
+              </div>
+              <div class="chart" id="monthchart" style="display: none;">
+                <canvas id="linechart1"></canvas>
+            </div><div class="chart" id="yearchart" style="display: none;">
+              <canvas id="linechart2"></canvas>
+          </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="card card-body mb-4">
-                        <article class="icontext">
-                            <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
-                            <div class="text">
-                                <h6 class="mb-1 card-title">Revenue</h6>
-                                <span>$13,456.5</span>
-                                <span class="text-sm">
-                                    Shipping fees are not included
-                                </span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card card-body mb-4">
-                        <article class="icontext">
-                            <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
-                            <div class="text">
-                                <h6 class="mb-1 card-title">Orders</h6> <span>53.668</span>
-                                <span class="text-sm">
-                                    Excluding orders in transit
-                                </span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card card-body mb-4">
-                        <article class="icontext">
-                            <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
-                            <div class="text">
-                                <h6 class="mb-1 card-title">Products</h6> <span>9.856</span>
-                                <span class="text-sm">
-                                    In 19 Categories
-                                </span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card card-body mb-4">
-                        <article class="icontext">
-                            <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
-                            <div class="text">
-                                <h6 class="mb-1 card-title">Monthly Earning</h6> <span>$6,982</span>
-                                <span class="text-sm">
-                                    Based in your local time.
-                                </span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
+          </div>
+
+          <div class="card mt-4 col-md-4">
+            <div class="card-body">
+            <div class="card-title"><h3>Category Earnings</h3></div>
+            <div class="chart2" >
+              <canvas id="doughnutchart"></canvas>
             </div>
-            <div class="row">
-                <div class="col-xl-8 col-lg-12">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Sale statistics</h5>
-                            <canvas id="myChart" height="120px"></canvas>
-                        </article>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div class="card mb-4">
-                                <article class="card-body">
-                                    <h5 class="card-title">New Members</h5>
-                                    <div class="new-member-list">
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/asset/imgs/people/avatar4.jpg" alt="" class="avatar">
-                                                <div>
-                                                    <h6>Patric Adams</h6>
-                                                    <p class="text-muted font-xs">
-                                                        Sanfrancisco
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/asset/imgs/people/avatar2.jpg" alt="" class="avatar">
-                                                <div>
-                                                    <h6>Dilan Specter</h6>
-                                                    <p class="text-muted font-xs">
-                                                        Sanfrancisco
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between mb-4">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/asset/imgs/people/avatar3.jpg" alt="" class="avatar">
-                                                <div>
-                                                    <h6>Tomas Baker</h6>
-                                                    <p class="text-muted font-xs">
-                                                        Sanfrancisco
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <a href="#" class="btn btn-xs"><i class="material-icons md-add"></i> Add</a>
-                                        </div>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="card mb-4">
-                                <article class="card-body">
-                                    <h5 class="card-title">Recent activities</h5>
-                                    <ul class="verti-timeline list-unstyled font-sm">
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>Today</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Lorem ipsum dolor sit amet consectetur
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list active">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl animation-fade-right"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>17 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Debitis nesciunt voluptatum dicta reprehenderit
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>13 May</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Accusamus voluptatibus voluptas.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>05 April</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        At vero eos et accusamus et iusto odio dignissi
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="event-list">
-                                            <div class="event-timeline-dot">
-                                                <i class="material-icons md-play_circle_outline font-xxl"></i>
-                                            </div>
-                                            <div class="media">
-                                                <div class="me-3">
-                                                    <h6><span>26 Mar</span> <i class="material-icons md-trending_flat text-brand ml-15 d-inline-block"></i></h6>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div>
-                                                        Responded to need “Volunteer Activities
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </article>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-12">
-                    <div class="card mb-4">
-                        <article class="card-body">
-                            <h5 class="card-title">Revenue Base on Area</h5>
-                            <canvas id="myChart2" height="217"></canvas>
-                        </article>
-                    </div>
-                </div>
             </div>
-            <div class="card mb-4">
-                <header class="card-header">
-                    <h4 class="card-title">Latest orders</h4>
-                    <div class="row align-items-center">
-                        <div class="col-md-2 col-6">
-                            <input type="date" value="02.05.2022" class="form-control">
-                        </div>
-                        <div class="col-md-2 col-6">
-                            <div class="custom_select">
-                                <select class="form-select select-nice">
-                                    <option selected>Status</option>
-                                    <option>All</option>
-                                    <option>Paid</option>
-                                    <option>Chargeback</option>
-                                    <option>Refund</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </header>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div class="table-responsive">
-                            <table class="table align-middle table-nowrap mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th scope="col" class="text-center">
-                                            <div class="form-check align-middle">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck01">
-                                                <label class="form-check-label" for="transactionCheck01"></label>
-                                            </div>
-                                        </th>
-                                        <th class="align-middle" scope="col">Order ID</th>
-                                        <th class="align-middle" scope="col">Billing Name</th>
-                                        <th class="align-middle" scope="col">Date</th>
-                                        <th class="align-middle" scope="col">Total</th>
-                                        <th class="align-middle" scope="col">Payment Status</th>
-                                        <th class="align-middle" scope="col">Payment Method</th>
-                                        <th class="align-middle" scope="col">View Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck02">
-                                                <label class="form-check-label" for="transactionCheck02"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="#" class="fw-bold">#SK2540</a> </td>
-                                        <td>Neal Matthews</td>
-                                        <td>
-                                            07 Oct, 2022
-                                        </td>
-                                        <td>
-                                            $400
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-success">Paid</span>
-                                        </td>
-                                        <td>
-                                            <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs"> View details</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck03">
-                                                <label class="form-check-label" for="transactionCheck03"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="#" class="fw-bold">#SK2541</a> </td>
-                                        <td>Jamal Burnett</td>
-                                        <td>
-                                            07 Oct, 2022
-                                        </td>
-                                        <td>
-                                            $380
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-danger">Chargeback</span>
-                                        </td>
-                                        <td>
-                                            <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Visa
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs"> View details</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck04">
-                                                <label class="form-check-label" for="transactionCheck04"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="#" class="fw-bold">#SK2542</a> </td>
-                                        <td>Juan Mitchell</td>
-                                        <td>
-                                            06 Oct, 2022
-                                        </td>
-                                        <td>
-                                            $384
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-success">Paid</span>
-                                        </td>
-                                        <td>
-                                            <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Paypal
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs"> View details</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck05">
-                                                <label class="form-check-label" for="transactionCheck05"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="#" class="fw-bold">#SK2543</a> </td>
-                                        <td>Barry Dick</td>
-                                        <td>
-                                            05 Oct, 2022
-                                        </td>
-                                        <td>
-                                            $412
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-success">Paid</span>
-                                        </td>
-                                        <td>
-                                            <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Mastercard
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs"> View details</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck06">
-                                                <label class="form-check-label" for="transactionCheck06"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="#" class="fw-bold">#SK2544</a> </td>
-                                        <td>Ronald Taylor</td>
-                                        <td>
-                                            04 Oct, 2022
-                                        </td>
-                                        <td>
-                                            $404
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-warning">Refund</span>
-                                        </td>
-                                        <td>
-                                            <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Visa
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs"> View details</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="transactionCheck07">
-                                                <label class="form-check-label" for="transactionCheck07"></label>
-                                            </div>
-                                        </td>
-                                        <td><a href="#" class="fw-bold">#SK2545</a> </td>
-                                        <td>Jacob Hunter</td>
-                                        <td>
-                                            04 Oct, 2022
-                                        </td>
-                                        <td>
-                                            $392
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-pill badge-soft-success">Paid</span>
-                                        </td>
-                                        <td>
-                                            <i class="material-icons md-payment font-xxl text-muted mr-5"></i> Paypal
-                                        </td>
-                                        <td>
-                                            <a href="#" class="btn btn-xs"> View details</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> <!-- table-responsive end// -->
-                </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container px-lg-5">
+        <div class="row secondportion mb-5">
+          <div class="card col-md-3 my-4 my-md-0">
+            <div class="card-body">
+              <div class="orderimg"><img src="/public/images/vecteezy_order-button-isometric_.jpg" alt="" width="120px" height="120px"></div>
+              <% if(locals.orderCount) { %>
+              <h3><%= locals.orderCount %></h3>
+              <% } else { %>
+                <h3>0</h3>
+                <% } %>
+              <h4>Orders</h4>
+              <h6>Orders placed this Month.</h6>
             </div>
-            <div class="pagination-area mt-30 mb-50">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-                    </ul>
-                </nav>
+          </div>
+          <div class="card col-md-3 my-4 my-md-0">
+            <div class="card-body">
+              <div class="orderimg"><img src="/public/images/user_icon_001.jpg" alt="" width="120px" height="120px"></div>
+              <% if(locals.userCount) { %>
+              <h3><%= locals.userCount %></h3>
+                <% } else { %>
+              <h3>0</h3>
+                <% } %>
+              <h4>Customers</h4>
+              <h6>Customers joined this Month.</h6>
             </div>
-        </section> <!-- content-main end// -->
+          </div>
+
+          <div class="card col-md-3 my-4 my-md-0">
+            <div class="card-body">
+              <div class="orderimg"><img src="/public/images/vecteezy_sold-rubber-stamp-red-sold-rubber-grunge-stamp-seal-vector_20091046.jpg" alt="" width="230px" height="120px"></div>
+              <% if(locals.productCount){ %>
+              <h3><%= locals.productCount %></h3>
+              <% } else { %>
+                <h3>0</h3>
+              <% } %>  
+              <h4>Products </h4>
+              <h6>Products sold this Month.</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container px-lg-5">
+        <div class="row thirdportion mb-5">
+          <div class="card col-md-12">
+            <div class="card-body">
+              <h3>Stock Report </h3>
+              <table class="table table1" id="stocktable1">
+                <tr><th>Product Name </th>
+                    <th>Date Added</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Stock</th>
+                </tr>
+                <% if(locals.products && locals.products.length > 0) { locals.products.forEach(element => { %>
+                <tr class="stocksub1"><td><%= element.productname %></td>
+                  <td><%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
+                  <td>Rs.<%= element.price %></td>
+                <td>
+                  <% if(element.stock === 0){ %>
+                  <span class="stockstat1">Out of Stock</span>
+                  <% }else{ %>
+                  <span class="stockstat2">In Stock</span>
+                  <% } %>
+                  </td>
+                  <td><%= element.stock %></td>
+                <% }) } else { %>
+                  <td>No Stock</td>
+                  <% } %>
+                </tr>
+              </table>
+
+              <table class="table table2" id="stocktable2" style="display: none;">
+                <% if(locals.products && locals.products.length > 0) { locals.products.forEach(element => { %>
+                <tr><th>Product Name</th><td><%= element.productname %></td></tr>
+                <tr><th>Date Added</th><td><%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td></tr>
+                <tr><th>Price</th><td>Rs.<%= element.price %></td></tr>
+                <tr><th>Status</th><td>
+                  <% if(element.stock === 0){ %>
+                    <span class="stockstat1">Out of Stock</span>
+                    <% }else{ %>
+                    <span class="stockstat2">In Stock</span>
+                    <% } %>
+                </td></tr>
+                <tr><th>Stock</th><td><%= element.stock %></td></tr>
+                <tr><td></td><td></td></tr>
+
+                <% }) } else { %>
+                  <tr><td>No Stock</td></tr>
+                  <% } %>
+              </table>
+              <% if(locals.totalStock) {%> <input type="hidden" id="totalStock" value="<%= locals.totalStock %>"> <% } %>
+              <div class="pagemain mt-4"><div class="pageblock" id="pgstock"></div></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container px-lg-5">
+        <div class="row report  my-5">
+          <div class="card col-md-12">
+            <div class="card-body">
+              <h3>Product Sales </h3>
+              <table class="table table1" id="prosaletable1" >
+                <tr><th>Serial No.</th>
+                    <th>Date Purchased</th>
+                    <th>Customer Name</th>
+                    <th>Product Name </th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Order Amount</th>
+                    <th>Payment Method</th>
+                </tr>
+                <% if(locals.prosold && locals.prosold.length > 0) { locals.prosold.forEach((element,i) => { %>
+                <tr class="prosalesub1">
+                <td><%= i + 1 %></td>
+                <td><%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
+                <td><%= element.userdetails[0].firstname %>&nbsp;<%= element.userdetails[0].lastname %></td>
+                <td><%= element.prodetails[0].productname %></td>
+                <td><%= element.products.qty %>
+                  <% if(element.products.qty === 1) { %>Piece <% }else{ %> Pcs <% } %></td>
+                <td>Rs.<%= element.prodetails[0].price %></td>
+                <td>Rs.<%= element.total_amount %></td>
+                <td><%= element.payment_method %></td>
+            </tr>
+            <%  }) } else { %>
+              <tr><td>No Products Sold</td></tr>
+            <% } %>
+              </table>
+
+              <table class="table table2" id="prosaletable2" style="display: none;">
+                <% if(locals.prosold && locals.prosold.length > 0) { locals.prosold.forEach((element,i) => { %>
+                <tr><th>Serial No.</th><td><%= i + 1 %></td> </tr>
+                <tr><th>Date Purchased</th>
+                <td><%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
+
+                </tr>
+                <tr>
+                    <th>Customer Name</th>
+                    <td><%= element.userdetails[0].firstname %>&nbsp;<%= element.userdetails[0].lastname %></td>
+
+                </tr>
+                <tr>
+                    <th>Product Name </th>
+                    <td><%= element.prodetails[0].productname %></td>
+
+                </tr>
+                <tr>
+                    <th>Quantity</th>
+                    <td><%= element.products.qty %>
+                      <% if(element.products.qty === 1) { %> Piece <% }else{ %> Pcs <% } %></td>
+
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>Rs.<%= element.prodetails[0].price %></td>
+
+                </tr>
+                <tr>
+                    <th>Order Amount</th>
+                    <td>Rs.<%= element.total_amount %></td>
+
+                </tr>
+                <tr>
+                    <th>Payment Method</th>
+                    <td><%= element.payment_method %></td>
+
+                </tr>
+                <tr><td></td><td></td></tr>
+                <%  }) } else { %>
+                  <tr><td>No Products Sold</td></tr>
+                <% } %>
+              </table>
+              <% if(locals.totalProducts) {%> <input type="hidden" id="totalProductsCount" value="<%= locals.totalProducts %>"> <% } %>
+              <% if(locals.currentPage) {%> <input type="hidden" id="currentPage" value="<%= locals.currentPage %>"> <% } %>
+
+              <div class="pagemain mt-4"><div class="pageblock" id="pgmain"></div></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+
+
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/public/js/admindashboard.js"></script>
         <%- include('layout/footer.ejs') %>

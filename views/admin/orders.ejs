@@ -40,9 +40,11 @@
                                   <span class="badge rounded-pill alert-warning"><%= orders[i].status %></span>
                               <% } else if (orders[i].status == "Shipped") { %>
                                   <span class="badge rounded-pill alert-primary"><%= orders[i].status %></span>
-                              <% } else if (orders[i].status == "Delivered") { %>
+                              <% }else if (orders[i].status == "Dispatched") { %>
+                                <span class="badge rounded-pill alert-primary"><%= orders[i].status %></span>
+                            <% } else if (orders[i].status == "Delivered") { %>
                                   <span class="badge rounded-pill alert-success"><%= orders[i].status %></span>
-                              <% } else if (orders[i].status == "Pending") { %>
+                              <% } else if (orders[i].status == "Processing") { %>
                                   <span class="badge rounded-pill alert-warning"><%= orders[i].status %></span>
                               <% } %> 
                           </td>

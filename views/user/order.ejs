@@ -1,0 +1,108 @@
+<%- include ('layout/header.ejs') %>
+
+<% if(locals.user) {%>
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <ul>
+                        <li>
+                            <a href="/">Home </a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> Orders </li>
+                    </ul>
+                    <br>
+                    <h2>Orders</h2>
+                    <br>
+    
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="my-account-area pb-95">
+                <div class="container">
+                    <div class="row flex-row-reverse">
+                        <div class="col-lg-12">
+                            <div class="myaccount-tab-menu nav" role="tablist">
+                                <a href="/myAccount" >Change Password</a>
+                                <a href="/orders" class="active"> Orders</a>
+                                <a href="/wallet"> Wallet</a>
+                                <a href="/addresses" >Address</a>
+                                <a href="/logout"> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+
+
+            <main>
+                <div class="container">
+                    <% if(locals.orderdata && locals.orderdata.length > 0) { locals.orderdata.forEach(element => { %>
+                        <% if(element.products && element.products.length > 0) { element.products.forEach(el => { %>
+                            <div class="d-flex justify-content-between align-items-center table-bordered">
+                                <img src="/images/<%= el.product_id.mainimage %>" alt="" width="120px" height="120px">
+                                <table class="table">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Product Name</th>
+                                        <th>Quantity</th>
+                                        <th>Unit Price</th>
+                                        <th>Total Price</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><%= element.date.toISOString().split('T')[0].split('-')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
+                                        <td><%= el.product_id.productname %></td>
+                                        <td><%= el.qty %></td>
+                                        <td>Rs.<%= el.price ? el.price : el.product_id.price %></td>
+                                        <td>Rs.<%= el.qty * (el.price ? el.price : el.product_id.price) %></td>
+                                        <td><%= element.payment_method %></td>
+                                        <td><% if(el.status === "Processing") { %>
+                                            <span>Processing</span>
+                                            <% } else if(el.status === "Delivered") { %>
+                                            <span>Delivered</span>
+                                            <% } else if(el.status === "Dispatched") { %> 
+                                            <span>Dispatched</span>
+                                            <% } else if(el.status === "Shipped") { %>
+                                              <span>Shipped</span>
+                                            <% } else if(el.status === "Cancelled") { %>
+                                              <span>Cancelled</span>
+                                            <% }else if(el.status === "Returned"){%>
+                                              <span>Returned</span>
+                                            <% }else if(el.status === "Refunded"){%>
+                                              <span>Refunded</span>
+                                            <% } %>                                              
+                                        </td>
+                                        <td> 
+                                            <% if(el.status === "Delivered") { %>
+                                                <button type="button" class="btn returnbtn" data-orderid="<%= element._id %>" data-proid="<%= el.product_id._id %>">Return</button>
+                                            <% } else if(el.status == "Cancelled" || el.status == "Returned" || el.status == "Refunded") { %>
+                                                  No Action
+                                            <% }else{ %>
+                                                <button type="button" class="btn cancelorderbtn" data-orderid="<%= element._id %>" data-proid="<%= el.product_id._id %>">Cancel Order</button>
+                                            <% } %>  
+                                        </td>
+                                        <td><a class="btn" href="/ordersummary?id=<%=element._id%>">></a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        <% })} %>
+                    <% })}else{ %>
+                        <h2 class="d-flex justify-content-center align-items-center" >No orders</h2>
+                        <br> <br><br>
+                    <% }%>
+
+                </div>
+            </main>
+
+<script src="/public/js/order.js"></script>
+
+<%- include ('layout/footer.ejs') %>

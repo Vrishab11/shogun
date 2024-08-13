@@ -10,17 +10,27 @@ const bcrypt = require("bcryptjs")
 const getHome = async (req, res) => {
   try {
     const userId = req.userid;
-    const product = await Product.find({isBlocked:0}).populate("category_id brand_id")
-    const allowedProducts = product.filter(pro=>pro.category_id.isListed === 0)
+    const product = await Product.find({ isBlocked: 0 }).populate("category_id brand_id")
+    const allowedProducts = product.filter(pro => pro.category_id.isListed === 0)
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    const shuffledProducts = shuffle(allowedProducts);
     if (userId) {
       const user = await User.findById(userId);
       if (user) {
-        res.render('user/home', { user, product:allowedProducts});
+        res.render('user/home', { user, product: shuffledProducts });
       } else {
-        res.render('user/home', { product:allowedProducts})
+        res.render('user/home', { product: shuffledProducts })
       }
     } else {
-      res.render('user/home', { product:allowedProducts});
+      res.render('user/home', { product: shuffledProducts });
     }
   } catch (error) {
     console.log(error.message)
@@ -29,7 +39,8 @@ const getHome = async (req, res) => {
 
 const loadLogin = async (req, res) => {
   try {
-    res.render('user/login')
+    const redirectUrl = req.query.redirect || '/'
+    res.render('user/login', { redirectUrl })
   } catch (error) {
     console.log(error.message)
   }
@@ -103,7 +114,7 @@ const sendEmail = async (req, res) => {
           pass: process.env.NODEMAILER_PASSWORD,
         },
       })
-  
+
       const mailSend = await transporter.sendMail({
         from: process.env.NODEMAILER_EMAIL,
         to: email,
@@ -119,7 +130,7 @@ const sendEmail = async (req, res) => {
         });
       }
     } else {
-      res.render("user/forgotPass", 
+      res.render("user/forgotPass",
         { err: "User not registered" }
       );
     }
@@ -133,7 +144,7 @@ const resetPassword = async (req, res) => {
 
   try {
     const { id, token } = req.query;
-    const matchUser = await User.find({_id: id})
+    const matchUser = await User.find({ _id: id })
 
     console.log(matchUser);
 
@@ -143,7 +154,7 @@ const resetPassword = async (req, res) => {
         const isVerified = jwt.verify(token, secret);
         console.log(isVerified);
         if (isVerified) {
-          res.render("user/changePass", { id: matchUser[0]._id});
+          res.render("user/changePass", { id: matchUser[0]._id });
         } else {
           console.log("Error 1");
         }
@@ -155,23 +166,23 @@ const resetPassword = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-  }  
+  }
 
 }
 
 const saveResetPassword = async (req, res) => {
 
-  try{
+  try {
 
-    const { id,npassword, cpassword } = req.body
-    if(npassword === cpassword) {
+    const { id, npassword, cpassword } = req.body
+    if (npassword === cpassword) {
       const passwordHash = await securePassword(npassword)
       await User.updateOne({ _id: id }, { password: passwordHash })
       res.redirect('/login')
-    }else{
+    } else {
       console.log("Error Password Does not match");
     }
-  }catch (error) {
+  } catch (error) {
     console.log(error.message);
   }
 
@@ -180,26 +191,32 @@ const saveResetPassword = async (req, res) => {
 
 
 const login = async (req, res) => {
-  const { email, password } = req.body
-  const logUser = await User.findOne({
-    email: email,
-    isAdmin: 0,
-  })
-  if (logUser != null) {
-    const passtrue = await bcrypt.compare(password, logUser.password)
-    if (passtrue) {
-      const id = logUser._id.toString();
-      const payload = {
-        _id: id,
-      };
-      const token = jwttoken.createtoken(payload);
-      res.cookie("token", token, { secure: true, httpOnly: true })
-      res.redirect('/')
+  try {
+    const { email, password } = req.body
+    const logUser = await User.findOne({
+      email: email,
+      isAdmin: 0,
+    })
+    const redirectUrl = req.body.redirectUrl || '/'
+    if (logUser != null) {
+      const passtrue = await bcrypt.compare(password, logUser.password)
+      if (passtrue) {
+        const id = logUser._id.toString();
+        const payload = {
+          _id: id,
+        };
+        const token = jwttoken.createtoken(payload);
+        res.cookie("token", token, { secure: true, httpOnly: true })
+
+        res.redirect(redirectUrl)
+      } else {
+        res.render('user/login', { err: "Invalid password", redirectUrl })
+      }
     } else {
-      res.render('user/login', { err: "Invalid password" })
+      res.render('user/login', { err: "User Blocked", redirectUrl })
     }
-  } else {
-    res.render('user/login', { err: "User Blocked" })
+  } catch (err) {
+    console.log(err.message);
   }
 }
 
@@ -253,7 +270,7 @@ const registerUser = async (req, res) => {
           text: `Your OTP is ${otp}`,
           html: `<b>  <h4 >Your OTP  ${otp}</h4>    <br>  </b>`,
         })
-        
+
         if (info) {
           req.session.userOtp = otp
           setTimeout(() => {
@@ -346,17 +363,17 @@ const resendOtp = async (req, res) => {
       html: `<b>  <h4 >Your newOtp  ${newOtp}</h4>    <br>  </b>`,
     })
 
-    if(info){
-      
+    if (info) {
+
       console.log(newOtp, "newOtp")
       req.session.userOtp = newOtp
       res.redirect('/verifyotp')
 
-    }else{
+    } else {
       console.log("Mail error");
-      res.redirect('/verifyotp')  
+      res.redirect('/verifyotp')
     }
-    
+
 
   } catch (error) {
     console.log(error.message);

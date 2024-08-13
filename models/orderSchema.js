@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema({
     },
     payment_status:{
         type:String,
-        required:true
+        default:"Pending"
     },
     order_id:{
         type:String,
@@ -56,7 +56,7 @@ const orderSchema = new mongoose.Schema({
     },
     status:{
         type:String,
-        default:"Pending"
+        default:"Processing"
     }
 })
 

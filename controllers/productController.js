@@ -16,6 +16,14 @@ const getProducts = async (req, res) => {
   }
 }
 
+const getAddProducts = async (req, res) => {
+  try {
+    res.render("admin/addProducts")
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 const addProduct = async (req, res) => {
   try {
     const {
@@ -99,11 +107,11 @@ const saveEditProduct = async (req, res) => {
   try {
     const id = req.body.id
     const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs } = req.body
-    if (mainimage.length !== 0 && imgs.length !== 0) {
+    if (mainimage !== null && imgs.length !== 0) {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs })
-    } else if (mainimage.length === 0 && imgs.length !== 0) {
+    } else if (mainimage === null && imgs.length !== 0) {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs })
-    } else if (mainimage.length !== 0 && imgs.length === 0) {
+    } else if (mainimage !== null && imgs.length === 0) {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage })
     } else {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description })
@@ -133,9 +141,39 @@ const viewShop = async (req, res) => {
 
   try {
     const user = req.user
-    const product = await Product.find({$and:[ {isBlocked: 0}, {stock : {$gt:5}} ]}).populate("category_id brand_id")
+    const { search } = req.query;
+    
+    const searchData = search || "";
+    let sortQuery = {};
+    const sort = req.query.sort;
+    const filter = req.query.filter || ""
+    switch (sort) {
+      case "Latest":
+        sortQuery = { date: -1 };
+        break;
+      case "ZtoA":
+        sortQuery = { productname: -1 };
+        break;
+      case "AtoZ":
+        sortQuery = { productname: 1 };
+        break;
+      case "Lowtohigh":
+        sortQuery = { price: 1 };
+        break;
+      case "Hightolow":
+        sortQuery = { price: -1 };
+        break;
+      default:
+        sortQuery = { orderData: -1 };
+    }
+    const queryCondition = searchData.trim() !== "" ? { "productname": { $regex: new RegExp(search, "i") } } : {};
+    const filterCondition = filter !== '' ? {$or: [{ "category_id": filter },{ "brand_id": filter }]} : {};
+    const combinedCondition = {...queryCondition,...filterCondition}
+    const product = await Product.find(combinedCondition).sort(sortQuery).populate("category_id brand_id")
+    const bdata = await Brand.find({ isListed: 0 })
+    const cdata = await Category.find({ isListed: 0 })
     const allowedProducts = product.filter(pro => pro.category_id.isListed === 0)
-    res.render('user/shop', { product: allowedProducts, user })
+    res.render('user/shop', { product: allowedProducts, user, bdata, cdata, filter, sort , search })
   } catch (error) {
     console.log(error.message);
   }
@@ -180,8 +218,10 @@ const productListUnlist = async (req, res) => {
 
 }
 
-module.exports = {
 
+
+module.exports = {
+  getAddProducts,
   addProduct,
   getProducts,
   editProduct,

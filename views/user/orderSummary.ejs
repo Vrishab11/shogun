@@ -1,0 +1,93 @@
+<%- include('layout/header.ejs')%>
+
+<main class="promain pb-5">
+    <section class="products pt-5 pt-sm-5">
+      <div class="container ">
+          <div class="row px-4  py-3 px-sm-5">
+            <div class="headorder d-flex justify-content-between"><h2 class="fw-bold my-4">ORDER SUMMARY</h2><button type="button" id="invoicebtn" class="btn my-auto mb-4" <% if(locals.orderdata) {%> data-orderid="<%= locals.orderdata._id %>" <% } %>>Download Invoice</button></div>
+              <div class="ordersum col-md-10 m-auto">
+                <div class="card">
+                  <% if(locals.orderdata ) { %>
+                    <div class="card-body ordersumbody">
+                            <% locals.orderdata.products.forEach(element => { %>
+                            <div class="prodiv w-100"><img src="/images/<%= element.product_id.mainimage %>" alt="" width="350px" height="350px">
+                            <h4><%= element.product_id.productname %></h4>
+                            <h6><%= element.product_id.description.split('.')[0] %></h6>
+                            <h6>Rs.<%= element.product_id.price %></h6>
+                            </div>
+                            <% if(element.status === "Delivered") { %>
+                              <div class="delstat"><h3 class="fw-bold text-center">Delivered</h3>
+                              <p>Your Order is Successfully Delivered.</p></div>
+                              <% } else if(element.status === "Processing") { %>
+                                <div class="processstat"><h3 class="fw-bold text-center">Processing</h3>
+                                <p>Your Order is processing.</p></div>
+                                <% } else if(element.status === "Shipped") { %>
+                                  <div class="shipstat"><h3 class="fw-bold text-center">Shipped</h3>
+                                  <p>Your Order is shipped.</p></div>
+                                  <% } else if(element.status === "Dispatched") {%>
+                                    <div class="dispstat"><h3 class="fw-bold text-center">Dispatched</h3>
+                                      <p>Your Order is dispatched.</p></div>
+                                    <% }else if(element.status === "Cancelled") {%>
+                                      <div class="cancelstat"><h3 class="fw-bold text-center">Cancelled</h3>
+                                        <p>Your Order is cancelled.</p></div>
+                                <% }else if(element.status === "Returned") {%>
+                                  <div class="cancelstat"><h3 class="fw-bold text-center">Returned</h3>
+                                    <p>Your Order is returned.</p></div>
+                            <% }else if(element.status === "Refunded") {%>
+                              <div class="cancelstat"><h3 class="fw-bold text-center">Refunded</h3>
+                                <p>Your Order is refunded.</p></div>
+                        <% } %>
+                            <%   }) %>
+                            
+                            
+                        </div>
+                    </div>
+
+
+
+              </div>
+               <div class="checkorder  col-md-10 mt-4 m-auto">
+                
+                  <div class="card " >
+                      <div class="card-body checkout">
+                        <h4 class="card-title  fw-bold ">Your Order</h4>
+
+                        <div class="cartdetails">
+                            <h4 class="card-title  fw-normal ">Order ID</h4>
+                            <h6>#<%= locals.orderdata._id %></h6>
+                            <hr class="my-4">
+                            <h4 class="card-title  fw-normal ">Delivery Details</h4>
+                            <div class="addp">
+                              <% if(locals.orderdata.address_id) { %>
+                            <p><%= locals.orderdata.address_id.name %></p>
+                            <p><%= locals.orderdata.address_id.mobile %></p>
+                            <p><%= locals.orderdata.address_id.landmark %>,<br><%= locals.orderdata.address_id.streetAddress %></p>
+                            <p><%= locals.orderdata.address_id.district %>,<%= locals.orderdata.address_id.state %>,<%= locals.orderdata.address_id.country %></p>
+                            <p><%= locals.orderdata.address_id.pincode %></p></div>
+                            <% } %>
+                            <hr class="my-4">
+                            <h4 class="card-title mt-5 mb-4 fw-normal ">Order Summary</h4>
+                        </div>
+                        <!-- <div class="checkpricepro">
+                        <h6>Products</h6>
+                            <p>Rs.50000</p>
+                        </div> -->
+                              <hr>
+                              <div class="checktotal"><h6>Total Amount</h6><p>Rs.<%= locals.orderdata.total_amount %></p></div>
+                              
+                            </div>
+                        </div>
+                        <% } %>
+            </div>
+              
+            <a href="/shop" class="text-center my-5"><button type="button" class="btn backbtn">Back to Shopping</button></a>
+          </div>
+      </div>
+  </section>
+  </main>
+
+
+
+  <script src='/public/js/ordersummary.js'></script>
+
+<%- include('layout/footer.ejs')  %>

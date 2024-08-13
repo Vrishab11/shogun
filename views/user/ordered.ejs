@@ -2,4 +2,32 @@
 
 
 
+      <main class="promain pb-5">
+        <section class="products pt-5 pt-sm-5">
+          <div class="container ">
+              <div class="row px-4  py-3 px-sm-5">
+                  <div class="ordered col-md-6 m-auto">
+                    <div class="card d-flex justify-content-center align-items-center">
+                        <div class="card-body successbody ">
+                            <% if(locals.orderdata) { %>
+                                <% locals.orderdata.products.forEach(element => { %>
+                                <img src="/images/<%= element.product_id.mainimage %>" alt="" width="150px" height="150px">
+                                <% }) %>
+                                <h3 class="fw-normal text-center">Order Placed Successfully</h3>
+                                <p>Order #<%= locals.orderdata._id %> is confirmed.</p>
+                                
+                                <p>Payment via <%= locals.orderdata.payment_method %></p>
+                                    <% } %>
+                                <div class="btns"><a href="/orders"><button class="btn" type="button">Go to Orders</button></a><a href="/"><button class="btn" type="button">Continue Shopping</button></a></div>
+                            </div>
+                        </div>
+                  </div>
+                  
+                  
+
+              </div>
+          </div>
+      </section>
+      </main>
+
 <%- include('layout/footer.ejs') %>

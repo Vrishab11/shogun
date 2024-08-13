@@ -65,8 +65,14 @@ const userSchema = Mongoose.Schema({
         default: []
     },
     wallet: {
-        type: Number,
-        default: 0
+        wallet_id: {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'wallets'
+        },
+        wallet_amount:{
+            type: Number,
+            default:0
+        }
     }
 });
 

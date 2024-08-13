@@ -67,17 +67,17 @@ const updateCategory = async (req, res) => {
     const catimage = req.file;
     const cat = await Category.find({ categoryname: catname })
     const catdata = await Category.findById({ _id: id })
-    if (cat.length  && !cat[0]._id.equals(id)) {
+    if (cat.length && !cat[0]._id.equals(id)) {
       res.render("admin/editCategory", {
         data: catdata,
         message: "Category already exists!!",
       });
     } else {
       let updatedCategory
-      if(req.file){
+      if (req.file) {
         updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status, image: catimage.filename } }, { new: true });
-      }else{
-       updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status } }, { new: true });
+      } else {
+        updatedCategory = await Category.findByIdAndUpdate({ _id: id }, { $set: { categoryname: catname, status: status } }, { new: true });
       }
       console.log(updatedCategory)
       res.redirect("/admin/category");
@@ -91,39 +91,39 @@ const updateCategory = async (req, res) => {
 
 const categoryListUnlist = async (req, res) => {
 
-  try{
+  try {
     const { id } = req.query
-    const state = await Category.findById({_id:id})
-    if(state !== null){
-        if(state.isListed === 0){
-            const list = await Category.findOneAndUpdate(
-                {_id: id},
-                {$set: { isListed: 1}},
-                {new: 0}
-            )
-            if(list !== null){
-                res.json({unlist:"Category is listed"})
-            }else{
-                res.json({err:"Error in unlisting"})
-            }
-        }else{
-            const unlist = await Category.findOneAndUpdate(
-                {_id: id},
-                {$set: { isListed: 0}},
-                {new: 0}
-            )
-            if(unlist !== null){
-                res.json({list:"Category is unlisted"})
-            }else{
-                res.json({err:"Error in unlisting"})
-            }
+    const state = await Category.findById({ _id: id })
+    if (state !== null) {
+      if (state.isListed === 0) {
+        const list = await Category.findOneAndUpdate(
+          { _id: id },
+          { $set: { isListed: 1 } },
+          { new: 0 }
+        )
+        if (list !== null) {
+          res.json({ unlist: "Category is listed" })
+        } else {
+          res.json({ err: "Error in unlisting" })
         }
-    }else{
-        console.log('No action performed')
+      } else {
+        const unlist = await Category.findOneAndUpdate(
+          { _id: id },
+          { $set: { isListed: 0 } },
+          { new: 0 }
+        )
+        if (unlist !== null) {
+          res.json({ list: "Category is unlisted" })
+        } else {
+          res.json({ err: "Error in unlisting" })
+        }
+      }
+    } else {
+      console.log('No action performed')
     }
-}catch(error){
+  } catch (error) {
     console.log(error.message)
-}
+  }
 
 }
 

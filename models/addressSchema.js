@@ -40,7 +40,7 @@ const addressSchema = new mongoose.Schema({
     isListed:{
         type:Number,
         default:0
-    }
+    },
 })
 
 const Address = mongoose.model('address',addressSchema)

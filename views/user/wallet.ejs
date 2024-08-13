@@ -1,0 +1,82 @@
+<%- include('layout/header.ejs') %>
+
+<% if(locals.user) {%>
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-0">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <ul>
+                        <li>
+                            <a href="/">Home </a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> Orders </li>
+                    </ul>
+                    <br>
+                    <h2>Orders</h2>
+                    <br>
+    
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="my-account-area pb-95">
+                <div class="container">
+                    <div class="row flex-row-reverse">
+                        <div class="col-lg-12">
+                            <div class="myaccount-tab-menu nav" role="tablist">
+                                <a href="/myAccount" >Change Password</a>
+                                <a href="/orders"> Orders</a>
+                                <a href="/wallet" class="active"> Wallet</a>
+                                <a href="/addresses" >Address</a>
+                                <a href="/logout"> Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+
+            <main class="promain pb-5">
+                <section class="products pt-5 pt-sm-5">
+                  <div class="container ">
+                      <div class="row p-4 p-sm-0">
+                        <div class="wallhead"><h2 class="fw-bold my-4">WALLET</h2><h6 class="my-4">WALLET BALANCE :<span style="color: #ff3f00;"> Rs.<% if(locals.udata && locals.udata.walletamount){ %> <%= locals.udata.walletamount %> <% }else{ %>0<% } %></span></h6></div>
+                        
+                        <div class="card walletmain p-0 ">
+                            <div class="card-body">
+                                <table class="table table1"><tr><th>Date</th><th>Order ID</th> <th>Redeemed Amount</th><th>Refund Amount</th><th>Method</th></tr>
+                                    <% if(locals.wallet && locals.wallet.length > 0){ locals.wallet.forEach(element => { %>
+                                <tr><td><%= element.date.toUTCString().split(' ').slice(1,4).join(' ') %></td><td>#<%= element.order_id %></td><td>Rs.<%= element.redeemedamount %></td><td>Rs.<%= element.refundamount %></td><td><%= element.payment_method %></td></tr>
+                                <% }); }%>
+                                <table class="table table2" style="display: none;">
+                                    <% if(locals.wallet && locals.wallet.length > 0){ locals.wallet.forEach(element => { %>
+                                    <tr><th>Date</th><td><%= element.date.toUTCString().split(' ').slice(1,4).join(' ') %></td></tr>
+                                    <tr><th>Order ID</th><td>#<%= element.order_id %></td></tr>
+                                    <tr><th>Redeemed Amount</th><td>Rs.<%= element.redeemedamount %></td></tr>
+                                    <tr><th>Refund Amount</th><td>Rs.<%= element.refundamount %></td></tr>
+                                    <tr><th>Method</th><td><%= element.payment_method %></td></tr>
+                                    <tr><td></td><td></td></tr>
+                                <% }); }else{ %>
+                                    <div class="cart  col-lg-12 mt-4">
+                                        <div class="card m-auto border-0 h-100 ">
+                                          <div class="card-body h-100 d-flex justify-content-center align-items-center">
+                                            <div class="card-title d-flex flex-column justify-content-center align-items-center ">
+                                              <h2>No Transactions.</h2>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        </div>
+                                <% } %>
+                                </table>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+              </section>
+              </main>
+
+
+<%- include('layout/footer.ejs') %>

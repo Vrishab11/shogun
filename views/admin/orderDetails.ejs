@@ -35,6 +35,7 @@
                                 <select id="actionDropdown" class="form-select form-select-sm d-inline-block mb-lg-0 mb-15 mw-100" onchange="handleDropdownChange(this,'<%=orders.userId%>')">
                                     <option value="status">Status</option>
                                     <option value="Shipped">Shipped</option>
+                                    <option value="Dispatched">Dispatched</option>
                                     <option value="Delivered">Delivered</option>
                                 </select>
                             <% } %>
@@ -74,13 +75,14 @@
                                 <h6 class="mb-1">Order info</h6>
                                 <p class="mb-1">
                                     <% if (locals.orders) { %>
-                                        Pay method: <%= orders.payment_method %> <br> Status:
+                                        Pay method: <%= orders.payment_method %> <br> 
+                                        Status:
                                         <% if (orders.status === "Failed") { %>
                                             Failed
                                         <% } else if (orders.status === "Delivered") { %>
                                             Delivered
-                                        <% } else if (orders.status === "Confirmed") { %>
-                                            Confirmed
+                                        <% } else if (orders.status === "Dispatched") { %>
+                                            Dispatched
                                         <% } else if (orders.status === "Shipped") { %>
                                             Shipped
                                         <% } else { %>
@@ -162,6 +164,73 @@
 </main>
 
 
+<script>
+    function tracking() {
+    Swal.fire({
+      title: '<strong><u>ORDER DETAILS</u></strong>',
+      html: `
+        <div class="modal-body">
+          <div class="progress-track">
+            <ul id="progressbar">
+              <li class="step0 active " id="step1">Order placed</li>
+              <li class="step0 active text-center" id="step2">In Transit</li>
+              <li class="step0 active text-right" id="step3"><span>Out for Delivery</span></li>
+              <li class="step0 text-right" id="step4">Delivered</li>
+            </ul>
+          </div>
+        </div>
+      `,
+    });
+  }
+</script>
 
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="progress-track">
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    /* Center the text */
+    h3 {
+      text-align: center;
+    }
+  
+    /* Set the text color to red */
+    h3 {
+      color: red;
+    }
+  
+    /* Set the font size */
+    h3 {
+      font-size: 24px; /* You can adjust the size as needed */
+    }
+  </style>
+
+<script>
+  function handleDropdownChange(selectElement, userId) {
+    var selectedValue = selectElement.value;
+    console.log(selectedValue);
+    if (selectedValue == "cancel") {
+      window.location.href = `http://localhost:5000/admin/changeStatus?orderId=${orderId.value}&status=${selectedValue}`;
+    } else if (selectedValue == "Shipped") {
+      window.location.href = `http://localhost:5000/admin/changeStatus?orderId=${orderId.value}&status=${selectedValue}`;
+    }else if (selectedValue == "Dispatched") {
+      window.location.href = `http://localhost:5000/admin/changeStatus?orderId=${orderId.value}&status=${selectedValue}`;
+    } else if (selectedValue == "Delivered") {
+      window.location.href = `http://localhost:5000/admin/changeStatus?orderId=${orderId.value}&status=${selectedValue}`;
+    } else if (selectedValue == "Returned") {
+      console.log("hello boss");
+      window.location.href = `http://localhost:5000/admin/changeStatus?orderId=${orderId.value}&status=${selectedValue}&userId=${userId}`;
+    } else {
+      alert("error")
+    }
+  }
+</script>
 
 <%-include ("layout/footer.ejs") %>

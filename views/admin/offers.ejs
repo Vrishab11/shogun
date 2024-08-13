@@ -1,0 +1,94 @@
+<%- include('layout/header.ejs') %>
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Categories </h2>
+            <p>Add, edit or delete a category</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white">
+        </div>
+    </div>
+    <div class="card">
+        <% if(locals.message) { %>
+            <div class="error1 alert alert-danger w-75"><%= locals.message %></div>
+        <% } %>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method="post" id="offerForm" action="/admin/offers">
+                        <div class="mb-4">
+                            <label for="offertitle" class="form-label">Name</label>
+                            <input type="text" placeholder="Type here" class="form-control" id="offertitle" name="offertitle">
+                            <p class="perror mb-2" id="error1" style="display: none; color: red;"></p>
+                        </div>
+                        <div class="mb-4">
+                            <label for="status" class="form-label">Status</label>
+                            <select name="status" class="form-control" id="status" name="status">
+                                <option value="0">Active</option>
+                                <option value="1">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                                <div>
+                                    <label for="description"> Description</label>
+                                    <textarea name="description" id="description" cols="33" rows="3"></textarea>
+                                    <p class="perror mb-2" id="error2" style="display: none; color: red;"></p>
+                                    <br>
+                                    <p class="perror mb-2" id="error2" style="display: none; color: red;"></p>
+                                </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="discount" class="form-label">Discount</label>
+                            <input type="number" placeholder="Type here" class="form-control" id="discount" name="discount">
+                            <p class="perror mb-2" id="error3" style="display: none; color: red;"></p>
+                        </div>
+                        <br>
+                        <div class="d-grid">
+                            <button class="btn btn-primary">Create Offer</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Discount</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <% if(locals.offer) {for (var i = 0; i < locals.offer.length; i++) { %>
+                                    <th class="text-center"><%= locals.offer[i].offertitle  %></th>
+                                    <th class="text-center"><%= locals.offer[i].discount  %>%</th>
+                                    <% if(locals.offer[i].status == 0) { %>
+                                        <td class="text-center"><span class="badge rounded-pill alert-success">Active</span></td>
+                                    <% }else{ %>
+                                        <td class="text-center"><span class="badge rounded-pill alert-warning">Inctive</span></td>
+                                    <% } %>
+                                    <td class="text-center d-flex justify-content-center align-items center">
+                                        <% if(locals.offer[i].status == 0) { %>
+                                            <button class="btn btn-sm btn-brand rounded font-sm mt-15 unlistbtn"  data-offerid="<%= locals.offer[i]._id%>">Unlist</button>
+                                        <% }else{ %>
+                                            <button class="btn btn-sm btn-brand rounded font-sm mt-15 listbtn"  data-offerid="<%= locals.offer[i]._id%>">List</button>
+                                        <% } %>  
+                                    </td>
+                                </tr>
+                                <% } } %>
+                            </thead>
+                        </table>
+                    </div>
+                </div> <!-- .col// -->
+            </div> <!-- .row // -->
+        </div> <!-- card body .// -->
+    </div> <!-- card .// -->
+</section>
+
+<script src="/public/js/listUnlistOffer.js"></script>
+<script src="/public/js/offer.js"></script>
+
+<%- include('layout/footer.ejs') %>

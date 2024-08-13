@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="product-slider-active-3 product-slider-padding-2">
-                <% for(let i=0; i< locals.product.length; i++){ %>
+                <% for(let i=0; i< (locals?.product?.length <= 10 ? locals?.product.length : 10); i++){ %>
                 <div class="pro-all product-wrap-opacity">
                     <div class="product-wrap">
                         <div class="product-img default-overlay mb-40">
@@ -72,7 +72,7 @@
                 <div class="tab-content jump">
                     <div id="product-6" class="tab-pane active">
                         <div class="row">
-                            <% if(locals.product){ for(let i=0;i<  locals.product.length ;i++){ %>
+                            <% if(locals.product){ for(let i=0;i< (locals?.product?.length <= 10 ? locals?.product.length : 8) ;i++){ %>
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="product-wrap mb-50">
                                     <div class="product-img default-overlay mb-25">

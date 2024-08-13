@@ -35,9 +35,8 @@ app.use(cookieParser())
 
 app.use(nocache())
 
-app.use('/', userRouter)
 app.use('/admin', adminRouter)
-
+app.use('/', userRouter)
 
 app.listen(port,() => {
     console.log(`Starting http://localhost:${port}`)

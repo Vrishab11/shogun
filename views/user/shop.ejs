@@ -23,7 +23,7 @@
         <div class="shop-top-bar">
             <div class="shop-top-bar-left">
                 <!-- <div class="shop-top-show">
-                    <span>Showing 1–12 of 39 results</span>
+                <span>Showing 1–12 of 39 results</span>
                 </div>
                 <div class="shop-page-list">
                     <ul>
@@ -35,24 +35,37 @@
                 </div> -->
             </div>
             <div class="shop-top-bar-right">
+                <div class="search-content-wrap main-search-active">
+                    <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
+                    <div class="search-content">
+                        <p>Start typing and press Enter to search</p>
+                        <form action="/shop" method="get" class="search-form" style="display: flex; align-items: center;">
+                            <input type="text" name="search" id="search" placeholder="Search" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 12px; width: 200px;">
+                            <input type="hidden" name="filter" value="<%= locals.filter %>">
+                            <input type="hidden" name="sort" value="<%= locals.sort %>">
+                            <button id="searchButton" type="submit" style="padding: 10px; border-width: 0.5px; border-radius: 5px; font-size: 18px;"> <i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                </div>
                 <div class="shop-tab nav">
                     <a href="#shop-1" class="active" data-bs-toggle="tab"><i class="dlicon ui-2_grid-45"></i></a>
                     <a href="#shop-2" data-bs-toggle="tab"><i class="dlicon design_bullet-list-69"></i></a>
                 </div>
                 <div class="shop-filter ml-50">
-                    <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
-                </div>
-                <div class="shop-short-by ml-50">
-                    <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
-                    <ul>
-                        <li class="active"><a href="#">Default sorting</a></li>
-                        <li><a href="#">Sort by popularity</a></li>
-                        <li><a href="#">Sort by average rating</a></li>
-                        <li><a href="#">Sort by latest</a></li>
-                        <li><a href="#">Sort by price: low to high</a></li>
-                        <li><a href="#">Sort by price: high to low</a></li>
-                    </ul>
-                </div>
+                        <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
+                    </div>
+                    <div class="shop-short-by ml-50">
+                        <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
+                        <ul>
+                            <li class="active"><a href="/shop?sort=Default">Default sorting</a></li> 
+                            <li><a href="/shop?sort=Latest&search=<%= locals?.search %>&filter=<%=locals?.filter %>"> latest</a></li>
+                            <li><a href="/shop?sort=AtoZ&search=<%= locals?.search %>&filter=<%=locals?.filter %>"> A to Z</a></li>
+                            <li><a href="/shop?sort=ZtoA&search=<%= locals?.search %>&filter=<%=locals?.filter %>"> Z to A</a></li>
+                            <li><a href="/shop?sort=Lowtohigh&search=<%= locals?.search %>&filter=<%=locals?.filter %>"> price: Low to high</a></li>
+                            <li><a href="/shop?sort=Hightolow&search=<%= locals?.search %>&filter=<%=locals?.filter %>"> price: High to low</a></li>
+                            <li><a href="#"> Rating</a></li> 
+                        </ul>
+                    </div>
             </div>
         </div>
         <div class="product-filter-wrapper">
@@ -63,9 +76,9 @@
                         <h5>Price</h5>
                         <div class="price-filter">
                             <ul>
-                                <li><a href="#">$0.00 - $20.00</a></li>
-                                <li><a href="#">$20.00 - $40.00</a></li>
-                                <li><a href="#">$30.00 - $50.00</a></li>
+                                <li><a href="#">₹1000.00 - ₹10000.00</a></li>
+                                <li><a href="#">₹10000.00 - ₹50000.00</a></li>
+                                <li><a href="#">₹50000.00 - ₹100000.00</a></li>
                             </ul>
                         </div>
                     </div>
@@ -73,31 +86,13 @@
                 <!-- Product Filter -->
                 <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
                     <div class="product-filter">
-                        <h5>Size</h5>
+                        <h5>Category</h5>
                         <div class="product-size">
                             <ul>
-                                <li><a href="#">Full Size</a></li>
-                                <li><a href="#">L</a></li>
-                                <li><a href="#">M</a></li>
-                                <li><a href="#">S</a></li>
-                                <li><a href="#">XL</a></li>
-                                <li><a href="#">XXL</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product Filter -->
-                <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
-                    <div class="product-filter">
-                        <h5>Color</h5>
-                        <div class="product-color">
-                            <ul>
-                                <li><a href="#">Blue</a></li>
-                                <li><a href="#">Brown</a></li>
-                                <li><a href="#">Green</a></li>
-                                <li><a href="#"> Pink</a></li>
-                                <li><a href="#">Violet</a></li>
-                                <li><a href="#"> White</a></li>
+                                <% cdata.forEach(element => { %>
+                                     <li><a href="shop?filter=<%= element._id %>&sort=<%= locals?.sort %>&search=<%= locals?.search %>"> <%= element.categoryname  %></a></li>
+                                <% }); %>
+                               
                             </ul>
                         </div>
                     </div>
@@ -108,11 +103,10 @@
                         <h5>Brands</h5>
                         <div class="product-brands">
                             <ul>
-                                <li><a href="#">Airi</a></li>
-                                <li><a href="#">Draven</a></li>
-                                <li><a href="#">Mango</a></li>
-                                <li><a href="#"> Valentino</a></li>
-                                <li><a href="#">Zara </a></li>
+                                <% bdata.forEach(element => { %>
+                                    <li><a href="/shop?filter=<%= element._id %>&sort=<%= locals?.sort %>&search=<%= locals?.search %>"> <%= element.brandname  %></a></li>
+                                <% }); %>
+                                   
                             </ul>
                         </div>
                     </div>

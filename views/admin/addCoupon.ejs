@@ -1,0 +1,55 @@
+<%- include('layout/header.ejs') %>
+
+<section class="content-main">
+    <div class="row">
+        <div class="col-12">
+            <div class="content-header">
+                <h2 class="content-title">Add new Coupon</h2>
+
+            </div>
+        </div>
+        <div class="col-lg-12 ">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="couponform" action="/admin/addCoupon" method="post">
+                        <% if(locals.message){ %>
+                            <div class="error1 alert alert-danger w-75" style="color: red;"><%= locals.message %></div>
+                        <% } %>
+                        <div class="mb-4 coupfield "><label for="couponname">Coupon Name</label>
+                            <input type="text" id="couponname" name="couponname" class="form-control">
+                            <p class="perror mb-2" id="error1" style="display: none; color: red;"></p>
+                        </div>
+                        <div class="mb-4 coupfield"><label for="status">Status</label>
+                            <select name="status" class="form-control" id="status" >
+                                <option value="0">Active</option>
+                                <option value="1">Inactive</option>
+                            </select>
+                        </div>
+                        <div class="mb-4"><label for="coupondescription">Coupon Description</label>
+                            <textarea name="description" id="coupondescription" cols="50" rows="5"></textarea>
+                            <p class="perror mb-2" id="error2" style="display: none; color: red;"></p>
+                        </div>
+                        <div class="mb-4 coupfield1 "><label for="couponcode">Coupon Code</label>
+                            <input type="text" id="couponcode" name="couponcode" class="form-control">
+                            <p class="perror mb-2" id="error3" style="display: none; color: red;"></p>
+                        </div>
+                        <div class="mb-4 coupfield1"><label for="limit">Coupon Limit</label>
+                            <input type="number" id="limit" name="limit" class="form-control">
+                            <p class="perror mb-2" id="error4" style="display: none; color: red;"></p>
+                        </div>
+                        <div class="mb-4 coupfield1"><label for="reduction">Reduction Rate</label>
+                            <input type="number" id="reduction" name="reduction" class="form-control">
+                              <p class="perror mb-2" id="error5" style="display: none; color: red;"></p>
+                        </div>
+                </div>
+                <button type="submit" id="addcouponbtn" class="btn btn-md rounded font-sm hover-up"> Save Coupon </button>
+
+                </form>
+            </div>
+
+        </div>
+</section>
+
+<script src="/public/js/coupon.js"></script>
+
+<%- include('layout/footer.ejs') %>
