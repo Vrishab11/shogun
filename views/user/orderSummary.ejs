@@ -4,7 +4,7 @@
     <section class="products pt-5 pt-sm-5">
       <div class="container ">
           <div class="row px-4  py-3 px-sm-5">
-            <div class="headorder d-flex justify-content-between"><h2 class="fw-bold my-4">ORDER SUMMARY</h2><button type="button" id="invoicebtn" class="btn my-auto mb-4" <% if(locals.orderdata) {%> data-orderid="<%= locals.orderdata._id %>" <% } %>>Download Invoice</button></div>
+            <div class="headorder d-flex justify-content-between"><h2 class="fw-bold my-4">ORDER SUMMARY</h2><button type="button" id="invoicebtn" class="btn my-auto mb-4" <% if(locals.orderdata && locals.orderdata.status === "Delivered") {%> data-orderid="<%= locals.orderdata._id %>" <% } %>>Download Invoice</button></div>
               <div class="ordersum col-md-10 m-auto">
                 <div class="card">
                   <% if(locals.orderdata ) { %>

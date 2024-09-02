@@ -25,8 +25,9 @@
                                     <th class="text-center">Status</th>
                                     <th class="text-center">Action</th>
                                 </tr>
-                                <tr class="" style="background-color: rgb(221, 220, 220); ">
                                     <% for(let i=0; i<coupondata.length; i++) { %>
+                                <tr class="" style="background-color: rgb(221, 220, 220); ">
+
                                                  <td><%= coupondata[i].couponcode %></td> 
                                                  <td><%= coupondata[i].couponname %></td> 
                                                  <td>RS.<%= coupondata[i].reductionrate %></td> 
@@ -44,8 +45,8 @@
                                                             <button class="btn font-sm btn-brand rounded listbtn" data-couponid="<%= locals.coupondata[i]._id%>">List</button>
                                                     <% } %>        
                                                     </td>
+                                                </tr>
                                         <% } %> 
-                                </tr>
                             </thead>
                         </table>
                     </div>

@@ -39,11 +39,16 @@ if (unlistbtn) {
     unlistbtn.forEach(btn => {
         btn.addEventListener('click', () => {
             const id = btn.dataset.uid;
-            console.log(id);
-            const confirmResult = confirm("Are you sure you want to list this category?");
-            if (confirmResult) {
-                unlist(id);
-            }
+            Swal.fire({
+                title: "Are you sure you want to unlist this category?",
+                icon: "info",
+                confirmButtonText: "Unlist Category",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    unlist(id)
+                }
+            })
         });
     });
 }
@@ -52,12 +57,16 @@ if (listbtn) {
     listbtn.forEach(btn => {
         btn.addEventListener('click', () => {
             const id = btn.dataset.uid;
-            console.log(id);
-            const confirmResult = confirm("Are you sure you want to unlist this category?");
-            console.log(confirmResult);
-            if (confirmResult) {
-                list(id);
-            }
+            Swal.fire({
+                title: "Are you sure you want to list this category?",
+                icon: "info",
+                confirmButtonText: "List Coupon",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    list(id)
+                }
+            })
         });
     });
 }

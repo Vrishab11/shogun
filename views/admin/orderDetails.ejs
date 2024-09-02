@@ -119,6 +119,7 @@
                                         <th>Unit Price</th>
                                         <th>Quantity</th>
                                         <th class="text-center" width="20%" class="text-end">Total</th>
+                                        <th>Order Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -141,6 +142,15 @@
                                                     ₹<%= orders.products[i].qty * orders.products[i].price %>
 
                                                 </td>
+                                                <% if(orders.products[i].status === "Returned" || orders.products[i].status === "Cancelled") {%>
+                                                    <td class="text-center text-primary"> 
+                                                        <%= orders.products[i].status %>
+                                                    </td>
+                                                <% } else {%>
+                                                    <td class="text-center text-success"> 
+                                                        <%= orders.products[i].status %>
+                                                    </td>
+                                                <% } %>
                                             </tr>
                                    
 

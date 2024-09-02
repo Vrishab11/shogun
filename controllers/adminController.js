@@ -150,7 +150,7 @@ const dashboard = async (req, res) => {
       { $count: "proCount" },
     ]);
     let currentPage = propage;
-    //  console.log(totalProCount[0].proCount)
+
     res.render("admin/dashboard", {
       userCount: ucount,
       orderCount: ocount,

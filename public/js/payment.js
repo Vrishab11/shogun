@@ -24,7 +24,13 @@ async function verifyPayment(paymentdetails,orderIdDB){
           Swal.fire({
               title:"Payment Failed!!",
               icon:"error",
-
+              confirmButtonText:"OK",
+              
+          }).then(res=>{
+            if(res.isConfirmed)
+            {
+                window.location.href="/orders"
+            }
           })
       }
   } catch (error) {
@@ -76,8 +82,7 @@ async function razorOrderAPI(orderid,amount,userdata,orderIdDB)
             .then(res=>{
               if(res.isConfirmed)
               {
-                  cancelOrder(orderIdDB)
-                  window.location.reload()
+                  window.location.href = '/orders'
               }
               if(res.isDenied)
               {

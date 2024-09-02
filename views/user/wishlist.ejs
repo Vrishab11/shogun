@@ -1,0 +1,56 @@
+<%- include('layout/header.ejs') %>
+
+<main class="promain pb-5">
+    <section class="products pt-5 pt-sm-5">
+      <div class="container">
+          <div class="row p-3">
+              <h2 class=" mt-4 mb-3">WISHLIST</h2>
+              
+            <% if(locals.user && locals.user.wishlist && locals.user.wishlist.length > 0) { locals.user.wishlist.forEach(element => { %>
+              
+            <table class="table">
+
+              <tr class="">
+                <td><a href="/productDetails?id=<%= element.product_id._id %>"><img src="/images/<%= element.product_id.mainimage %>" alt="" width="200px" height="200px"></a></td>
+                <td style="vertical-align: middle;"><%= element.product_id.productname %></td>
+                <td style="vertical-align: middle;"><p>Rs.<%= element.product_id.price %></td>
+                <td style="vertical-align: middle;">
+                  <div class="d-flex justify-content-around align-items-center">
+                    <div class="addtocartbtn" data-proid="<%= element.product_id._id %>"><button type="button" class="btn">Add to Cart</button></div>
+                    <div class="removebtn" data-proid="<%= element.product_id._id %>"><i class="fa-solid fa-trash"></i></div></td>
+                  </div>
+              </tr>
+
+            </table>
+            <%  }); }else{%>
+                <div class="cart  col-lg-12 mt-4">
+              
+                    <div class="card m-auto border-0 h-100 ">
+                      <div class="card-body h-100 d-flex justify-content-center align-items-center">
+                        <div class="card-title d-flex flex-column justify-content-center align-items-center ">
+                          <br><br><br>
+                          <h2>Wishlist is Empty!!</h2>
+                          <br><br><br>
+                          <a class="btn" href="/">Continue browsing</a>
+                          <br><br>
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+            <% } %>
+
+                      
+
+                    </div>
+              </div>
+              
+              
+
+          </div>
+      </div>
+  </section>
+  </main>
+
+<script src="/public/js/wishlist.js"></script>
+
+<%- include('layout/footer.ejs') %>

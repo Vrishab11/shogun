@@ -1,8 +1,11 @@
 const User = require("../models/userSchema");
 const Order = require("../models/orderSchema");
 const Product = require("../models/productSchema");
+const Wallet = require("../models/walletSchema");
 const { ObjectId } = require('mongodb')
 const path = require('path')
+const fs = require('fs')
+const PDFDocument = require('pdfkit');
 
 
 const loadOrdered = async (req, res) => {
@@ -20,16 +23,26 @@ const loadOrdered = async (req, res) => {
   }
 };
 
+
 const loadOrders = async (req, res) => {
   try {
     const uid = req.userid;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit =  3;
+    const skip = (page - 1) * limit;
+    const totalOrders = await Order.countDocuments({ user_id: uid });
+
     const udata = await User.findById({ _id: uid }).populate("cart.product_id");
     const orderdata = await Order.find({ user_id: uid })
       .populate("products.product_id")
-      .sort({ date: "desc" });
-
+      .sort({ date: "desc" })
+      .skip(skip)
+      .limit(limit);
+    console.log(orderdata);
+    const totalPages = Math.ceil(totalOrders / limit)
     if (orderdata.length > 0) {
-      res.render("user/order", { user: udata, orderdata: orderdata });
+      res.render("user/order", { user: udata, orderdata: orderdata ,currentPage: page, totalPages: totalPages});
     } else {
       res.render("user/order", { user: udata, err: "No Orders Added!!" });
     }
@@ -37,6 +50,7 @@ const loadOrders = async (req, res) => {
     console.log(error.message);
   }
 };
+
 
 const loadSummary = async (req, res) => {
   try {
@@ -54,10 +68,18 @@ const loadSummary = async (req, res) => {
   }
 };
 
+
 const viewOrders = async (req, res) => {
   try {
-    const orderdata = await Order.find({}).populate("address_id products.product_id")
-    res.render('admin/orders', { orders: orderdata });
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 8; 
+    const skip = (page - 1) * limit;
+
+    const totalOrders = await Order.countDocuments();
+
+    const orderdata = await Order.find({}).skip(skip).limit(limit).populate("address_id products.product_id")
+    const totalPages = Math.ceil(totalOrders / limit)
+    res.render('admin/orders', { orders: orderdata,currentPage: page, totalPages: totalPages, limit: limit});
   } catch (error) {
     console.log(error.message)
   }
@@ -117,12 +139,16 @@ const changeOrderStatus = async (req, res) => {
 
 const returnOrder = async (req, res) => {
   try {
+    const uid = req.userid
     const { oid, pid } = req.query;
     const returndata = await Order.findOneAndUpdate(
       { _id: oid, "products.product_id": pid },
       { $set: { "products.$.status": "Returned" } },
       { new: true }
     );
+    console.log(returndata);
+    
+    const user = await User.findOne({_id:uid})
     if (returndata != null) {
       let qtytoupdate = 0;
       let tot = 0;
@@ -131,12 +157,16 @@ const returnOrder = async (req, res) => {
           qtytoupdate = el.qty;
           tot = el.price
         }
-      });
-      if (
-        returndata.payment_method === "RazorPay" ||
-        returndata.payment_method === "Wallet"
-      ) {
-        let amounttorefund = returndata.tot;
+      })
+      if (returndata.payment_method === "razorpay" || returndata.payment_method === "wallet" ) {
+        let amounttorefund = tot;
+        console.log(amounttorefund)
+
+        const walletupdate = await User.findOneAndUpdate(
+          {_id:uid},
+          {$inc:{wallet:amounttorefund}},
+          {new:true}
+        )
         let walletHistoryData = {
           order_id: oid,
           refundamount: tot,
@@ -145,11 +175,6 @@ const returnOrder = async (req, res) => {
           date: Date.now(),
         };
         const walletHistory = await Wallet.create(walletHistoryData);
-        const walletaddition = await User.findByIdAndUpdate(
-          { _id: returndata.user_id },
-          { $inc: { wallet: amounttorefund } },
-          { new: true }
-        )
       }
 
       const stockUpdate = await Product.findByIdAndUpdate(
@@ -177,6 +202,7 @@ const cancelOrder = async (req, res) => {
       { $set: { "products.$.status": "Cancelled" } },
       { new: true }
     );
+    console.log(cancelData.success);
     if (cancelData != null) {
       let qtytoupdate = 0;
       let tot = 0;
@@ -187,8 +213,8 @@ const cancelOrder = async (req, res) => {
         }
       });
       if (
-        cancelData.payment_method === "RazorPay" ||
-        cancelData.payment_method === "Wallet"
+        cancelData.payment_method === "razorPay" ||
+        cancelData.payment_method === "wallet"
       ) {
         let amounttorefund = cancelData.tot;
         let walletHistoryData = {
@@ -203,7 +229,7 @@ const cancelOrder = async (req, res) => {
           { _id: cancelData.user_id },
           { $inc: { walletamount: amounttorefund } },
           { new: true }
-        )
+        ) 
       }
 
       const stockUpdate = await Product.findByIdAndUpdate(
@@ -229,7 +255,7 @@ const generateInvoice = async (req, res) => {
     const { id } = req.query;
 
     const uid = req.userid;
-    const user = await User.findOne({ _id: uid })
+    const user = await User.findOne({ _id: uid });
     const orderdata = await Order.aggregate([
       { $match: { _id: new ObjectId(id) } },
       { $unwind: "$products" },
@@ -256,13 +282,11 @@ const generateInvoice = async (req, res) => {
     let products = [];
     let total_amount = 0;
     orderdata.forEach((el) => {
-      total_amount += (el.products.qty * el.productdetails.price)
+      total_amount += (el.products.qty * el.productdetails.price);
       products.push({
         item: el.productdetails.productname,
-        description: " ",
         quantity: el.products.qty,
         price: el.productdetails.price,
-        tax: "0",
       });
     });
 
@@ -278,26 +302,59 @@ const generateInvoice = async (req, res) => {
       items: products,
       total: total_amount,
       order_number: id,
-      header: {
-        company_name: "Shogun",
-        company_logo: path.join(__dirname, 'public/images/logo.png'),
-        company_address: "Shogun. 123 William Street 1th Floor New York, NY 123456"
-      },
-      footer: {
-        text: "Thank You"
-      },
-      currency_symbol: "RS",
-      date: {
-        billing_date: currentdate
-      }
+      date: currentdate
     };
 
+    const doc = new PDFDocument();
 
-    res.json({ pdfData: invoiceDetail });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=invoice-${invoiceDetail.order_number}.pdf`);
+
+    doc.pipe(res);
+
+    doc.image(path.join(__dirname, '../public/images/logo.png'), 50, 45, { width: 100 })
+      .fontSize(20)
+      .text('Shogun', 110, 57)
+      .fontSize(10)
+      .text('123 William Street 1th Floor New York, NY 123456', 200, 65, { align: 'right' })
+      .text('Order Invoice', 200, 80, { align: 'right' })
+      .moveDown();
+
+    doc.text(`Invoice to: ${invoiceDetail.shipping.name}`, 50, 150)
+      .text(invoiceDetail.shipping.address, 50, 165)
+      .text(`${invoiceDetail.shipping.city}, ${invoiceDetail.shipping.state}, ${invoiceDetail.shipping.country}`, 50, 180)
+      .text(invoiceDetail.shipping.postal_code, 50, 195)
+      .moveDown();
+
+    doc.text(`Invoice Number: ${invoiceDetail.order_number}`, 50, 250)
+      .text(`Date: ${invoiceDetail.date}`, 50, 265)
+      .moveDown();
+
+    doc.fontSize(12).text('Item', 50, 320)
+      .text('Quantity', 200, 320)
+      .text('Price', 300, 320, { align: 'right' });
+
+    let yPosition = 340;
+    invoiceDetail.items.forEach(item => {
+      doc.text(item.item, 50, yPosition)
+        .text(item.quantity, 200, yPosition)
+        .text(`RS ${item.price}`, 300, yPosition, { align: 'right' });
+      yPosition += 20;
+    });
+
+    doc.text(`Total: RS ${invoiceDetail.total}`, 300, yPosition + 20, { align: 'right' });
+
+    doc.text('Thank You', 50, 700, { align: 'center', width: 500 });
+
+    doc.end();
+
   } catch (error) {
     console.log(error);
+    res.status(500).send('Error generating invoice');
   }
-}
+};
+
+
 
 
 module.exports = {

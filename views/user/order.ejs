@@ -86,9 +86,11 @@
                                                 <button type="button" class="btn returnbtn" data-orderid="<%= element._id %>" data-proid="<%= el.product_id._id %>">Return</button>
                                             <% } else if(el.status == "Cancelled" || el.status == "Returned" || el.status == "Refunded") { %>
                                                   No Action
+                                            <% }else if(el.status == "Processing"){ %>
+                                                <button type="button" class="btn retrypayment" data-id="<%= element._id%>" data-orderid="<%= element.order_id %>" data-amount="<%=element.total_amount%>" data-udata="<%= locals.user %>">Retry Payment</button>
                                             <% }else{ %>
                                                 <button type="button" class="btn cancelorderbtn" data-orderid="<%= element._id %>" data-proid="<%= el.product_id._id %>">Cancel Order</button>
-                                            <% } %>  
+                                          <%  } %>  
                                         </td>
                                         <td><a class="btn" href="/ordersummary?id=<%=element._id%>">></a></td>
                                     </tr>
@@ -101,8 +103,30 @@
                     <% }%>
 
                 </div>
+                <br>
+                <div class="d-flex justify-content-center">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% if (currentPage > 1) { %>
+                                <li class="page-item">
+                                    <a class="btn" href="?page=<%= currentPage - 1 %>">Previous</a>
+                                </li>
+                            <% } %>
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                    <a class="btn" href="?page=<%= i %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                            <% if (currentPage < totalPages) { %>
+                                <li class="page-item">
+                                    <a class="btn" href="?page=<%= currentPage + 1 %>">Next</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                </div>
             </main>
-
+<br>
 <script src="/public/js/order.js"></script>
-
+<br>
 <%- include ('layout/footer.ejs') %>

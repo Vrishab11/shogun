@@ -7,10 +7,16 @@ const path = require("path")
 
 const getProducts = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+    const totalProducts = await Product.countDocuments()
+    const totalPages = Math.ceil(totalProducts / limit)
+
     const bdata = await Brand.find({ isListed: 0 });
     const cdata = await Category.find({ isListed: 0 });
-    const prodata = await Product.find({});
-    res.render("admin/products", { products: prodata, category: cdata, brand: bdata });
+    const prodata = await Product.find({}).skip(skip).limit(limit);
+    res.render("admin/products", { products: prodata, category: cdata, brand: bdata ,currentPage: page, totalPages: totalPages,});
   } catch (error) {
     console.log(error.message);
   }
@@ -18,7 +24,9 @@ const getProducts = async (req, res) => {
 
 const getAddProducts = async (req, res) => {
   try {
-    res.render("admin/addProducts")
+    const category = await Category.find({ isListed : 0})
+    const brand = await Brand.find({ isListed: 0})
+    res.render("admin/addProducts",{category,brand}) 
   } catch (error) {
     console.log(error.message);
   }
@@ -107,11 +115,11 @@ const saveEditProduct = async (req, res) => {
   try {
     const id = req.body.id
     const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs } = req.body
-    if (mainimage !== null && imgs.length !== 0) {
+    if (mainimage !== null && imgs?.length !== 0) {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs })
-    } else if (mainimage === null && imgs.length !== 0) {
+    } else if (mainimage === null && imgs?.length !== 0) {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs })
-    } else if (mainimage !== null && imgs.length === 0) {
+    } else if (mainimage !== null && imgs?.length === 0) {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage })
     } else {
       await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description })
@@ -142,6 +150,10 @@ const viewShop = async (req, res) => {
   try {
     const user = req.user
     const { search } = req.query;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 8;
+    const skip = (page - 1) * limit;
     
     const searchData = search || "";
     let sortQuery = {};
@@ -166,14 +178,17 @@ const viewShop = async (req, res) => {
       default:
         sortQuery = { orderData: -1 };
     }
+    
     const queryCondition = searchData.trim() !== "" ? { "productname": { $regex: new RegExp(search, "i") } } : {};
     const filterCondition = filter !== '' ? {$or: [{ "category_id": filter },{ "brand_id": filter }]} : {};
     const combinedCondition = {...queryCondition,...filterCondition}
-    const product = await Product.find(combinedCondition).sort(sortQuery).populate("category_id brand_id")
+    const totalProducts = await Product.countDocuments(combinedCondition)
+    const product = await Product.find(combinedCondition).sort(sortQuery).skip(skip).limit(limit).populate("category_id brand_id")
+    const totalPages = Math.ceil(totalProducts / limit)
     const bdata = await Brand.find({ isListed: 0 })
     const cdata = await Category.find({ isListed: 0 })
     const allowedProducts = product.filter(pro => pro.category_id.isListed === 0)
-    res.render('user/shop', { product: allowedProducts, user, bdata, cdata, filter, sort , search })
+    res.render('user/shop', { product: allowedProducts, user, bdata, cdata, filter, sort , search, currentPage: page, totalPages: totalPages, limit: limit })
   } catch (error) {
     console.log(error.message);
   }

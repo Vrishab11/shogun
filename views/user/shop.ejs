@@ -145,9 +145,19 @@
             
             <div class="pro-pagination-style text-center">
                 <ul>
-                    <li><a class="active" href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#"><i class="dlicon arrows-1_tail-right"></i></a></li>
+                    <% if(currentPage > 1) { %>
+                        <li><a href="/shop?page=<%= currentPage - 1 %>&limit=<%= limit %>&sort=<%= sort %>&filter=<%= filter %>&search=<%= search %>"><i class="dlicon arrows-1_tail-left"></i></a></li>
+                    <% } %>
+            
+                    <% for(let i = 1; i <= totalPages; i++) { %>
+                        <li>
+                            <a class="<%= currentPage === i ? 'active' : '' %>" href="/shop?page=<%= i %>&limit=<%= limit %>&sort=<%= sort %>&filter=<%= filter %>&search=<%= search %>"><%= i %></a>
+                        </li>
+                    <% } %>
+            
+                    <% if(currentPage < totalPages) { %>
+                        <li><a href="/shop?page=<%= currentPage + 1 %>&limit=<%= limit %>&sort=<%= sort %>&filter=<%= filter %>&search=<%= search %>"><i class="dlicon arrows-1_tail-right"></i></a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>

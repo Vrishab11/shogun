@@ -39,11 +39,16 @@ if (blockbtns) {
     blockbtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const id = btn.dataset.uid;
-            console.log(id);
-            const confirmResult = confirm("Are you sure you want to block this user?");
-            if (confirmResult) {
-                block(id);
-            }
+            Swal.fire({
+                title: "Are you sure you want to block this user?",
+                icon: "info",
+                confirmButtonText: "Block User",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    block(id)
+                }
+            })
         });
     });
 }
@@ -52,12 +57,16 @@ if (unblockbtns) {
     unblockbtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const id = btn.dataset.uid;
-            console.log(id);
-            const confirmResult = confirm("Are you sure you want to unblock this user?");
-            console.log(confirmResult);
-            if (confirmResult) {
-                unblock(id);
-            }
+            Swal.fire({
+                title: "Are you sure you want to unblock this user?",
+                icon: "info",
+                confirmButtonText: "Unblock User",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    unblock(id)
+                }
+            })
         });
     });
 }

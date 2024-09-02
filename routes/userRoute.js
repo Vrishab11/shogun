@@ -4,6 +4,7 @@ const userAuth = require("../middleware/userAuth")
 
 const userController = require("../controllers/userController") 
 const productController = require("../controllers/productController")
+const wishlistController = require("../controllers/wishlistController")
 const cartController = require("../controllers/cartController")
 const addressController = require("../controllers/addressController")
 const paymentController = require("../controllers/paymentController")
@@ -31,11 +32,16 @@ router.post('/verifyotp', userAuth.notLogged, userController.verifyOtp)
 router.post('/verifyotp/resendOtp', userAuth.notLogged, userController.resendOtp)
 
 router.get('/myAccount',userAuth.isLogged, userController.getProfile)
+router.post('/editprofile',userAuth.isLogged, userController.editprofile)
 router.post('/myAccount/changePass', userAuth.isLogged, userController.changePassword)
 
 router.get('/productDetails', userAuth.isHome, productController.viewProduct)
 
 router.get('/shop', userAuth.isHome, productController.viewShop)
+
+router.get("/wishlist", userAuth.isLogged, wishlistController.loadWishlist);
+router.get("/wishlist/add", userAuth.isLogged, wishlistController.addToWishlist);
+router.get("/wishlist/remove", userAuth.isLogged, wishlistController.removeFromWishlist);
 
 router.get('/cart', userAuth.isLogged, cartController.viewCart)
 router.get('/addToCart', userAuth.isHome, cartController.addToCart)

@@ -15,10 +15,27 @@
 
                 <h2>My Account</h2>
                 <br>
-                <div>
-                    <h4>Name : <%= locals.user.fname %> <%= locals.user.lname %></h4>
-                    <h4>Email : <%= locals.user.email %> </h4>
-                    <h4>Mobile : <%= locals.user.mobile %> </h4>
+                <div class="container d-flex align-items-center ">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6" style="align-self: center;">
+                            <div class="login-register-wrap register-wrap">
+                                <h4>Email : <%= locals.user.email %> </h4>
+                                <form action="/editprofile" method="post" id="profileChange">
+                                    <label for="fname">First Name</label>
+                                    <input type="text" name="fname" id="fname" value="<%= locals.user.fname %>">
+                                    <p class="error mb-2" id="error4" style="display: none; color: red;"></p>
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" name="lname" id="lname" value="<%= locals.user.lname %>">
+                                    <p class="error mb-2" id="error5" style="display: none; color: red;"></p>
+                                    <label for="mobile">Mobile</label>
+                                    <input type="text" name="mobile" id="mobile" value="<%= locals.user.mobile %>">
+                                    <p class="error mb-2" id="error6" style="display: none; color: red;"></p>
+                                    <br><br>
+                                    <button class="btn" type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <br>
@@ -47,11 +64,9 @@
         <div class="col-lg-6 col-md-6" style="align-self: center;">
             <div class="login-register-wrap register-wrap">
                 <form id="changePass" action="/myAccount/changePass" method="post">
-        
                     <% if(locals.err) { %> 
                         <div class="error1 alert alert-danger w-75"><%= locals.err  %></div>
-                        <% } %>
-                    
+                    <% } %>
                     <div class="sin-login-register">
                         <label>Old Password </label>
                         <input type="password" name="password" id="password">

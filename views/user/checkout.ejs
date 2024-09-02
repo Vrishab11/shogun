@@ -71,6 +71,7 @@
                                         <li>Product <span>Total</span></li>
                                     </ul>
                                 </div>
+                               
                                 <div class="your-order-middle">
                                     <% for(let i=0; i< user.cart.length ; i++) {%>
                                         <% let total = user.cart[i].qty * user.cart[i].product_id.price %>
@@ -87,15 +88,32 @@
                                     <ul>
                                         <li>Total <span id="ordertotal">Rs. <%= grandtotal %> </span></li>
                                     </ul>
-                                </div>
-                                <!-- <div class="your-order-info order-total">
                                     <ul>
-                                        <li>Total <span>£273.00 </span></li>
+                                        <li>Discount <span id="ordertotal">Rs. <%= 00 %> </span></li>
                                     </ul>
-                                </div> -->
+                                </div>
+                                <div class="your-order-info order-subtotal">
+                                    <ul>
+                                        <li>Grand Total <span id="ordertotal">Rs. <%= grandtotal %> </span></li>
+                                    </ul>
+                                </div>
                             </div>
                             <% } %>
                         </div>
+                        <br>
+                        <p>If you have a coupon code, please apply it below.</p>
+                        <form id="couponform">
+                            <select id="couponSelect" onchange="selectCoupon(this.value)">
+                                    <option value="">Select a coupon</option>
+                                <% locals.couponData.forEach(element => { %>
+                                     <option value="<%= element.coupencode %>"><%= element.couponcode%> (RS <%= element.reductionrate%> )</option>
+                                <% }); %>
+                            </select>
+                            <input type="text" id="coupCode" name="coupon"  placeholder="Coupon code" style="display:none;">
+                            <button class="btn coupon-btn apply" type="button" id="applyCpn" onclick="applyCoupon('<%= user.cart._id%>')"
+                                type="submit">Apply</button>
+                            <button class="btn coupon-btn cancel" type="button" id="remCoupon" onclick="removeCoup()">Cancel</button>
+                        </form>
                         <div class="Place-order mt-30">
                             <div class="proceedbtn my-5 text-center " id="proceedbtn">
                                 <a href="/payment"><button class="btn">Proceed To Payment</button></a>

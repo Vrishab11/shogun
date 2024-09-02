@@ -108,9 +108,19 @@
                                             <input class="cart-plus-minus-box" type="text" name="qty" id="qty" value="1" readonly>
                                         </div>
                                     </div>
-                                    <button class="button" id="addToCart" data-productid="<%= locals.product._id %>">Add to Cart</button>
-                                    <div class="product-details-wishlist affiliate-res-xs">
-                                        <a title="Add to wishlist" href="#"><i class="fa fa-heart"></i></a>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button class="button" id="addToCart" data-productid="<%= locals.product._id %>">Add to Cart</button>
+                                        <div class="product-details-wishlist affiliate-res-xs">
+                                            <% let isListed = 0 %>
+                                            <% if(locals.user && locals.user.wishlist && locals.user.wishlist.length > 0) { locals.user.wishlist.forEach(element => { %>
+                                                <% if(element.product_id.equals(locals.product._id)) { isListed = 1 }%>
+                                            <% });} %>
+                                            <% if(isListed == 1){%>
+                                            <div class="wishiconsolid3 " data-proid="<%= locals.product._id %>"><i class="fa-solid fa-heart"></i></div>
+                                            <% }else{ %>   
+                                            <div class="wishicon3 " data-proid="<%= locals.product._id %>"><i class="fa-regular fa-heart"></i></div>
+                                            <% } %>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="product-details-info">

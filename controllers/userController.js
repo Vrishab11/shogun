@@ -56,6 +56,16 @@ const getProfile = async (req, res) => {
   }
 }
 
+const editprofile = async (req, res) => {
+  try {
+    const { fname, lname, mobile} = req.body
+    await User.findOneAndUpdate({_id:req.userid},{fname:fname,lname:lname,mobile:mobile})
+    res.redirect('/myAccount')
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
 const changePassword = async (req, res) => {
 
   try {
@@ -416,6 +426,7 @@ const securePassword = async (password) => {
 module.exports = {
   getHome,
   getProfile,
+  editprofile,
   loadLogin,
   login,
   loadRegister,

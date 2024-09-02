@@ -6,13 +6,14 @@
         <div class="row firstportion my-5 ">
           <div class="card mt-4 col-md-7">
             <div class="card-body">
-            <div class="card-title saleschart"><h3>Sales Report</h3> <div class="optionbuttons"><button type="button" id="weekbtn">This Week</button><button type="button" id="monthbtn">This Month</button><button type="button" id="yearbtn">This Year</button></div></div>
+            <div class="card-title saleschart"><h3>Sales Report</h3> <div class="optionbuttons"><button class="btn" type="button" id="weekbtn">This Week</button><button class="btn" type="button" id="monthbtn">This Month</button><button class="btn" type="button" id="yearbtn">This Year</button></div></div>
               <div class="chart" id="weekchart" >
                   <canvas id="linechart" ></canvas>
               </div>
               <div class="chart" id="monthchart" style="display: none;">
                 <canvas id="linechart1"></canvas>
-            </div><div class="chart" id="yearchart" style="display: none;">
+            </div>
+            <div class="chart" id="yearchart" style="display: none;">
               <canvas id="linechart2"></canvas>
           </div>
             </div>
@@ -29,47 +30,7 @@
         </div>
       </div>
 
-      <div class="container px-lg-5">
-        <div class="row secondportion mb-5">
-          <div class="card col-md-3 my-4 my-md-0">
-            <div class="card-body">
-              <div class="orderimg"><img src="/public/images/vecteezy_order-button-isometric_.jpg" alt="" width="120px" height="120px"></div>
-              <% if(locals.orderCount) { %>
-              <h3><%= locals.orderCount %></h3>
-              <% } else { %>
-                <h3>0</h3>
-                <% } %>
-              <h4>Orders</h4>
-              <h6>Orders placed this Month.</h6>
-            </div>
-          </div>
-          <div class="card col-md-3 my-4 my-md-0">
-            <div class="card-body">
-              <div class="orderimg"><img src="/public/images/user_icon_001.jpg" alt="" width="120px" height="120px"></div>
-              <% if(locals.userCount) { %>
-              <h3><%= locals.userCount %></h3>
-                <% } else { %>
-              <h3>0</h3>
-                <% } %>
-              <h4>Customers</h4>
-              <h6>Customers joined this Month.</h6>
-            </div>
-          </div>
-
-          <div class="card col-md-3 my-4 my-md-0">
-            <div class="card-body">
-              <div class="orderimg"><img src="/public/images/vecteezy_sold-rubber-stamp-red-sold-rubber-grunge-stamp-seal-vector_20091046.jpg" alt="" width="230px" height="120px"></div>
-              <% if(locals.productCount){ %>
-              <h3><%= locals.productCount %></h3>
-              <% } else { %>
-                <h3>0</h3>
-              <% } %>  
-              <h4>Products </h4>
-              <h6>Products sold this Month.</h6>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       
       <div class="container px-lg-5">
         <div class="row thirdportion mb-5">
@@ -121,7 +82,7 @@
                   <% } %>
               </table>
               <% if(locals.totalStock) {%> <input type="hidden" id="totalStock" value="<%= locals.totalStock %>"> <% } %>
-              <div class="pagemain mt-4"><div class="pageblock" id="pgstock"></div></div>
+              <!-- <div class="pagemain mt-4"><div class="pageblock" id="pgstock"></div></div> -->
 
             </div>
           </div>
@@ -147,7 +108,7 @@
                 <tr class="prosalesub1">
                 <td><%= i + 1 %></td>
                 <td><%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
-                <td><%= element.userdetails[0].firstname %>&nbsp;<%= element.userdetails[0].lastname %></td>
+                <td><%= element.userdetails[0].fname %>&nbsp;<%= element.userdetails[0].lname %></td>
                 <td><%= element.prodetails[0].productname %></td>
                 <td><%= element.products.qty %>
                   <% if(element.products.qty === 1) { %>Piece <% }else{ %> Pcs <% } %></td>
@@ -220,4 +181,5 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/public/js/admindashboard.js"></script>
-        <%- include('layout/footer.ejs') %>
+
+<%- include('layout/footer.ejs') %>

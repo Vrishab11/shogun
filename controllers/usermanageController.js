@@ -3,8 +3,16 @@ const User = require("../models/userSchema")
 
 const viewUsers = async (req, res) => {
     try {
-        const udata = await User.find({ isAdmin: 0 })
-        res.render('admin/users', { udata: udata })
+        const page = parseInt(req.query.page) || 1; 
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        const totalUsers = await User.countDocuments({ isAdmin: 0 });
+
+        const udata = await User.find({ isAdmin: 0 }).skip(skip).limit(limit)
+
+        const totalPages = Math.ceil(totalUsers / limit)
+
+        res.render('admin/users', { udata: udata,currentPage: page, totalPages: totalPages, limit: limit })
     } catch (error) {
         console.log(error.message)
     }

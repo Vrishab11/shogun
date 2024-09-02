@@ -1,6 +1,7 @@
 const User = require("../models/userSchema");
 const Product = require("../models/productSchema")
 const Address = require("../models/addressSchema");
+const Coupon = require("../models/couponSchema");
 
 const viewCart = async (req, res) => {
   try {
@@ -28,8 +29,6 @@ const addToCart = async (req, res) => {
             { new: true }
           )
           if (updatedCart) {
-            pdata.stock = pdata.stock - qty;
-            pdata.save();
             res.json({ data: "Added to Cart Succesfully." })
           } else {
             res.json({ err: "Failed in Adding." })
@@ -55,6 +54,8 @@ const qtyInc = async (req, res) => {
     const id = req.userid;
     const { qty, proid } = req.query;
     const pdata = await Product.findById({ _id: proid });
+    console.log(qty);
+    
     if (qty <= pdata.stock) {
       const updatedCart = await User.findOneAndUpdate(
         { _id: id, cart: { $elemMatch: { product_id: proid } } },
@@ -153,9 +154,10 @@ const clearCart = async (req, res) => {
 const checkout = async (req, res) => {
   try {
     const uid = req.userid
+    const couponData = await Coupon.find({status: "0"})
     const udata = await User.findById({ _id: uid }).populate({ path: "cart.product_id" })
     const addData = await Address.find({ user_id: uid })
-    res.render("user/checkout", { user: udata, addData: addData });
+    res.render("user/checkout", { user: udata, addData: addData, couponData });
   } catch (error) {
     console.log(error)
   }

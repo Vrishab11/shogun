@@ -69,7 +69,7 @@ if (unlistbtn) {
                 if (result.isConfirmed) {
                     unlist(id)
                 }
-              })
+            })
         });
     });
 }
@@ -87,7 +87,7 @@ if (listbtn) {
                 if (result.isConfirmed) {
                     list(id)
                 }
-              })
+            })
         });
     });
 }

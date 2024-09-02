@@ -38,6 +38,11 @@ app.use(nocache())
 app.use('/admin', adminRouter)
 app.use('/', userRouter)
 
+app.use("/",(req, res)=>{
+    res.status(404).render('user/error404'); 
+});
+
+
 app.listen(port,() => {
     console.log(`Starting http://localhost:${port}`)
 })

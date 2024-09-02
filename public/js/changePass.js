@@ -144,3 +144,118 @@ changePass.addEventListener('submit',(event)=>{
         event.preventDefault()
     }
 })
+
+
+const fname = document.getElementById('fname')
+const lname = document.getElementById('lname')
+const mob = document.getElementById('mobile')
+const profileForm = document.getElementById('profileChange')
+
+const error4 = document.getElementById('error4')
+const error5 = document.getElementById('error5')
+const error6 = document.getElementById('error6')
+
+
+function fnamevalidate(name)
+{   
+    const namepattern = /^[a-zA-Z]+$/
+    if(name.trim()==="")
+    {
+        error4.innerHTML = "Please Enter Firstname."
+        error4.style.display = "block"
+    }
+    else if(!namepattern.test(name))
+    {
+        error4.innerHTML = "Name should only include Alphabets."
+        error4.style.display = "block"
+    }
+    else{
+        error4.innerHTML = ""
+        error4.style.display = "none"
+    }
+}
+
+function lnamevalidate(name)
+{   
+    const namepattern = /^[a-zA-Z]+$/
+    if(name.trim()==="")
+    {
+        error5.innerHTML = "Please Enter Lastname."
+        error5.style.display = "block"
+    }
+    else if(!namepattern.test(name))
+    {
+        error5.innerHTML = "Name should only include Alphabets."
+        error5.style.display = "block"
+    }
+    else{
+        error5.innerHTML = ""
+        error5.style.display = "none"
+    }
+}
+
+function mobvalidate(mob)
+{
+    const mobpattern = /^\d+$/
+    if(mob.trim()==="")
+    {
+        error6.innerHTML = "Please Enter Mobile Number."
+        error6.style.display = "block"
+    }
+    else if(!mobpattern.test(mob))
+    {
+        error6.innerHTML = "Please Enter Digits."
+        error6.style.display = "block"
+    }
+    else if(mob.length!== 10)
+    {
+        error6.innerHTML = "Please Enter Atleast 10 Digits."
+        error6.style.display = "block"
+    }
+    else{
+        error6.innerHTML = ""
+        error6.style.display = "none"
+    }
+}
+
+
+fname.addEventListener('keyup',()=>{
+    const fdata = fname.value
+    fnamevalidate(fdata)
+})
+fname.addEventListener('blur',()=>{
+    const fdata = fname.value
+    fnamevalidate(fdata)
+})
+
+lname.addEventListener('keyup',()=>{
+    const ldata = lname.value
+    lnamevalidate(ldata)
+})
+lname.addEventListener('blur',()=>{
+    const ldata = lname.value
+    lnamevalidate(ldata)
+})
+mob.addEventListener('keyup',()=>{
+    const mdata = mob.value
+    mobvalidate(mdata)
+})
+mob.addEventListener('blur',()=>{
+    const mdata = mob.value
+    mobvalidate(mdata)
+})
+
+profileForm.addEventListener('submit',(event)=>{
+    const ldata = lname.value
+    const fdata = fname.value
+    const mdata = mob.value
+    
+    mobvalidate(mdata)
+    fnamevalidate(fdata)
+    lnamevalidate(ldata)
+
+    if(error4.innerHTML !== "" || error5.innerHTML !== "" || error6.innerHTML !== "")
+    {
+        event.preventDefault()
+    }
+})

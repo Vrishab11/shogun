@@ -43,13 +43,13 @@
                 <section class="products pt-5 pt-sm-5">
                   <div class="container ">
                       <div class="row p-4 p-sm-0">
-                        <div class="wallhead"><h2 class="fw-bold my-4">WALLET</h2><h6 class="my-4">WALLET BALANCE :<span style="color: #ff3f00;"> Rs.<% if(locals.udata && locals.udata.walletamount){ %> <%= locals.udata.walletamount %> <% }else{ %>0<% } %></span></h6></div>
+                        <div class="wallhead"><h2 class="fw-bold my-4">WALLET</h2><h6 class="my-4">WALLET BALANCE :<span style="color: #ff3f00;"> Rs.<% if(locals.user && locals.user.wallet){ %> <%= locals.user.wallet %> <% }else{ %>0<% } %></span></h6></div>
                         
                         <div class="card walletmain p-0 ">
                             <div class="card-body">
-                                <table class="table table1"><tr><th>Date</th><th>Order ID</th> <th>Redeemed Amount</th><th>Refund Amount</th><th>Method</th></tr>
+                                <table class="table table1"><tr><th>Date</th><th>Order ID</th><th>Transaction</th><th>Method</th></tr>
                                     <% if(locals.wallet && locals.wallet.length > 0){ locals.wallet.forEach(element => { %>
-                                <tr><td><%= element.date.toUTCString().split(' ').slice(1,4).join(' ') %></td><td>#<%= element.order_id %></td><td>Rs.<%= element.redeemedamount %></td><td>Rs.<%= element.refundamount %></td><td><%= element.payment_method %></td></tr>
+                                <tr><td><%= element.date.toUTCString().split(' ').slice(1,4).join(' ') %></td><td>#<%= element.order_id %></td><td><% if(element.redeemedamount === 0){%> Rs.<%= element.refundamount %> (Credit) <%}else{%> Rs.<%= element.redeemedamount %> (Debit) <%} %></td><td><%= element.payment_method %></td></tr>
                                 <% }); }%>
                                 <table class="table table2" style="display: none;">
                                     <% if(locals.wallet && locals.wallet.length > 0){ locals.wallet.forEach(element => { %>

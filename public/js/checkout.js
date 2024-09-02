@@ -30,3 +30,9 @@ proceedbtn.addEventListener('click',(e)=>{
     }
 
 })
+
+
+const applybtn = document.getElementById('apply')
+const cancelbtn = document.getElementById('cancel')
+
+applybtn
