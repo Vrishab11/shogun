@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const loadPayment = async (req, res) => {
   try {
     const uid = req.userid
+    console.log(req.cookies)
     const addid = req.cookies.addressid
     const totalamount = req.cookies.totalamount
     const user = await User.findById({ _id: uid }).populate("cart.product_id")
@@ -18,11 +19,15 @@ const loadPayment = async (req, res) => {
       qty: item.qty,
       price: item.product_id.price,
     }));
+    console.log(products);
+    
     let proext = [];
     for (let i = 0; i < products.length; i++) {
       let data = await Product.findById({
         _id: products[i].product_id,
-      }).populate({ path: "category_id", match: { status: 0 } });
+      }).populate({ path: "category_id", match: { isListed: 0 } });
+      console.log(data);
+      
       if (data.category_id !== null) {
         proext.push({
           product_id: data,
@@ -63,14 +68,15 @@ const paymentConfirm = async (req, res) => {
 
     let paystatus;
 
-    if (paymethod === "COD") {
+    if (paymethod === "cod") {
       paystatus = "Paid";
-    } else if (paymethod === "Wallet") {
+    } else if (paymethod === "wallet") {
       const walletdata = await User.findById({ _id: uid });
-      if (walletdata.wallet >= total) {
-        paystatus = "Paid";
-      } else {
+      console.log("Blaa",walletdata.wallet,total);
+      if (walletdata.wallet <= total) {
         return res.json({ walleterr: "Insufficient Wallet Balance!!" });
+      } else {
+        paystatus = "Paid";
       }
     } else {
       paystatus = "Pending";
@@ -87,7 +93,7 @@ const paymentConfirm = async (req, res) => {
       total_amount: total,
     };
     const orderSaved = await Order.create(orderdata);
-    console.log("ordec", orderSaved);
+    console.log("order", orderSaved);
     if (orderSaved != null) {
       for (let j = 0; j < products.length; j++) {
         const udel = await User.findOneAndUpdate(
@@ -99,7 +105,7 @@ const paymentConfirm = async (req, res) => {
           { $inc: { stock: -products[j].qty } }
         );
       }
-      if (orderSaved.payment_method === "COD") {
+      if (orderSaved.payment_method === "cod") {
         res.json({ cod: orderSaved._id });
       } else if (orderSaved.payment_method === "razorpay") {
         const razorOrderId = await RazorPay.createPayOrder(

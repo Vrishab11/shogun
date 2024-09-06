@@ -117,6 +117,7 @@ async function orderPlace(paymethod) {
           Swal.fire({
               title:data.walleterr,
               
+              
           })
       }
     } catch (error) {

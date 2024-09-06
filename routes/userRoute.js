@@ -62,6 +62,9 @@ router.get("/removeAddress", userAuth.isLogged, addressController.removeAddress)
 
 router.get('/checkout', userAuth.isLogged, cartController.checkout)
 
+router.post('/applyCoupon', userAuth.isLogged, cartController.applyCoupon)
+router.post('/removeCoupon', userAuth.isLogged, cartController.removeCoupon)
+
 router.get('/payment', userAuth.isLogged, paymentController.loadPayment)
 router.get("/placeorder",userAuth.isLogged,paymentController.paymentConfirm)
 router.post("/verifyPayment",userAuth.isLogged ,paymentController.verifyPayment);

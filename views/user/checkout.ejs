@@ -86,15 +86,16 @@
                                     grandtotal += parseInt(subtotal)  } %>
                                 <div class="your-order-info order-subtotal">
                                     <ul>
-                                        <li>Total <span id="ordertotal">Rs. <%= grandtotal %> </span></li>
+                                        <li>Total Rs. <span id="ordtotal"><%= grandtotal %> </span></li>
                                     </ul>
                                     <ul>
-                                        <li>Discount <span id="ordertotal">Rs. <%= 00 %> </span></li>
+                                        <li>Discount Rs. <span id="discount-value"> 0 </span></li>
                                     </ul>
                                 </div>
+                                <input type="hidden" name="total" id="total" value="<%= grandtotal %>">
                                 <div class="your-order-info order-subtotal">
                                     <ul>
-                                        <li>Grand Total <span id="ordertotal">Rs. <%= grandtotal %> </span></li>
+                                        <li>Grand Total Rs. <span id="ordertotal"><%= grandtotal %> </span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -103,16 +104,14 @@
                         <br>
                         <p>If you have a coupon code, please apply it below.</p>
                         <form id="couponform">
-                            <select id="couponSelect" onchange="selectCoupon(this.value)">
-                                    <option value="">Select a coupon</option>
+                            <select id="couponSelect">
+                                <option value="">Select a coupon</option>
                                 <% locals.couponData.forEach(element => { %>
-                                     <option value="<%= element.coupencode %>"><%= element.couponcode%> (RS <%= element.reductionrate%> )</option>
+                                    <option value="<%= element.couponcode %>"><%= element.couponcode %> (RS <%= element.reductionrate%>)</option>
                                 <% }); %>
                             </select>
-                            <input type="text" id="coupCode" name="coupon"  placeholder="Coupon code" style="display:none;">
-                            <button class="btn coupon-btn apply" type="button" id="applyCpn" onclick="applyCoupon('<%= user.cart._id%>')"
-                                type="submit">Apply</button>
-                            <button class="btn coupon-btn cancel" type="button" id="remCoupon" onclick="removeCoup()">Cancel</button>
+                            <button class="btn coupon-btn apply" type="button" id="applyCpn" onclick="applyCoupon('<%= user.cart._id %>')">Apply</button>
+                            <button class="btn coupon-btn cancel" type="button" id="remCoupon" onclick="removeCoupon()">Cancel</button>
                         </form>
                         <div class="Place-order mt-30">
                             <div class="proceedbtn my-5 text-center " id="proceedbtn">

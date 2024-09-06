@@ -146,7 +146,7 @@ async function verifyPayment(paymentdetails,orderIdDB){
   try {
       var options = {
           "key": "rzp_test_yqR9NnL6SGejbg", 
-          "amount": amount, 
+          "amount": parseInt(amount), 
           "currency": "INR",
           "name": "SHOGUN",
           "description": "Test Transaction",
@@ -170,7 +170,7 @@ async function verifyPayment(paymentdetails,orderIdDB){
       let rzp1 = new Razorpay(options);
       rzp1.open()
       rzp1.on('payment.failed', function (response){
-          console.log(response.error)
+          console.log("gdfgdgdgd",response)
           Swal.fire({
               title: "PAYMENT FAILED!",
               text: "Try using Other Options",
@@ -194,7 +194,7 @@ async function verifyPayment(paymentdetails,orderIdDB){
             })
       })
   } catch (error) {
-      console.log(error.message)
+      console.log("ERRR",error)
   }
 }
 

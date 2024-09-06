@@ -2,6 +2,7 @@ const User = require("../models/userSchema");
 const Product = require("../models/productSchema")
 const Address = require("../models/addressSchema");
 const Coupon = require("../models/couponSchema");
+const Order = require("../models/orderSchema");
 
 const viewCart = async (req, res) => {
   try {
@@ -165,6 +166,48 @@ const checkout = async (req, res) => {
 }
 
 
+const applyCoupon = async (req, res) => {
+  try {
+    const {couponCode,totalAmount} = req.body
+    const coupon = await Coupon.findOne({ couponcode: couponCode });
+
+    if (!coupon) {
+        return res.json({ success: false, message: 'Invalid coupon' });
+    }
+
+    // Calculate the new total after applying the coupon
+    const discount = coupon.reductionrate;
+    const newTotal = totalAmount - discount;
+
+
+    res.json({ success: true, newTotal , discount});
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, message: 'Error applying coupon' });
+  }
+}
+
+
+const removeCoupon = async (req, res) =>{
+    try {
+        const cart  = await User.findOne({_id:req.userid})
+        if (!cart) {
+            return res.json({ success: false, message: 'Cart not found' });
+        }
+
+        // Recalculate the original total without the discount
+        const originalTotal = cart.cart.reduce((sum, item) => sum + item.qty * item.product_id.price, 0);
+
+        // Update the cart with the original total
+        totalAmount = originalTotal;
+
+        res.json({ success: true, originalTotal });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: 'Error removing coupon' });
+    }
+}
+
 module.exports = {
   viewCart,
   addToCart,
@@ -172,5 +215,7 @@ module.exports = {
   qtyDec,
   deleteCart,
   clearCart,
-  checkout
+  checkout,
+  applyCoupon,
+  removeCoupon
 }
