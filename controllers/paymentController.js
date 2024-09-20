@@ -3,6 +3,7 @@ const Product = require("../models/productSchema");
 const Address = require("../models/addressSchema");
 const Order = require("../models/orderSchema");
 const Wallet = require("../models/walletSchema");
+const Coupon = require("../models/couponSchema");
 const RazorPay = require("../utils/razorpay");
 const mongoose = require("mongoose");
 
@@ -51,6 +52,7 @@ const paymentConfirm = async (req, res) => {
     const uid = req.userid;
     const { paymethod } = req.query;
     const addid = req.cookies.addressid;
+    const coupon = req.cookies.coupondata;
     const totalamount = req.cookies.totalamount;
     const user = await User.findById({ _id: uid }).populate("cart.product_id")
     let products = user.cart.map(item => ({
@@ -81,17 +83,30 @@ const paymentConfirm = async (req, res) => {
     } else {
       paystatus = "Pending";
     }
-
-    const orderdata = {
-      date: Date.now(),
-      user_id: uid,
-      address_id: addid,
-      products: products,
-
-      payment_method: paymethod,
-      payment_status: paystatus,
-      total_amount: total,
-    };
+    let orderdata = {};
+    if(coupon){
+       orderdata = {
+        date: Date.now(),
+        user_id: uid,
+        address_id: addid,
+        products: products,
+        coupon: coupon,
+        payment_method: paymethod,
+        payment_status: paystatus,
+        total_amount: total,
+      };
+    }else{
+       orderdata = {
+        date: Date.now(),
+        user_id: uid,
+        address_id: addid,
+        products: products,
+        payment_method: paymethod,
+        payment_status: paystatus,
+        total_amount: total,
+      };
+    }
+    
     const orderSaved = await Order.create(orderdata);
     console.log("order", orderSaved);
     if (orderSaved != null) {

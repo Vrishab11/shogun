@@ -107,7 +107,7 @@
                             <select id="couponSelect">
                                 <option value="">Select a coupon</option>
                                 <% locals.couponData.forEach(element => { %>
-                                    <option value="<%= element.couponcode %>"><%= element.couponcode %> (RS <%= element.reductionrate%>)</option>
+                                    <option value="<%= element._id %>"><%= element.couponcode %> (RS <%= element.reductionrate%>)</option>
                                 <% }); %>
                             </select>
                             <button class="btn coupon-btn apply" type="button" id="applyCpn" onclick="applyCoupon('<%= user.cart._id %>')">Apply</button>

@@ -52,10 +52,9 @@
                                         <th>Product Name</th>
                                         <th>Quantity</th>
                                         <th>Unit Price</th>
-                                        <th>Total Price</th>
                                         <th>Payment</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th class="text-center">Action</th>
                                         <th></th>
                                     </tr>
                                     <tr>
@@ -63,7 +62,6 @@
                                         <td><%= el.product_id.productname %></td>
                                         <td><%= el.qty %></td>
                                         <td>Rs.<%= el.price ? el.price : el.product_id.price %></td>
-                                        <td>Rs.<%= el.qty * (el.price ? el.price : el.product_id.price) %></td>
                                         <td><%= element.payment_method %></td>
                                         <td><% if(el.status === "Processing") { %>
                                             <span>Processing</span>
@@ -81,8 +79,8 @@
                                               <span>Refunded</span>
                                             <% } %>                                              
                                         </td>
-                                        <td> 
-                                            <% if(orderdata.payment_status === "Pending") { %>
+                                        <td class="text-center"> 
+                                            <% if(element.payment_status === "Pending" && el.status != "Cancelled") { %>
                                                 <button type="button" class="btn retrypayment" data-id="<%= element._id%>" data-orderid="<%= element.order_id %>" data-amount="<%=element.total_amount%>" data-udata="<%= locals.user %>">Retry Payment</button>
                                             <%  } %>  
                                             <% if(el.status === "Delivered") { %>
@@ -97,7 +95,7 @@
                                     </tr>
                                 </table>
                             </div>
-                        <% })} %>
+                        <% })}}) %>
                         <br>
                 <div class="d-flex justify-content-center">
                     <nav aria-label="Page navigation example">
@@ -120,7 +118,7 @@
                         </ul>
                     </nav>
                 </div>
-                    <% })}else{ %>
+                    <% }else{ %>
                         <h2 class="d-flex justify-content-center align-items-center" >No orders</h2>
                         <br> <br><br>
                     <% }%>

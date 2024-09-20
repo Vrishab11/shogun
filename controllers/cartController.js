@@ -169,7 +169,7 @@ const checkout = async (req, res) => {
 const applyCoupon = async (req, res) => {
   try {
     const {couponCode,totalAmount} = req.body
-    const coupon = await Coupon.findOne({ couponcode: couponCode });
+    const coupon = await Coupon.findOne({ _id: couponCode });
 
     if (!coupon) {
         return res.json({ success: false, message: 'Invalid coupon' });

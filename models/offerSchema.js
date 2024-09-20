@@ -5,13 +5,10 @@ const offerSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    description:{
-        type:String,
-        required:true
-    },
-    status:{
-        type:String,
-        required:true
+    isListed:{
+        type:Number,
+        required:true,
+        default:0
     },
     discount:{
         type:Number,

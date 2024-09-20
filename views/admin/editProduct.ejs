@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-9">
             <div class="content-header">
-                <h2 class="content-title">Add New Product</h2>
+                <h2 class="content-title">Edit Product</h2>
                 <form method="post" action="/admin/editProduct" id="addProductForm" enctype="multipart/form-data">
                     <% if(locals.product) { %>
                             <div>
@@ -25,7 +25,7 @@
                                     <div class="col-md-4 mb-3">
                                         <label for="size" class="form-label">Size</label>
                                         <select class="form-select" id="size" name="size">
-                                            <option value="">Select Size</option>
+                                            <option value="<%= locals.product.size %>"><%= locals.product.size %></option>
                                             <option value="S">S</option>
                                             <option value="M">M</option>
                                             <option value="L">L</option>
@@ -112,6 +112,16 @@
                                             <% } } } %>
                                     </select>        
                                     <p class="perror mb-2" id="catError" style="display: none; color: red;"></p>                                    
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Offer</label>
+                                    <select name="offer" class="form-control" id="offer">
+                                        <option value="<%= locals.product?.offer_id?._id %>"><%= locals.product?.offer_id?.offertitle %></option>
+                                        <% if(locals.offer) { for(let i = 0 ; i < locals.offer.length ; i ++) { %>
+                                            <% if( locals.product?.offer_id?.offertitle !== locals.offer[i]?.offertitle ) {%>
+                                            <option value="<%= locals.offer[i]?._id %>"><%= locals.offer[i].offertitle %></option>
+                                            <% } } } %>
+                                    </select>        
                                 </div>
                             </div>
                         </div> <!-- card end// -->

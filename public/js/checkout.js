@@ -1,12 +1,11 @@
 const proceedbtn  = document.getElementById('proceedbtn')
 
 
-
 proceedbtn.addEventListener('click',(e)=>{
     const ordertotal = document.getElementById('ordertotal').innerHTML
     const radio = document.querySelectorAll('.addressradio')
     const isChecked = Array.from(radio).some(el => el.checked)
-    
+    const coupon = document.getElementById('couponSelect');
 
     const totalamount = parseInt(ordertotal)
     let addid;
@@ -27,6 +26,7 @@ proceedbtn.addEventListener('click',(e)=>{
     else{
         document.cookie = `addressid=${addid.value}`
         document.cookie = `totalamount=${totalamount}`
+        document.cookie = `coupondata=${coupon.value}`
     }
 
 })

@@ -4,148 +4,143 @@ const couponname = document.getElementById('couponname')
 const limit = document.getElementById('limit')
 const reduction = document.getElementById('reduction')
 
-
 const couponform = document.getElementById('couponform')
-
 
 const error1 = document.getElementById('error1')
 const error2 = document.getElementById('error2')
 const error3 = document.getElementById('error3')
 const error4 = document.getElementById('error4')
 const error5 = document.getElementById('error5')
+const error6 = document.getElementById('error6') 
 
-
-
-function pnameval(data)
-{
-    if(data.trim()==="")
-    {
+// Validation functions
+function pnameval(data) {
+    if(data.trim() === "") {
         error1.innerHTML = "Please Enter Coupon Name."
         error1.style.display = "block"
-    }
-    else{
+    } else {
         error1.innerHTML = ""
         error1.style.display = "none"
     }
 }
 
-
-function descval(data)
-{
-    if(data.trim()==="")
-    {
+function descval(data) {
+    if(data.trim() === "") {
         error2.innerHTML = "Please Enter Description."
         error2.style.display = "block"
-    }
-    else{
+    } else {
         error2.innerHTML = ""
         error2.style.display = "none"
     }
 }
 
-function codeval(data)
-{
+function codeval(data) {
     const codeR = /^[a-zA-Z0-9]+$/
-
-
-    if(data.trim()==="")
-    {
+    if(data.trim() === "") {
         error3.innerHTML = "Please Enter Coupon Code."
         error3.style.display = "block"
-    }
-    else if(!codeR.test(data)){
+    } else if(!codeR.test(data)) {
         error3.innerHTML = "Please Enter Alphabets and Digits Only."
         error3.style.display = "block"
-    }
-    else{
+    } else {
         error3.innerHTML = ""
         error3.style.display = "none"
     }
 }
 
-function discval(data)
-{
+function discval(data) {
     const nonNegPattern = /^\d+$/;
-
-    if(data.trim()==="")
-    {
+    if(data.trim() === "") {
         error4.innerHTML = "Please Enter Coupon Limit."
         error4.style.display = "block"
-    }
-    else if(!nonNegPattern.test(data))
-    {
+    } else if(!nonNegPattern.test(data)) {
         error4.innerHTML = "Please Enter Valid Coupon Limit."
         error4.style.display = "block"
-    }
-    else{
+    } else {
         error4.innerHTML = ""
         error4.style.display = "none"
     }
 }
 
-function disc1val(data)
-{
+function disc1val(data) {
     const nonNegPattern = /^\d+$/;
-
-    if(data.trim()==="")
-    {
+    if(data.trim() === "") {
         error5.innerHTML = "Please Enter Reduction Rate."
         error5.style.display = "block"
-    }
-    else if(!nonNegPattern.test(data))
-    {
+    } else if(!nonNegPattern.test(data)) {
         error5.innerHTML = "Please Enter Valid Reduction Rate."
         error5.style.display = "block"
-    }
-    else{
+    } else {
         error5.innerHTML = ""
         error5.style.display = "none"
     }
 }
 
-couponname.addEventListener('keyup',()=>{
+function compareReductionAndLimit() {
+    const limitValue = parseInt(limit.value, 10);
+    const reductionValue = parseInt(reduction.value, 10);
+
+    if(!isNaN(limitValue) && !isNaN(reductionValue) && reductionValue > limitValue/2) {
+        error6.innerHTML = "Reduction cannot be twice as greater than the limit."
+        error6.style.display = "block"
+    } else {
+        error6.innerHTML = ""
+        error6.style.display = "none"
+    }
+}
+
+// Add event listeners
+couponname.addEventListener('keyup', () => {
     const pdata = couponname.value
     pnameval(pdata)
 })
-couponname.addEventListener('blur',()=>{
+couponname.addEventListener('blur', () => {
     const pdata = couponname.value
     pnameval(pdata)
 })
 
-coupondescription.addEventListener('keyup',()=>{
+coupondescription.addEventListener('keyup', () => {
     const ddata = coupondescription.value
     descval(ddata)
 })
-coupondescription.addEventListener('blur',()=>{
+coupondescription.addEventListener('blur', () => {
     const ddata = coupondescription.value
     descval(ddata)
-})
-couponcode.addEventListener('keyup',()=>{
-    const codedata = couponcode.value
-    codeval(codedata)
-})
-couponcode.addEventListener('blur',()=>{
-    const codedata = couponcode.value
-    codeval(codedata)
-})
-limit.addEventListener('keyup',()=>{
-    const pdata = limit.value
-    discval(pdata)
-})
-limit.addEventListener('blur',()=>{
-    const pdata = limit.value
-    discval(pdata)
-})
-reduction.addEventListener('keyup',()=>{
-    const reddata = reduction.value
-    disc1val(reddata)
-})
-reduction.addEventListener('blur',()=>{
-    const reddata = reduction.value
-    disc1val(reddata)
 })
 
-couponform.addEventListener('submit',(e)=>{
+couponcode.addEventListener('keyup', () => {
+    const codedata = couponcode.value
+    codeval(codedata)
+})
+couponcode.addEventListener('blur', () => {
+    const codedata = couponcode.value
+    codeval(codedata)
+})
+
+limit.addEventListener('keyup', () => {
+    const pdata = limit.value
+    discval(pdata)
+    compareReductionAndLimit() 
+})
+limit.addEventListener('blur', () => {
+    const pdata = limit.value
+    discval(pdata)
+    compareReductionAndLimit() 
+})
+
+reduction.addEventListener('keyup', () => {
+    const reddata = reduction.value
+    disc1val(reddata)
+    compareReductionAndLimit() 
+})
+reduction.addEventListener('blur', () => {
+    const reddata = reduction.value
+    disc1val(reddata)
+    compareReductionAndLimit() 
+})
+
+// On form submit
+couponform.addEventListener('submit', (e) => {
     const pdata = couponname.value
     const ddata = coupondescription.value
     const pedata = limit.value
@@ -157,9 +152,9 @@ couponform.addEventListener('submit',(e)=>{
     discval(pedata)
     descval(ddata)
     pnameval(pdata)
+    compareReductionAndLimit() 
 
-    if(error1.innerHTML !=="" || error2.innerHTML !=="" || error3.innerHTML !=="" || error4.innerHTML !== "" || error5.innerHTML !== "")
-    {
+    if(error1.innerHTML !== "" || error2.innerHTML !== "" || error3.innerHTML !== "" || error4.innerHTML !== "" || error5.innerHTML !== "" || error6.innerHTML !== "") {
         e.preventDefault()
     }
 })

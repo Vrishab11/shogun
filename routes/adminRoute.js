@@ -11,6 +11,7 @@ const brandController = require("../controllers/brandController")
 const orderController = require("../controllers/orderController")
 const couponController = require("../controllers/couponController")
 const offerController = require("../controllers/offerController")
+const reportController = require("../controllers/reportController")
 
 const adminAuth = require("../middleware/adminAuth")
 
@@ -66,7 +67,17 @@ router.get('/offers', adminAuth.isLogged, offerController.loadOffer)
 router.post('/offers', adminAuth.isLogged, offerController.addOffer)
 router.get("/offers/listUnlist", adminAuth.isLogged, offerController.listUnlistOffer)
 
-
-
+router.get('/salesreport', adminAuth.isLogged, reportController.loadReport)
+router.get("/salesreport/dailypro", adminAuth.isLogged, reportController.dailyProducts);
+router.get("/salesreport/weeklypro", adminAuth.isLogged, reportController.weeklyProducts);
+router.get("/salesreport/monthlypro", adminAuth.isLogged, reportController.monthlyProducts);
+router.get("/salesreport/yearlypro", adminAuth.isLogged, reportController.yearlyProducts);
+router.get("/salesreport/dailyturn", adminAuth.isLogged, reportController.dailyTurnover);
+router.get("/salesreport/weeklyturn", adminAuth.isLogged, reportController.weeklyTurnover);
+router.get("/salesreport/monthlyturn", adminAuth.isLogged, reportController.monthlyTurnover);
+router.get("/salesreport/yearlyturn", adminAuth.isLogged, reportController.yearlyTurnover);
+router.get("/salesreport/getrangereport", adminAuth.isLogged, reportController.rangeProducts); 
+router.get("/salesreport/getexcelpro", adminAuth.isLogged, reportController.getExcelData);
+router.get("/salesreport/getpdfpro", adminAuth.isLogged, reportController.getPdfData);
 
 module.exports = router

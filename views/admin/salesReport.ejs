@@ -1,0 +1,559 @@
+<%- include('layout/header.ejs') %>
+<style>
+    /* Style for pagination container */
+.pagemain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for pagination numbers */
+.pageblock {
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 16px;
+    background: none;
+}
+
+/* Removing background and borders */
+.pageblock a, button {
+    text-decoration: none;
+    color: #000; /* Number color */
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+/* On hover: underline and change color */
+.pageblock a:hover {
+    color: #28a745; /* Change the color on hover */
+    text-decoration: underline;
+}
+
+/* Active page style */
+.pageblock .active {
+    font-weight: bold;
+    color: #28a745; /* Green for active page */
+}
+
+</style>
+    <main class="mainframe ">
+
+        <section class="dashboard">
+            <div class="dashboardmain">
+
+                <div class="container px-5">
+                    <div class="row report  my-5">
+                        <div class="card col-md-12">
+                            <div class="card-body">
+                                <div class="reportsales">
+                                    <h3>Product Sales Report</h3>
+                                    <div class="row">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="optionbuttons">
+                                                <button class="btn" type="button" id="rangebtn">Range</button>
+                                                <button class="btn" type="button" id="dailybtn">Daily</button>
+                                                <button class="btn" type="button" id="weekbtn">Weekly</button>
+                                                <button class="btn" type="button" id="monthbtn">Monthly</button>
+                                                <button class="btn" type="button" id="yearbtn"> Yearly</button>
+                                            </div>
+                                            <div class="downoptions">
+                                                <button class="btn" type="button" id="prodownpdf">Download PDF</button>
+                                                <button class="btn" type="button" id="prodownexcel">Download Excel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rangebuttons" id="rangebuttons" style="display: none;">
+                                    <h6>Select Range</h6>
+                                    <p>Start Date</p>
+                                    <div class="dropdown"><select name="Rday1" id="Rday1">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+
+                                        </select>
+                                        <select name="Rmonth1" id="Rmonth1">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select name="Ryear1" id="Ryear1">
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+
+                                        </select>
+                                    </div>
+                                    <p>End Date</p>
+                                    <div class="dropdown"><select name="Rday2" id="Rday2">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+
+                                        </select>
+                                        <select name="Rmonth2" id="Rmonth2">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select name="Ryear2" id="Ryear2">
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+
+                                        </select>
+                                        <button class="btn" id="generatebtn">Generate</button>
+                                    </div>
+                                </div>
+                                <div class="dailybuttons" id="dailybuttons">
+                                    <h6>Select Date</h6>
+                                    <div class="dailyselect"><select name="Dday" id="Dday">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+
+                                        </select>
+                                        <select name="Dmonth" id="Dmonth">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select name="Dyear" id="Dyear">
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="weekbuttons" id="weekbuttons" style="display: none;">
+                                    <h6>Select Week</h6>
+                                    <div class="weekselect"><select name="Wweek" id="Wweek">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                        </select>
+                                        <select name="Wmonth" id="Wmonth">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select name="Wyear" id="Wyear">
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="monthbuttons" id="monthbuttons" style="display: none;">
+                                    <h6>Select Month</h6>
+                                    <div class="monthselect">
+                                        <select name="Mmonth" id="Mmonth">
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select name="Myear" id="Myear">
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="yearbuttons" id="yearbuttons" style="display: none;">
+                                    <h6>Select Year</h6>
+                                    <div class="yearselect">
+                                        <select name="Yyear" id="Yyear">
+                                            <option value="2024">2024</option>
+                                            <option value="2023">2023</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <table class="table table1" id="promaintable">
+                                    <tr>
+                                        <th>Serial No.</th>
+                                        <th>Date Purchased</th>
+                                        <th>Customer Name</th>
+                                        <th>Product Name </th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Order Amount</th>
+                                        <th>Payment Method</th>
+                                    </tr>
+                                    <% if(locals.prosold && locals.prosold.length> 0) {
+                                        locals.prosold.forEach((element,i) => { %>
+                                        <tr class="protable">
+                                            <td>
+                                                <%= i + 1 %>
+                                            </td>
+                                            <td>
+                                                <%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
+                            <td><%= element.userdetails[0].fname %>&nbsp;<%= element.userdetails[0].lname %></td>
+                            <td><%= element.prodetails[0].productname %></td>
+                            <td><%= element.products.qty %>
+                              <% if(element.products.qty === 1) { %>Piece <% }else{ %> Pcs <% } %></td>
+                            <td>Rs.<%= element.prodetails[0].price %></td>
+                            <td>Rs.<%= element.total_amount %></td>
+                            <td><%= element.payment_method %></td>
+                        </tr>
+                        <%  }) } else { %>
+                          <tr><td >No Products Sold</td></tr>
+                        <% } %>
+                        </table>
+  
+                        <table class="table table2" id="promaintable1" style="display: none;">
+                          <% if(locals.prosold && locals.prosold.length > 0) { locals.prosold.forEach((element,i) => { %>
+                            <tr><th>Serial No.</th><td><%= i + 1 %></td> </tr>
+                            <tr><th>Date Purchased</th>
+                            <td><%= element.date.toString().split(' ')[2] %>&nbsp;<%= element.date.toString().split(' ')[1] %>&nbsp;<%= element.date.toString().split(' ')[3] %>&nbsp;</td>
+          
+                            </tr>
+                            <tr>
+                                <th>Customer Name</th>
+                                <td><%= element.userdetails[0].firstname %>&nbsp;<%= element.userdetails[0].lastname %></td>
+          
+                            </tr>
+                            <tr>
+                                <th>Product Name </th>
+                                <td><%= element.prodetails[0].productname %></td>
+          
+                            </tr>
+                            <tr>
+                                <th>Quantity</th>
+                                <td><%= element.products.qty %>
+                                  <% if(element.products.qty === 1) { %> Piece <% }else{ %> Pcs <% } %></td>
+          
+                            </tr>
+                            <tr>
+                                <th>Price</th>
+                                <td>Rs.<%= element.prodetails[0].price %></td>
+          
+                            </tr>
+                            <tr>
+                                <th>Order Amount</th>
+                                <td>Rs.<%= element.total_amount %></td>
+          
+                            </tr>
+                            <tr>
+                                <th>Payment Method</th>
+                                <td><%= element.payment_method %></td>
+          
+                            </tr>
+                           <tr><td></td><td></td></tr>
+                           
+  
+                            <%  }) } else { %>
+                              <tr><td>No Products Sold</td></tr>
+                            <% } %>
+                        </table>
+                        <input type="hidden" id="procount" name="procount" <% if(locals.totPro) {%> value="<%= locals.totPro %>" <% } %>>
+                      <div id="page" class="pagemain mt-4" ><div class="pageblock" id="pgmain"></div></div>
+                      <div id="dpage" class="pagemain mt-4" style="display: none;"><div class="pageblock" id="dpgmain"></div></div>
+                      <div id="wpage" class="pagemain mt-4" style="display: none;"><div class="pageblock" id="wpgmain"></div></div>
+                      <div id="mpage" class="pagemain mt-4" style="display: none;"><div class="pageblock" id="mpgmain"></div></div>
+                      <div id="ypage" class="pagemain mt-4" style="display: none;"><div class="pageblock" id="ypgmain"></div></div>
+                      <div id="rpage" class="pagemain mt-4" style="display: none;"><div class="pageblock" id="Rpgmain"></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <div class="container px-5">
+                    <div class="row report  my-5">
+                      <div class="card col-md-12">
+                        <div class="card-body">
+                          <div class="reportsales"><h3>Turnover Report</h3><div class="rightoptions">
+                            <!-- <div class="downoptions"><button type="button" id="maindownpdf">Download PDF</button><button type="button" id="maindownexcel">Download Excel</button></div> -->
+                          <div class="optionbuttons"><button type="button" id="dailybtn1">Daily</button><button type="button" id="weekbtn1">Weekly</button><button type="button" id="monthbtn1"> Monthly</button><button type="button" id="yearbtn1"> Yearly</button></div></div></div>
+                          <div class="dailybuttons" id="dailybuttons1" >
+                            <h6>Select Date</h6>
+                            <div class="dailyselect"><select name="Dday1" id="Dday1">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
+                                <option value="20">20</option>
+                                <option value="21">21</option>
+                                <option value="22">22</option>
+                                <option value="23">23</option>
+                                <option value="24">24</option>
+                                <option value="25">25</option>
+                                <option value="26">26</option>
+                                <option value="27">27</option>
+                                <option value="28">28</option>
+                                <option value="29">29</option>
+                                <option value="30">30</option>
+                                <option value="31">31</option>
+    
+                            </select>
+                            <select name="Dmonth1" id="Dmonth1">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                        <select name="Dyear1" id="Dyear1">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+    
+                        </select>
+                        </div></div>
+                          <div class="weekbuttons" id="weekbuttons1" style="display: none;">
+                            <h6>Select Week</h6>
+                            <div class="weekselect"><select name="Wweek1" id="Wweek1">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <select name="Wmonth1" id="Wmonth1">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                          </select>
+                        <select name="Wyear1" id="Wyear1">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+    
+                        </select>
+                        </div></div>
+                        <div class="monthbuttons" id="monthbuttons1" style="display: none;">
+                            <h6>Select Month</h6>
+                            <div class="monthselect">
+                            <select name="Mmonth1" id="Mmonth1">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                            </select>
+                            <select name="Myear1" id="Myear1">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="yearbuttons" id="yearbuttons1" style="display: none;">
+                            <h6>Select Year</h6>
+                            <div class="yearselect">
+                            <select name="Yyear1" id="Yyear1">
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                </select>
+                            </div>
+                        </div>
+                          
+    
+                          <table class="table table2" id="turnovertable">
+                            <tr><th>Products Sold</th>
+                            <td>
+                              <% if(locals.totalProducts){ %><%= locals.totalProducts %><% } else {%> 0 <% } %>
+                              </td>
+    
+                            </tr>
+                            <tr>
+                                <th>Customer Entries</th>
+                                <td><% if(locals.totalUsers){ %><%= locals.totalUsers %><% } else {%> 0 <% } %></td>
+    
+                            </tr>
+                            <tr>
+                                <th>Orders Placed</th>
+                                <td><% if(locals.totalOrders){ %><%= locals.totalOrders %><% } else {%> 0 <% } %></td>
+    
+                            </tr>
+                            <tr>
+                                <th>Revenue </th>
+                                <td>Rs.<% if(locals.totalRevenue){ %><%= locals.totalRevenue %><% } else {%> 0 <% } %></td>
+    
+                            </tr>
+                            <tr>
+                                <th>Expenses</th>
+                                <td>Rs.0</td>
+    
+                            </tr>
+                           
+                          </table>
+    
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+              </section>
+  
+  
+  
+        </main>
+        <script src="/public/js/salesreport.js"></script>
+
+<%- include('layout/footer.ejs') %>

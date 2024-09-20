@@ -3,7 +3,6 @@ const error2 = document.getElementById('error2')
 const error3 = document.getElementById('error3')
 const offertitle = document.getElementById('offertitle')
 const offerForm = document.getElementById('offerForm')
-const description = document.getElementById('description')
 const discount = document.getElementById('discount')
 
 
@@ -23,34 +22,21 @@ function notnull(data)
     }
 }
 
-function descVal(desc)
+function disVal(name)
 {   
-    if(desc.trim()==="")
+    if(name.trim()==="")
     {
-        error2.innerHTML = "Please enter the description."
+        error2.innerHTML = "Please enter the discount."
+        error2.style.display = "block"
+    }
+    else if(name <= 0)
+    {
+        error2.innerHTML = "Discount should not be zero or negative"
         error2.style.display = "block"
     }
     else{
         error2.innerHTML = ""
         error2.style.display = "none"
-    }
-}
-
-function disVal(name)
-{   
-    if(name.trim()==="")
-    {
-        error3.innerHTML = "Please enter the discount."
-        error3.style.display = "block"
-    }
-    else if(name <= 0)
-    {
-        error3.innerHTML = "Discount should not be zero or negative"
-        error3.style.display = "block"
-    }
-    else{
-        error3.innerHTML = ""
-        error3.style.display = "none"
     }
 }
 
@@ -63,14 +49,6 @@ offertitle.addEventListener('blur',()=>{
     notnull(offerdata)
 })
 
-description.addEventListener('keyup',()=>{
-    const desc = description.value
-    descVal(desc)
-})
-description.addEventListener('blur',()=>{
-    const desc = description.value
-    descVal(desc)
-})
 
 discount.addEventListener('keyup',()=>{
     const discval = discount.value
@@ -83,12 +61,12 @@ discount.addEventListener('blur',()=>{
 
 offerForm.addEventListener('submit',(e)=>{
     const offertitle = offertitle.value
-    const desc = description.value
+    const disc = discount.value
 
     notnull(offertitle)
-    descVal(desc)
+    disVal(disc)
 
-    if(error1.innerHTML !== "" || error2.innerHTML !== "" || error3.innerHTML !== "")
+    if(error1.innerHTML !== "" || error2.innerHTML !== "")
     {
         e.preventDefault()
     }

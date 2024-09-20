@@ -2,6 +2,7 @@ const User = require("../models/userSchema");
 const Order = require("../models/orderSchema");
 const Product = require("../models/productSchema");
 const Wallet = require("../models/walletSchema");
+const Coupon = require("../models/couponSchema");
 const { ObjectId } = require('mongodb')
 const path = require('path')
 const fs = require('fs')
@@ -29,7 +30,7 @@ const loadOrders = async (req, res) => {
     const uid = req.userid;
 
     const page = parseInt(req.query.page) || 1;
-    const limit =  3;
+    const limit = 3;
     const skip = (page - 1) * limit;
     const totalOrders = await Order.countDocuments({ user_id: uid });
 
@@ -39,10 +40,9 @@ const loadOrders = async (req, res) => {
       .sort({ date: "desc" })
       .skip(skip)
       .limit(limit);
-    console.log(orderdata);
     const totalPages = Math.ceil(totalOrders / limit)
     if (orderdata.length > 0) {
-      res.render("user/order", { user: udata, orderdata: orderdata ,currentPage: page, totalPages: totalPages});
+      res.render("user/order", { user: udata, orderdata: orderdata, currentPage: page, totalPages: totalPages });
     } else {
       res.render("user/order", { user: udata, err: "No Orders Added!!" });
     }
@@ -58,7 +58,7 @@ const loadSummary = async (req, res) => {
     const orderid = req.query.id;
     const udata = await User.findById({ _id: uid }).populate("cart.product_id");
     const orderdata = await Order.findById({ _id: orderid }).populate(
-      "products.product_id address_id"
+      "products.product_id address_id coupon"
     );
     if (orderdata != null) {
       res.render("user/orderSummary", { user: udata, orderdata: orderdata });
@@ -71,15 +71,15 @@ const loadSummary = async (req, res) => {
 
 const viewOrders = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 1; 
-    const limit = parseInt(req.query.limit) || 8; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 8;
     const skip = (page - 1) * limit;
 
     const totalOrders = await Order.countDocuments();
 
-    const orderdata = await Order.find({}).skip(skip).limit(limit).populate("address_id products.product_id")
+    const orderdata = await Order.find({}).sort({ date: "desc" }).skip(skip).limit(limit).populate("address_id products.product_id")
     const totalPages = Math.ceil(totalOrders / limit)
-    res.render('admin/orders', { orders: orderdata,currentPage: page, totalPages: totalPages, limit: limit});
+    res.render('admin/orders', { orders: orderdata, currentPage: page, totalPages: totalPages, limit: limit });
   } catch (error) {
     console.log(error.message)
   }
@@ -146,9 +146,13 @@ const returnOrder = async (req, res) => {
       { $set: { "products.$.status": "Returned" } },
       { new: true }
     );
-    console.log(returndata);
-    
-    const user = await User.findOne({_id:uid})
+    await Order.findOneAndUpdate({ _id: oid, "products.product_id": pid },
+      { $set: { "status": "Returned" } },
+      { new: true }
+    )
+    console.log("sdadasdas",returndata);
+
+    const user = await User.findOne({ _id: uid })
     if (returndata != null) {
       let qtytoupdate = 0;
       let tot = 0;
@@ -158,14 +162,14 @@ const returnOrder = async (req, res) => {
           tot = el.price
         }
       })
-      if (returndata.payment_method === "razorpay" || returndata.payment_method === "wallet" ) {
+      if (returndata.payment_method === "razorpay" || returndata.payment_method === "wallet") {
         let amounttorefund = tot;
         console.log(amounttorefund)
 
         const walletupdate = await User.findOneAndUpdate(
-          {_id:uid},
-          {$inc:{wallet:amounttorefund}},
-          {new:true}
+          { _id: uid },
+          { $inc: { wallet: amounttorefund } },
+          { new: true }
         )
         let walletHistoryData = {
           order_id: oid,
@@ -202,7 +206,13 @@ const cancelOrder = async (req, res) => {
       { $set: { "products.$.status": "Cancelled" } },
       { new: true }
     );
-    console.log(cancelData.success);
+    await Order.findOneAndUpdate({ _id: oid, "products.product_id": pid },
+      { $set: { "status": "Cancelled" } },
+      { new: true }
+    )
+
+    console.log("aaaaa",cancelData);
+
     if (cancelData != null) {
       let qtytoupdate = 0;
       let tot = 0;
@@ -213,10 +223,13 @@ const cancelOrder = async (req, res) => {
         }
       });
       if (
-        cancelData.payment_method === "razorPay" ||
+        cancelData.payment_method === "razorpay" ||
         cancelData.payment_method === "wallet"
       ) {
-        let amounttorefund = cancelData.tot;
+        console.log("cancelled");
+        
+        let amounttorefund = tot;
+        console.log("amounttorefund", amounttorefund);
         let walletHistoryData = {
           order_id: oid,
           refundamount: tot,
@@ -227,9 +240,9 @@ const cancelOrder = async (req, res) => {
         const walletHistory = await Wallet.create(walletHistoryData);
         const walletaddition = await User.findByIdAndUpdate(
           { _id: cancelData.user_id },
-          { $inc: { walletamount: amounttorefund } },
+          { $inc: { wallet: amounttorefund } },
           { new: true }
-        ) 
+        )
       }
 
       const stockUpdate = await Product.findByIdAndUpdate(

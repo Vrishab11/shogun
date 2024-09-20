@@ -3,7 +3,7 @@ const Offer = require("../models/offerSchema");
 const loadOffer = async (req, res) => {
     try {
         const offerdata = await Offer.find({})
-        res.render("admin/offers", { offer: offerdata });
+        res.render("admin/offer", { offer: offerdata });
     } catch (error) {
         console.log(error.message);
     }
@@ -11,11 +11,10 @@ const loadOffer = async (req, res) => {
 
 const addOffer = async (req, res) => {
     try {
-        const { offertitle, status, description, discount } = req.body;
+        const { offertitle, isListed, discount } = req.body;
         const offerdata = {
             offertitle,
-            status,
-            description,
+            isListed,
             discount
         };
         const existing = await Offer.findOne({ offertitle: offertitle })
@@ -38,10 +37,10 @@ const listUnlistOffer = async (req, res) => {
         const { id } = req.query
         const offerdata = await Offer.findOne({ _id: id })
         if (offerdata !== null) {
-            if (offerdata.status == 1) {
+            if (offerdata.isListed == 1) {
                 const list = await Offer.findOneAndUpdate(
                     { _id: id },
-                    { $set: { status: 0 } },
+                    { $set: { isListed: 0 } },
                     { new: true }
                 )
                 if (list !== null) {
@@ -52,7 +51,7 @@ const listUnlistOffer = async (req, res) => {
             } else {
                 const unlist = await Offer.findOneAndUpdate(
                     { _id: id },
-                    { $set: { status: 1 } },
+                    { $set: { isListed: 1 } },
                     { new: true }
                 )
                 if (unlist !== null) {

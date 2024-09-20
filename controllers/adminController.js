@@ -424,5 +424,4 @@ module.exports = {
   categorySales,
   propage,
   stockPage
-
 }

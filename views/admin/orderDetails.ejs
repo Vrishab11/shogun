@@ -31,6 +31,8 @@
                                 </select>
                             <% } else if (orders.status === "Returned") { %>
                                 <h4 class="text-warning">Returned</h4>
+                            <% }else if (orders.status === "Cancelled") { %>
+                                <h4 class="text-warning">Cancelled</h4>
                             <% } else { %>
                                 <select id="actionDropdown" class="form-select form-select-sm d-inline-block mb-lg-0 mb-15 mw-100" onchange="handleDropdownChange(this,'<%=orders.userId%>')">
                                     <option value="status">Status</option>

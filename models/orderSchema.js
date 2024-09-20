@@ -57,7 +57,11 @@ const orderSchema = new mongoose.Schema({
     status:{
         type:String,
         default:"Processing"
-    }
+    },
+    coupon:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'coupon',
+    },
 })
 
 const Order = mongoose.model('order',orderSchema)

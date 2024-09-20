@@ -1,6 +1,7 @@
 const Product = require("../models/productSchema")
 const Category = require("../models/categorySchema")
 const Brand = require("../models/brandSchema")
+const Offer = require("../models/offerSchema")
 const fs = require("fs").promises
 const path = require("path")
 
@@ -26,7 +27,8 @@ const getAddProducts = async (req, res) => {
   try {
     const category = await Category.find({ isListed : 0})
     const brand = await Brand.find({ isListed: 0})
-    res.render("admin/addProducts",{category,brand}) 
+    const offer = await Offer.find({ isListed: 0})
+    res.render("admin/addProducts",{category,brand,offer}) 
   } catch (error) {
     console.log(error.message);
   }
@@ -42,7 +44,8 @@ const addProduct = async (req, res) => {
       brandname,
       procategory,
       price,
-      stock
+      stock,
+      productOffer
     } = req.body;
 
     let protrim = productname.trim();
@@ -68,7 +71,8 @@ const addProduct = async (req, res) => {
         price,
         mainimage: main,
         image: img,
-        stock
+        stock,
+        offer_id : productOffer
       }
 
       console.log(prodata);
@@ -99,11 +103,11 @@ const editProduct = async (req, res) => {
 
   try {
     const id = req.query.id
-    const prodata = await Product.findOne({ _id: id }).populate("category_id brand_id")
-    console.log(prodata);
+    const prodata = await Product.findOne({ _id: id }).populate("category_id brand_id offer_id")
     const bdata = await Brand.find({ status: 1 })
-    const cdata = await Category.find({ status: 0 })
-    res.render('admin/editProduct', { product: prodata, brand: bdata, category: cdata })
+    const cdata = await Category.find({ isListed: 0 })
+    const offer = await Offer.find({ isListed: 0 })
+    res.render('admin/editProduct', { product: prodata, brand: bdata, category: cdata, offer })
   } catch (error) {
     console.log(error.message)
   }
@@ -114,15 +118,15 @@ const saveEditProduct = async (req, res) => {
 
   try {
     const id = req.body.id
-    const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs } = req.body
+    const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs ,offer} = req.body
     if (mainimage !== null && imgs?.length !== 0) {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs })
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs , offer_id :offer})
     } else if (mainimage === null && imgs?.length !== 0) {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs })
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs, offer_id :offer })
     } else if (mainimage !== null && imgs?.length === 0) {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage })
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage , offer_id :offer})
     } else {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description })
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description , offer_id :offer})
     }
     res.redirect('/admin/products')
   } catch (error) {

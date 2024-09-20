@@ -68,10 +68,15 @@
                             <hr class="my-4">
                             <h4 class="card-title mt-5 mb-4 fw-normal ">Order Summary</h4>
                         </div>
-                        <!-- <div class="checkpricepro">
-                        <h6>Products</h6>
-                            <p>Rs.50000</p>
-                        </div> -->
+                        <div class="checkpricepro">
+                        <h6>Product Price</h6>
+                            <p>Rs. <%= locals.orderdata.products[0].price %> x <%= locals.orderdata.products[0].qty %> = <%= locals.orderdata.products[0].price * locals.orderdata.products[0].qty %> </p>
+                        </div>
+                        <br>
+                        <div class="checkpricepro">
+                          <h6>Discount</h6>
+                              <p>Rs. <%= locals.orderdata.coupon.reductionrate %></p>
+                          </div>
                               <hr>
                               <div class="checktotal"><h6>Total Amount</h6><p>Rs.<%= locals.orderdata.total_amount %></p></div>
                               

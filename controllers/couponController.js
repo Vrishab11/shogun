@@ -2,8 +2,22 @@ const Coupon = require("../models/couponSchema");
 
 const loadCoupon = async (req, res) => {
   try {
-    const coupondata = await Coupon.find({});
-    res.render("admin/coupon", { coupondata });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10; 
+
+    const totalCoupons = await Coupon.countDocuments({});
+    
+    const coupondata = await Coupon.find({})
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const totalPages = Math.ceil(totalCoupons / limit);
+
+    res.render("admin/coupon", {
+      coupondata,
+      currentPage: page,
+      totalPages
+    });
   } catch (error) {
     console.log(error.message);
   }
