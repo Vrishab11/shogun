@@ -29,6 +29,7 @@ const addToCart = async (req, res) => {
             { $addToSet: { cart: { product_id: id, qty: qty } } },
             { new: true }
           )
+          await Product.findByIdAndUpdate({_id : id},{$inc : { stock: -qty}},{ new: true })
           if (updatedCart) {
             res.json({ data: "Added to Cart Succesfully." })
           } else {
@@ -63,6 +64,7 @@ const qtyInc = async (req, res) => {
         { $set: { "cart.$.qty": qty } },
         { new: true }
       );
+      await Product.findByIdAndUpdate({_id : proid},{$inc : { stock: -qty}},{ new: true })
       if (updatedCart) {
         res.json({ data: "Success" });
       } else {
@@ -88,6 +90,7 @@ const qtyDec = async (req, res) => {
         { $set: { "cart.$.qty": qty } },
         { new: true }
       );
+      await Product.findByIdAndUpdate({_id : proid},{$inc : { stock: qty}}, { new: true })
       console.log(updatedCart);
       if (updatedCart) {
         res.json({ data: "Success" });
