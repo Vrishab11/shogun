@@ -182,7 +182,15 @@ const viewShop = async (req, res) => {
       default:
         sortQuery = { orderData: -1 };
     }
-    
+    if(sort === "Latest"){
+      sortQuery = {date : -1}
+    }else if(sort === "ZtoA"){
+      sortQuery = { productname : -1}
+    }else if(sort === "AtoZ"){
+      sortQuery = { productname : 1}
+    }else if(sort === "Lowtohigh"){
+      sortQuery = {price}
+    }
     const queryCondition = searchData.trim() !== "" ? { "productname": { $regex: new RegExp(search, "i") } } : {};
     const filterCondition = filter !== '' ? {$or: [{ "category_id": filter },{ "brand_id": filter }]} : {};
     const combinedCondition = {...queryCondition,...filterCondition}
