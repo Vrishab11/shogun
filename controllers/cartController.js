@@ -159,9 +159,21 @@ const checkout = async (req, res) => {
   try {
     const uid = req.userid
     const couponData = await Coupon.find({status: "0"})
+    let flag = 0;
     const udata = await User.findById({ _id: uid }).populate({ path: "cart.product_id" })
+    for(let i=0; i<udata.cart.length; i++){
+      const productDetails = await Product.findById({_id : udata.cart[i].product_id._id})
+      if(productDetails.stock< udata.cart[i].qty){
+        flag = 1;
+        break;
+      }
+    }
     const addData = await Address.find({ user_id: uid })
-    res.render("user/checkout", { user: udata, addData: addData, couponData });
+    if(flag === 1){
+      res.json({stockerr : ` Stock not available for the product ${productDetails.productname}`})
+    }else{
+      res.render("user/checkout", { user: udata, addData: addData, couponData });
+    }
   } catch (error) {
     console.log(error)
   }

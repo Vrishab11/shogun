@@ -117,6 +117,7 @@
                                     <label class="form-label">Offer</label>
                                     <select name="offer" class="form-control" id="offer">
                                         <option value="<%= locals.product?.offer_id?._id %>"><%= locals.product?.offer_id?.offertitle %></option>
+                                        <option value="">No offer</option>
                                         <% if(locals.offer) { for(let i = 0 ; i < locals.offer.length ; i ++) { %>
                                             <% if( locals.product?.offer_id?.offertitle !== locals.offer[i]?.offertitle ) {%>
                                             <option value="<%= locals.offer[i]?._id %>"><%= locals.offer[i].offertitle %></option>

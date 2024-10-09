@@ -74,15 +74,16 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div>
-                                    <div>
-                                        <label for="mainimage">Main Image</label>
-                                        <button type="button" id="selectMainImage" class="btn btn-primary">Select & Edit Main Image</button>
-                                        <input type="file" id="mainimage" name="mainimage" class="form-control" style="display:none;">
-                                        <div class="row mb-2" id="imagePreview">
-                                            <img id="mainImagePreview" style="width: 200px; height: auto;" alt="Preview" />
+                                    <label for="mainimage">Main Image</label>
+                                    <input type="file" id="mainimage" name="mainimage" class="form-control" accept="image/*" >
+                                    <div class="row mb-2" id="imagePreview"></div>
+                                    <div id="modal" class="modal" style="display: none;">
+                                        <div class="modal-content">
+                                            <img id="image" src="" style="max-width: 100%; height: auto;" />
+                                            <button type="button" id="cropbtn" class="btn btn-primary">Crop</button>
                                         </div>
-                                        <p class="perror mb-2" id="error6" style="display: none; color: red;"></p>
                                     </div>
+                                    <p class="perror mb-2" id="error6" style="display: none; color: red;"></p>
                                     <br>
                                     <label for="imgs">Image</label>
                                     <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
@@ -125,33 +126,6 @@
                 </form>
     </div>
 </section>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const selectMainImageButton = document.getElementById('selectMainImage');
-    const mainImageInput = document.getElementById('mainimage');
-    const mainImagePreview = document.getElementById('mainImagePreview');
-  
-    selectMainImageButton.addEventListener('click', () => {
-      Pintura.openDefaultEditor({
-        src: '',
-        enableSelectImage: true,
-        enableCrop: true,
-        enableResize: true,
-        enableFilter: true,
-        enableRotate: true,
-        cropAspectRatio: 1 / 1, // Change as needed
-      }).then(output => {
-        // Get the resulting image file after editing
-        mainImageInput.files = new FileList([output.file]);
-  
-        // Create a URL for the image preview
-        const previewURL = URL.createObjectURL(output.file);
-        mainImagePreview.src = previewURL;
-      }).catch(console.error);
-    });
-});
-</script>
 
 <script src="/public/js/product.js"></script>
 

@@ -23,7 +23,7 @@ const isLogged = async (req, res, next) => {
             res.redirect("/login")
         }
     } catch (err) {
-        console.log(er.message);
+        console.log(err.message);
     }
 }
 

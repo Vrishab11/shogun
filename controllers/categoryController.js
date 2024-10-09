@@ -25,22 +25,19 @@ const addCategory = async (req, res) => {
       status: status,
       image: image,
     };
-    console.log(data);
-    const catExist = await Category.find({
-      categoryname: catName,
-      isListed: 0,
-    });
-    if (catExist.length === 0) {
-      const catdata = await Category.create(data);
-      if (catdata != null) {
-        res.redirect("/admin/category");
+    const cat = await Category.find({});
+    for(let i=0; i<cat.length; i++) {
+      if(cat[i].categoryname.toLowerCase() === catName.toLowerCase()) {
+        const catdet = await Category.find({ isListed: 0 });
+        res.render("admin/category", {
+          catdet,
+          message: "Category already exists!!",
+        });
       }
-    } else {
-      const catdet = await Category.find({ isListed: 0 });
-      res.render("admin/category", {
-        data: catdet,
-        message: "Category already exists!!",
-      });
+    }
+    const catdata = await Category.create(data);
+    if (catdata != null) {
+      res.redirect("/admin/category");
     }
   } catch (error) {
     console.log(error.message)

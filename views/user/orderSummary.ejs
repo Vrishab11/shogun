@@ -75,7 +75,7 @@
                         <br>
                         <div class="checkpricepro">
                           <h6>Discount</h6>
-                              <p>Rs. <%= locals.orderdata.coupon.reductionrate %></p>
+                              <p>Rs. <%= locals.orderdata?.coupon?.reductionrate ? locals.orderdata?.coupon?.reductionrate : 0%></p>
                           </div>
                               <hr>
                               <div class="checktotal"><h6>Total Amount</h6><p>Rs.<%= locals.orderdata.total_amount %></p></div>

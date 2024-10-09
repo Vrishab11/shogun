@@ -407,5 +407,39 @@ document.getElementById('imgs').addEventListener('change', function(event) {
     }
 });
 
-
+const modal = document.getElementById('modal');
+const image = document.getElementById('image');
+const cropbtn = document.getElementById('cropbtn');
   
+
+let cropper;
+let croppedBlog;
+
+main.addEventListener('change',(event) => {
+    const file = event.target.files[0]
+    if(file){
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            image.src = event.target.result;
+            modal.style.display = 'flex';
+            if(cropper){
+                cropper.destroy();
+            }
+            cropper = new Cropper(image,{
+                aspectRatio:1,
+                viewMode: 1,
+                responsive: true,
+                autoCropArea: 0.5,
+            })
+        }
+        reader.readAsDataURL(file)
+    }
+})
+
+cropbtn.addEventListener('click', () =>{
+    const canvas = cropper.getCroppedCanvas()
+    canvas.toBlob((blob)=>{
+        croppedBlog = blob;
+        modal.style,display = "none";
+    }, "image/jpeg")
+})

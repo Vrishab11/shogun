@@ -4,18 +4,22 @@ const Products = require("../models/productSchema");
 const addToWishlist = async (req, res) => {
     try {
       const uid = req.userid;
-      const { productid } = req.query;
-      if(productid){
-        const addtowish = await User.findByIdAndUpdate(
-            { _id: uid },
-            { $push: { wishlist: { product_id: productid } } },
-            { new: true }
-          );
-          if (addtowish) {
-            res.json({ success: "added" });
-          } else {
-            res.json({ adderr: "Cannot Add" });
-          }
+      if(uid){
+        const { productid } = req.query;
+        if(productid){
+          const addtowish = await User.findByIdAndUpdate(
+              { _id: uid },
+              { $push: { wishlist: { product_id: productid } } },
+              { new: true }
+            );
+            if (addtowish) {
+              res.json({ success: "Added to wishlist" });
+            } else {
+              res.json({ adderr: "Cannot add to wishlist" });
+            }
+        }
+      }else{
+        res.json({ usererr: "Do you wish to login ?" });
       }
     } catch (error) {
       console.log(error.message);

@@ -40,7 +40,7 @@ router.get('/productDetails', userAuth.isHome, productController.viewProduct)
 router.get('/shop', userAuth.isHome, productController.viewShop)
 
 router.get("/wishlist", userAuth.isLogged, wishlistController.loadWishlist);
-router.get("/wishlist/add", userAuth.isLogged, wishlistController.addToWishlist);
+router.get("/wishlist/add", userAuth.isHome, wishlistController.addToWishlist);
 router.get("/wishlist/remove", userAuth.isLogged, wishlistController.removeFromWishlist);
 
 router.get('/cart', userAuth.isLogged, cartController.viewCart)

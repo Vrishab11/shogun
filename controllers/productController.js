@@ -120,13 +120,13 @@ const saveEditProduct = async (req, res) => {
     const id = req.body.id
     const { productname, size, color, stock, brandname, procategory, description, mainimage, imgs ,offer} = req.body
     if (mainimage !== null && imgs?.length !== 0) {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs , offer_id :offer})
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage, image: imgs , offer_id :offer?offer:null})
     } else if (mainimage === null && imgs?.length !== 0) {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs, offer_id :offer })
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, image: imgs, offer_id :offer?offer:null })
     } else if (mainimage !== null && imgs?.length === 0) {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage , offer_id :offer})
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description, mainimage: mainimage , offer_id :offer?offer:null})
     } else {
-      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description , offer_id :offer})
+      await Product.updateOne({ _id: id }, { productname: productname, size: size, color: color, stock: stock, brand_id: brandname, category_id: procategory, description: description , offer_id :offer?offer:null})
     }
     res.redirect('/admin/products')
   } catch (error) {

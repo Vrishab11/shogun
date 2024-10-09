@@ -67,19 +67,57 @@ addToCart.addEventListener('click',function(){
 
 
 async function addWishlist(proid){
-    try {
-      const res = await fetch(`/wishlist/add?productid=${proid}`)
-      const data = await res.json()
-      if(data.success){
-        return true
-      }
-      else{
-        return false
-      }
-    } catch (error) {
-      window.location.href = '/login'
-      console.log(error.message)
-    }
+    
+      fetch(`/wishlist/add?productid=${proid}`)
+      .then(res =>{
+        return res.json()    
+      })
+      .then(data =>{
+        if(data.usererr)
+        {   
+            Swal.fire({
+                title: data.usererr,
+                icon: "info",
+                confirmButtonText: "Login",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const currentUrl = encodeURIComponent(window.location.href);
+                    window.location.href = `/login?redirect=${currentUrl}`;
+                }
+              })
+        }
+        else if(data.success )
+        {
+            Swal.fire({
+                title: data.success,
+                icon: "success",
+                confirmButtonText:"OK"
+                })
+                .then(res=>{
+                    if(res.isConfirmed)
+                    {   
+                        window.location.reload()
+                        return true 
+                    }
+            })
+        }
+        else if(data.adderr){
+            Swal.fire({
+                title: data.err,
+                icon: "error",
+                confirmButtonText:"OK"
+                })
+                .then(res=>{
+                    if(res.isConfirmed)
+                    {
+                        window.location.reload()
+                        return false
+
+                    }
+                })  
+        }
+      })
   }
 
   async function removeWishlist(proid){

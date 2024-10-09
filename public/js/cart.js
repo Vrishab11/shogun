@@ -3,6 +3,7 @@ const decbtn = document.querySelectorAll('.decbtn')
 const incbtn = document.querySelectorAll('.incbtn')
 const rembtn = document.querySelectorAll('.itemrem')
 const clearcart = document.getElementById('clearcart')
+// const checkout = document.getElementById('checkoutbtn')
 
 
 
@@ -215,3 +216,36 @@ rembtn.forEach(e=>{
 clearcart.addEventListener('click',()=>{
     clearCart()
 })
+
+
+// async function procheckout(){
+//     try{
+//         await fetch('/checkout')
+//         .then(res =>{
+//             return res.json()
+//         })
+//         .then(data=>{
+//             if(data.stockerr)
+//             {   
+//                 Swal.fire({
+//                 title: data.stockerr,
+//                 icon: "info",
+//                 confirmButtonText: "OK",
+//             }).then((result) => {
+//                 if (result.isConfirmed) {
+//                     window.location.reload()
+//                 }
+//             })
+//         }
+//         })
+//     }catch(err)
+//     {
+//         // window.location.href = '/login'
+//         console.log(err);
+//     }
+// }
+
+// checkout.addEventListener('click',()=>{
+//     procheckout()
+// })
+

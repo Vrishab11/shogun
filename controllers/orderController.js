@@ -88,7 +88,7 @@ const viewOrders = async (req, res) => {
 const viewOrderSummery = async (req, res) => {
   try {
     const order_id = req.query.id
-    const orderdata = await Order.findById({ _id: order_id }).populate("address_id products.product_id")
+    const orderdata = await Order.findById({ _id: order_id }).populate("address_id products.product_id coupon")
 
     res.render('admin/orderDetails', { orders: orderdata });
   } catch (error) {
@@ -228,21 +228,23 @@ const cancelOrder = async (req, res) => {
       ) {
         console.log("cancelled");
         
-        let amounttorefund = tot;
-        console.log("amounttorefund", amounttorefund);
-        let walletHistoryData = {
-          order_id: oid,
-          refundamount: tot,
-          payment_method: cancelData.payment_method,
-          user_id: cancelData.user_id,
-          date: Date.now(),
-        };
-        const walletHistory = await Wallet.create(walletHistoryData);
-        const walletaddition = await User.findByIdAndUpdate(
-          { _id: cancelData.user_id },
-          { $inc: { wallet: amounttorefund } },
-          { new: true }
-        )
+        if(cancelData.payment_status === "Paid"){
+          let amounttorefund = cancelData.total_amount;
+          console.log("amounttorefund", amounttorefund);
+          let walletHistoryData = {
+            order_id: oid,
+            refundamount: tot,
+            payment_method: cancelData.payment_method,
+            user_id: cancelData.user_id,
+            date: Date.now(),
+          };
+          const walletHistory = await Wallet.create(walletHistoryData);
+          const walletaddition = await User.findByIdAndUpdate(
+            { _id: cancelData.user_id },
+            { $inc: { wallet: amounttorefund } },
+            { new: true }
+          )
+        }
       }
 
       const stockUpdate = await Product.findByIdAndUpdate(

@@ -120,6 +120,7 @@
                                         <th>Name</th>
                                         <th>Unit Price</th>
                                         <th>Quantity</th>
+                                        <th>Discount</th>
                                         <th class="text-center" width="20%" class="text-end">Total</th>
                                         <th>Order Status</th>
                                     </tr>
@@ -141,7 +142,10 @@
                                                     <%= orders.products[i].qty %>
                                                 </td>
                                                 <td class="text-center"> 
-                                                    ₹<%= orders.products[i].qty * orders.products[i].price %>
+                                                    ₹<%= orders?.coupon?.reductionrate ? orders?.coupon?.reductionrate : 0  %>
+                                                </td>
+                                                <td class="text-center"> 
+                                                    ₹<%= orders.total_amount %>
 
                                                 </td>
                                                 <% if(orders.products[i].status === "Returned" || orders.products[i].status === "Cancelled") {%>

@@ -88,8 +88,9 @@
                                             <% } else if(el.status == "Cancelled" || el.status == "Returned" || el.status == "Refunded") { %>
                                                   No Action
                                             <% }else{ %>
+                                                <% if(el.status === "Delivered") { %>
                                                 <button type="button" class="btn cancelorderbtn" data-orderid="<%= element._id %>" data-proid="<%= el.product_id._id %>">Cancel Order</button>
-                                          <%  } %>  
+                                          <%  } }%>  
                                         </td>
                                         <td><a class="btn" href="/ordersummary?id=<%=element._id%>">></a></td>
                                     </tr>
