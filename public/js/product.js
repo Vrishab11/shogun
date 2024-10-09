@@ -406,3 +406,29 @@ document.getElementById('imgs').addEventListener('change', function(event) {
         }
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const selectMainImageButton = document.getElementById('selectMainImage');
+    const mainImageInput = document.getElementById('mainimage');
+    const mainImagePreview = document.getElementById('mainImagePreview');
+  
+    selectMainImageButton.addEventListener('click', () => {
+      Pintura.openDefaultEditor({
+        src: '',
+        enableSelectImage: true,
+        enableCrop: true,
+        enableResize: true,
+        enableFilter: true,
+        enableRotate: true,
+        cropAspectRatio: 1 / 1, // Change as needed
+      }).then(output => {
+        // Get the resulting image file after editing
+        mainImageInput.files = new FileList([output.file]);
+  
+        // Create a URL for the image preview
+        const previewURL = URL.createObjectURL(output.file);
+        mainImagePreview.src = previewURL;
+      }).catch(console.error);
+    });
+});
+  

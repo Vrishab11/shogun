@@ -74,10 +74,15 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div>
-                                    <label for="mainimage">Main Image</label>
-                                    <input type="file" id="mainimage" name="mainimage" class="form-control" >
-                                    <div class="row mb-2" id="imagePreview"></div>
-                                    <p class="perror mb-2" id="error6" style="display: none; color: red;"></p>
+                                    <div>
+                                        <label for="mainimage">Main Image</label>
+                                        <button type="button" id="selectMainImage" class="btn btn-primary">Select & Edit Main Image</button>
+                                        <input type="file" id="mainimage" name="mainimage" class="form-control" style="display:none;">
+                                        <div class="row mb-2" id="imagePreview">
+                                            <img id="mainImagePreview" style="width: 200px; height: auto;" alt="Preview" />
+                                        </div>
+                                        <p class="perror mb-2" id="error6" style="display: none; color: red;"></p>
+                                    </div>
                                     <br>
                                     <label for="imgs">Image</label>
                                     <input type="file" id="imgs" name="imgs" class="form-control"  multiple>
